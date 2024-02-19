@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: krystian.kryszczak.recruitment
+testFramework: kotest
+sourceLanguage: kotlin
+buildTool: gradle
+features: [annotation-api, app-name, awaitility, crac, data, data-mongodb-reactive, email-javamail, email-template, github-workflow-docker-registry, graalvm, gradle, http-client-test, jackson-databind, kapt, kotest, kotlin, kotlin-application, logback, micronaut-aop, micronaut-aot, micronaut-build, micronaut-http-validation, mongo-reactive, openapi, reactor, reactor-http-client, readme, security, security-annotations, security-jwt, serialization-bson, serialization-jackson, shade, static-resources, swagger-ui, testcontainers, undertow-server, validation, views-velocity, yaml, yaml-build]
