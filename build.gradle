@@ -73,11 +73,11 @@ kotlin {
 
 tasks {
     dockerBuild {
-        images = ["${System.env.DOCKER_IMAGE ?: project.name}:$project.version"]
+        images = ["${System.env.DOCKER_IMAGE ?: project.name}:$project.version", "${System.env.DOCKER_IMAGE ?: project.name}"]
     }
 
     dockerBuildNative {
-        images = ["${System.env.DOCKER_IMAGE ?: project.name}:$project.version"]
+        images = ["${System.env.DOCKER_IMAGE ?: project.name}:$project.version", "${System.env.DOCKER_IMAGE ?: project.name}"]
     }
 }
 graalvmNative.toolchainDetection = false
@@ -98,12 +98,4 @@ micronaut {
         optimizeNetty = true
         configurationProperties.put("micronaut.security.jwks.enabled","false")
     }
-}
-
-tasks.named("dockerfile") {
-    baseImage("eclipse-temurin:21-jre-jammy")
-}
-
-tasks.named("dockerfileNative") {
-    jdkVersion = "21"
 }
