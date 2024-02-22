@@ -22,7 +22,8 @@ arrayOf(
         null,
         null,
         null,
-        6
+        6,
+        true
     ), CandidateAccount(
         null,
         "Jack",
@@ -37,7 +38,8 @@ arrayOf(
         null,
         null,
         null,
-        6
+        6,
+        true
     )
 ), { it.copy(firstName = it.firstName + "-" + it.lastName) },
 { item, id -> item.copy(id = id) })

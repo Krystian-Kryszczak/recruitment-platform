@@ -5,6 +5,7 @@ import io.micronaut.data.annotation.GeneratedValue
 import io.micronaut.data.annotation.Id
 import io.micronaut.data.annotation.MappedEntity
 import io.micronaut.serde.annotation.Serdeable
+import jakarta.validation.constraints.Max
 import krystian.kryszczak.recruitment.model.account.Account
 
 @Serdeable
@@ -21,9 +22,8 @@ data class EmployerAccount(
     val facebook: String?,
     val instagram: String?,
     val linkedIn: String?,
-    val offices: Array<String>?,
-    val activeOffersIds: Array<String>?,
-    val techStack: Array<String>?
+    @param:Max(100) val offices: Array<String>?,
+    @param:Max(20) val techStack: Array<String>?
 ): Account(id) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -45,10 +45,6 @@ data class EmployerAccount(
             if (other.offices == null) return false
             if (!offices.contentEquals(other.offices)) return false
         } else if (other.offices != null) return false
-        if (activeOffersIds != null) {
-            if (other.activeOffersIds == null) return false
-            if (!activeOffersIds.contentEquals(other.activeOffersIds)) return false
-        } else if (other.activeOffersIds != null) return false
         if (techStack != null) {
             if (other.techStack == null) return false
             if (!techStack.contentEquals(other.techStack)) return false
@@ -69,7 +65,6 @@ data class EmployerAccount(
         result = 31 * result + (instagram?.hashCode() ?: 0)
         result = 31 * result + (linkedIn?.hashCode() ?: 0)
         result = 31 * result + (offices?.contentHashCode() ?: 0)
-        result = 31 * result + (activeOffersIds?.contentHashCode() ?: 0)
         result = 31 * result + (techStack?.contentHashCode() ?: 0)
         return result
     }

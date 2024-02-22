@@ -20,7 +20,6 @@ arrayOf(
         null,
         "https://linkedin.com/company/fs0ciety",
         null,
-        null,
         null
     ), EmployerAccount(
         null,
@@ -33,7 +32,6 @@ arrayOf(
         null,
         null,
         "https://www.linkedin.com/company/evil-corp-llc/",
-        null,
         null,
         null
     ),
