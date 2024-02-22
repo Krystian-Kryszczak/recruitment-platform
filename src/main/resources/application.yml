@@ -3,6 +3,10 @@ micronaut:
     name: recruitment-platform
   router:
     static-resources:
+      default:
+        enabled: true
+        mapping: /views/**
+        paths: classpath:data
       swagger:
         paths: classpath:META-INF/swagger
         mapping: /swagger/**
@@ -22,6 +26,33 @@ micronaut:
       access: isAnonymous()
     - pattern: /swagger-ui/**
       access: isAnonymous()
+logger.levels.io.micronaut.http.client: DEBUG
 mongodb:
   uri: mongodb://${MONGO_HOST:localhost}:${MONGO_PORT:27017}/default
   package-names: krystian.kryszczak.recruitment.model
+javamail:
+  enabled: true
+  authentication:
+    username: ${MAILER_ADDRESS}
+    password: ${MAILER_ADDRESS_PASSWORD}
+  properties:
+    mail:
+      smtp:
+        host: ${MAILER_SMTP_HOST:smtp.gmail.com}
+        port: ${MAILER_SMTP_PORT:465}
+        ssl:
+          enable: true
+      pop3:
+        host: ${MAILER_POP_HOST:pop.gmail.com}
+        port: ${MAILER_POP_PORT:995}
+        ssl:
+          enable: true
+open-ai:
+  token: ${OPEN_AI_TOKEN}
+  gpt-model: ${$OPEN_AI_GPT_MODEL:gpt-3.5-turbo}
+  text-moderation-model: ${$OPEN_AI_TEXT_MODERATION_MODEL:text-moderation-stable}
+  transcription-model: ${$OPEN_AI_TRANSCRIPTION_MODEL:whisper-1}
+  speech-model: ${$OPEN_AI_SPEECH_MODEL:tts-1}
+  speech-voice: ${$OPEN_AI_SPEECH_VOICE:alloy}
+  language: pl
+  default-timeout: 60s
