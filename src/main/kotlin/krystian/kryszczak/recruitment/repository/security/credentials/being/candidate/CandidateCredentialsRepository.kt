@@ -1,0 +1,8 @@
+package krystian.kryszczak.recruitment.repository.security.credentials.being.candidate
+
+import io.micronaut.data.mongodb.annotation.MongoRepository
+import krystian.kryszczak.recruitment.model.security.credentials.being.candidate.CandidateCredentials
+import krystian.kryszczak.recruitment.repository.security.credentials.being.BeingCredentialsRepository
+
+@MongoRepository
+interface CandidateCredentialsRepository : BeingCredentialsRepository<CandidateCredentials>
