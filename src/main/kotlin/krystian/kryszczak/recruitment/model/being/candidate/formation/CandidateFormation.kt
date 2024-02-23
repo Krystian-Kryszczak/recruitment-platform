@@ -1,15 +1,15 @@
-package krystian.kryszczak.recruitment.model.account.candidate.formation
+package krystian.kryszczak.recruitment.model.being.candidate.formation
 
 import io.micronaut.core.annotation.Introspected
 import io.micronaut.serde.annotation.Serdeable
 import jakarta.validation.constraints.Max
 import jakarta.validation.constraints.PositiveOrZero
 import krystian.kryszczak.recruitment.model.Formation
-import krystian.kryszczak.recruitment.model.account.candidate.CandidateAccount
+import krystian.kryszczak.recruitment.model.being.candidate.Candidate
 
 @Serdeable
 @Introspected
-class CandidateAccountFormation(
+class CandidateFormation(
     private val firstName: String,
     private val lastName: String,
     @param:Max(1000) private val messageToTheEmployer: String,
@@ -24,8 +24,8 @@ class CandidateAccountFormation(
     @param:Max(10) private val locations: Array<String>?,
     @param:PositiveOrZero @param:Max(7) private val englishLevel: Int,
     private val sex: Boolean
-): Formation<CandidateAccount>() {
-    override fun format(id: String?): CandidateAccount = CandidateAccount(
+): Formation<Candidate>() {
+    override fun format(id: String?): Candidate = Candidate(
         id,
         firstName,
         lastName,

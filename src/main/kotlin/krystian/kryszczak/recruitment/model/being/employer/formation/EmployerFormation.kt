@@ -1,14 +1,14 @@
-package krystian.kryszczak.recruitment.model.account.employer.formation
+package krystian.kryszczak.recruitment.model.being.employer.formation
 
 import io.micronaut.core.annotation.Introspected
 import io.micronaut.serde.annotation.Serdeable
 import jakarta.validation.constraints.Max
 import krystian.kryszczak.recruitment.model.Formation
-import krystian.kryszczak.recruitment.model.account.employer.EmployerAccount
+import krystian.kryszczak.recruitment.model.being.employer.Employer
 
 @Serdeable
 @Introspected
-class EmployerAccountFormation(
+class EmployerFormation(
     private val name: String,
     private val description: String?,
     private val companyType: String?,
@@ -20,8 +20,8 @@ class EmployerAccountFormation(
     private val linkedIn: String?,
     @param:Max(100) private val offices: Array<String>?,
     @param:Max(20) private val techStack: Array<String>?
-) : Formation<EmployerAccount>() {
-    override fun format(id: String?) = EmployerAccount(
+) : Formation<Employer>() {
+    override fun format(id: String?) = Employer(
         id,
         name,
         description,

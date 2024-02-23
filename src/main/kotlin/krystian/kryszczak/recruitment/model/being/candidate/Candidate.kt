@@ -1,4 +1,4 @@
-package krystian.kryszczak.recruitment.model.account.candidate
+package krystian.kryszczak.recruitment.model.being.candidate
 
 import io.micronaut.core.annotation.Introspected
 import io.micronaut.data.annotation.GeneratedValue
@@ -7,12 +7,12 @@ import io.micronaut.data.annotation.MappedEntity
 import io.micronaut.serde.annotation.Serdeable
 import jakarta.validation.constraints.Max
 import jakarta.validation.constraints.PositiveOrZero
-import krystian.kryszczak.recruitment.model.account.Account
+import krystian.kryszczak.recruitment.model.being.Being
 
 @Serdeable
 @MappedEntity
 @Introspected
-data class CandidateAccount(
+data class Candidate(
     @field:Id @field:GeneratedValue override val id: String? = null,
     val firstName: String,
     val lastName: String,
@@ -28,12 +28,12 @@ data class CandidateAccount(
     @param:Max(10) val locations: Array<String>?,
     @param:PositiveOrZero @param:Max(7) val englishLevel: Int,
     val sex: Boolean
-) : Account(id) {
+) : Being(id) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as CandidateAccount
+        other as Candidate
 
         if (id != other.id) return false
         if (firstName != other.firstName) return false
