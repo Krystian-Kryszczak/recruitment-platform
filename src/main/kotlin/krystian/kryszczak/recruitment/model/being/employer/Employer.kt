@@ -22,6 +22,7 @@ data class Employer(
     val facebook: String?,
     val instagram: String?,
     val linkedIn: String?,
+    val email: String?,
     @param:Max(100) val offices: Array<String>?,
     @param:Max(20) val techStack: Array<String>?
 ): Being(id) {
@@ -41,6 +42,7 @@ data class Employer(
         if (facebook != other.facebook) return false
         if (instagram != other.instagram) return false
         if (linkedIn != other.linkedIn) return false
+        if (email != other.email) return false
         if (offices != null) {
             if (other.offices == null) return false
             if (!offices.contentEquals(other.offices)) return false
@@ -64,6 +66,7 @@ data class Employer(
         result = 31 * result + (facebook?.hashCode() ?: 0)
         result = 31 * result + (instagram?.hashCode() ?: 0)
         result = 31 * result + (linkedIn?.hashCode() ?: 0)
+        result = 31 * result + (email?.hashCode() ?: 0)
         result = 31 * result + (offices?.contentHashCode() ?: 0)
         result = 31 * result + (techStack?.contentHashCode() ?: 0)
         return result

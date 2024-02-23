@@ -14,6 +14,7 @@ import krystian.kryszczak.recruitment.model.being.Being
 @Introspected
 data class Candidate(
     @field:Id @field:GeneratedValue override val id: String? = null,
+    val email: String,
     val firstName: String,
     val lastName: String,
     @param:Max(1000) val messageToTheEmployer: String,
@@ -36,6 +37,7 @@ data class Candidate(
         other as Candidate
 
         if (id != other.id) return false
+        if (email != other.email) return false
         if (firstName != other.firstName) return false
         if (lastName != other.lastName) return false
         if (messageToTheEmployer != other.messageToTheEmployer) return false
@@ -71,6 +73,7 @@ data class Candidate(
 
     override fun hashCode(): Int {
         var result = id?.hashCode() ?: 0
+        result = 31 * result + email.hashCode()
         result = 31 * result + firstName.hashCode()
         result = 31 * result + lastName.hashCode()
         result = 31 * result + messageToTheEmployer.hashCode()
@@ -87,5 +90,4 @@ data class Candidate(
         result = 31 * result + sex.hashCode()
         return result
     }
-
 }
