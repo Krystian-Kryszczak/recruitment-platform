@@ -1,0 +1,3 @@
+package krystian.kryszczak.recruitment.service.verification
+
+interface VerificationService
