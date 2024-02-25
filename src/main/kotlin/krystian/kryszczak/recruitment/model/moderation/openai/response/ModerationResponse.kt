@@ -1,0 +1,8 @@
+package krystian.kryszczak.recruitment.model.moderation.openai.response
+
+import io.micronaut.core.annotation.Introspected
+import io.micronaut.serde.annotation.Serdeable
+
+@Serdeable
+@Introspected
+class ModerationResponse(val id: String, val model: String, val result: ModerationResults)
