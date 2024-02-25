@@ -1,6 +1,8 @@
 package krystian.kryszczak.recruitment.model.security.code.activation.being.candidate
 
 import io.micronaut.core.annotation.Introspected
+import io.micronaut.data.annotation.GeneratedValue
+import io.micronaut.data.annotation.Id
 import io.micronaut.data.annotation.MappedEntity
 import io.micronaut.serde.annotation.Serdeable
 import krystian.kryszczak.recruitment.model.being.candidate.Candidate
@@ -13,8 +15,8 @@ import java.beans.Transient
 @Serdeable
 @MappedEntity
 @Introspected
-class CandidateActivation(
-    override val id: String? = null,
+data class CandidateActivation(
+    @field:Id @field:GeneratedValue override val id: String? = null,
     override val code: String,
     override val identity: String,
     override val formation: CandidateFormation,

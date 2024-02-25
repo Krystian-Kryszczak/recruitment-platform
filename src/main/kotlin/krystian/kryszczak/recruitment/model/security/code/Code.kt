@@ -1,5 +1,5 @@
 package krystian.kryszczak.recruitment.model.security.code
 
-interface Code {
-    val code: String?
-}
+import krystian.kryszczak.recruitment.model.Item
+
+abstract class Code(override val id: String? = null, open val code: String) : Item(id)

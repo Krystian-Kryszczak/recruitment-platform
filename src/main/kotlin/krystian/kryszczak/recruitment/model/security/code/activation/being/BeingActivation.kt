@@ -17,7 +17,7 @@ abstract class BeingActivation<T : Being, S : Formation<T>, U : BeingCredentials
     open val identity: String,
     open val formation: S?,
     open val encodedPassword: String
-): Item(id), Activation {
+): Activation(id, code) {
     @Transient
     abstract fun toFormationTarget(): T?
 

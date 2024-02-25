@@ -5,7 +5,6 @@ import io.micronaut.data.annotation.GeneratedValue
 import io.micronaut.data.annotation.Id
 import io.micronaut.data.annotation.MappedEntity
 import io.micronaut.serde.annotation.Serdeable
-import krystian.kryszczak.recruitment.model.Item
 import krystian.kryszczak.recruitment.model.security.code.Code
 import krystian.kryszczak.recruitment.security.generator.reset.ResetPasswordCodeGenerator
 
@@ -15,7 +14,7 @@ import krystian.kryszczak.recruitment.security.generator.reset.ResetPasswordCode
 data class ResetPassword(
     @field:Id @field:GeneratedValue override val id: String? = null,
     override val code: String
-): Item(id), Code {
+): Code(id, code) {
     companion object {
         fun createWithGeneratedCode(userId: String) = ResetPassword(ResetPasswordCodeGenerator.generateCode(), userId)
     }
