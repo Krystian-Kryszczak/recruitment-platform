@@ -13,18 +13,19 @@ data class CandidateFormation(
     val email: String,
     val firstName: String,
     val lastName: String,
-    @param:Max(1000) val messageToTheEmployer: String,
-    val linkedInProfile: String,
-    val gitHubProfile: String,
-    @param:Max(10) val workHistory: Array<String>?,
-    val position: String,
-    @param:Max(50) val yearsOfExperience: Byte,
-    @param:Max(4) val categories: Array<String>?,
-    @param:Max(12) val skills: Array<String>?,
-    @param:Max(5) val employmentTypeAndSalary: Array<String>?,
-    @param:Max(10) val locations: Array<String>?,
-    @param:PositiveOrZero @param:Max(7) val englishLevel: Int,
-    val sex: Boolean
+    @param:Max(1000) val messageToTheEmployer: String? = null,
+    val linkedInProfile: String? = null,
+    val gitHubProfile: String? = null,
+    @param:Max(10) val workHistory: Array<String>? = null,
+    val position: String? = null,
+    @param:Max(50) val yearsOfExperience: Byte = 0,
+    @param:Max(4) val categories: Array<String>? = null,
+    @param:Max(12) val skills: Array<String>? = null,
+    @param:Max(5) val employmentTypeAndSalary: Array<String>? = null,
+    @param:Max(10) val locations: Array<String>? = null,
+    @param:PositiveOrZero @param:Max(7) val englishLevel: Int = 0,
+    val sex: Boolean? = null,
+    val agreeToEmailMarketing: Boolean = false
 ): Formation<Candidate>() {
     override fun format(id: String?): Candidate = Candidate(
         id,
@@ -42,7 +43,8 @@ data class CandidateFormation(
         employmentTypeAndSalary,
         locations,
         englishLevel,
-        sex
+        sex,
+        agreeToEmailMarketing
     )
 
     override fun equals(other: Any?): Boolean {
@@ -81,6 +83,7 @@ data class CandidateFormation(
         } else if (other.locations != null) return false
         if (englishLevel != other.englishLevel) return false
         if (sex != other.sex) return false
+        if (agreeToEmailMarketing != other.agreeToEmailMarketing) return false
 
         return true
     }
@@ -89,18 +92,19 @@ data class CandidateFormation(
         var result = email.hashCode()
         result = 31 * result + firstName.hashCode()
         result = 31 * result + lastName.hashCode()
-        result = 31 * result + messageToTheEmployer.hashCode()
-        result = 31 * result + linkedInProfile.hashCode()
-        result = 31 * result + gitHubProfile.hashCode()
+        result = 31 * result + (messageToTheEmployer?.hashCode() ?: 0)
+        result = 31 * result + (linkedInProfile?.hashCode() ?: 0)
+        result = 31 * result + (gitHubProfile?.hashCode() ?: 0)
         result = 31 * result + (workHistory?.contentHashCode() ?: 0)
-        result = 31 * result + position.hashCode()
+        result = 31 * result + (position?.hashCode() ?: 0)
         result = 31 * result + yearsOfExperience
         result = 31 * result + (categories?.contentHashCode() ?: 0)
         result = 31 * result + (skills?.contentHashCode() ?: 0)
         result = 31 * result + (employmentTypeAndSalary?.contentHashCode() ?: 0)
         result = 31 * result + (locations?.contentHashCode() ?: 0)
         result = 31 * result + englishLevel
-        result = 31 * result + sex.hashCode()
+        result = 31 * result + (sex?.hashCode() ?: 0)
+        result = 31 * result + agreeToEmailMarketing.hashCode()
         return result
     }
 }

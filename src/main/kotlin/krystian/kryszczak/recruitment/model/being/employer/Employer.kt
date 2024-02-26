@@ -14,17 +14,18 @@ import krystian.kryszczak.recruitment.model.being.Being
 data class Employer(
     @field:Id @field:GeneratedValue override val id: String? = null,
     val name: String,
-    val description: String?,
-    val companyType: String?,
-    val category: String?,
-    val companySize: Int?,
-    val website: String?,
-    val facebook: String?,
-    val instagram: String?,
-    val linkedIn: String?,
-    val email: String?,
-    @param:Max(100) val offices: Array<String>?,
-    @param:Max(20) val techStack: Array<String>?
+    val description: String? = null,
+    val companyType: String? = null,
+    val category: String? = null,
+    val companySize: Int? = null,
+    val website: String? = null,
+    val facebook: String? = null,
+    val instagram: String? = null,
+    val linkedIn: String? = null,
+    val email: String? = null,
+    @param:Max(100) val offices: Array<String>? = null,
+    @param:Max(20) val techStack: Array<String>? = null,
+    val agreeToEmailMarketing: Boolean = false
 ): Being(id) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -51,6 +52,7 @@ data class Employer(
             if (other.techStack == null) return false
             if (!techStack.contentEquals(other.techStack)) return false
         } else if (other.techStack != null) return false
+        if (agreeToEmailMarketing != other.agreeToEmailMarketing) return false
 
         return true
     }
@@ -69,6 +71,7 @@ data class Employer(
         result = 31 * result + (email?.hashCode() ?: 0)
         result = 31 * result + (offices?.contentHashCode() ?: 0)
         result = 31 * result + (techStack?.contentHashCode() ?: 0)
+        result = 31 * result + agreeToEmailMarketing.hashCode()
         return result
     }
 }

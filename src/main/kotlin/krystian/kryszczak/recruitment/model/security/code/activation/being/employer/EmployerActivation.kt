@@ -9,7 +9,7 @@ import krystian.kryszczak.recruitment.model.being.employer.Employer
 import krystian.kryszczak.recruitment.model.being.employer.formation.EmployerFormation
 import krystian.kryszczak.recruitment.model.security.code.activation.being.BeingActivation
 import krystian.kryszczak.recruitment.model.security.credentials.being.employer.EmployerCredentials
-import krystian.kryszczak.recruitment.security.generator.activation.ActivationCodeGenerator
+import krystian.kryszczak.recruitment.security.generator.activation.ActivationCodeGeneratorImpl
 import java.beans.Transient
 
 @Serdeable
@@ -30,6 +30,6 @@ data class EmployerActivation(
 
     companion object {
         fun createWithGeneratedCode(identity: String, formation: EmployerFormation, encodedPassword: String) =
-            EmployerActivation(null, ActivationCodeGenerator.generateCode(), identity, formation, encodedPassword)
+            EmployerActivation(null, ActivationCodeGeneratorImpl.generateCode(), identity, formation, encodedPassword)
     }
 }

@@ -9,18 +9,19 @@ import krystian.kryszczak.recruitment.model.being.employer.Employer
 @Serdeable
 @Introspected
 data class EmployerFormation(
+    val email: String? = null,
     val name: String,
-    val description: String?,
-    val companyType: String?,
-    val category: String?,
-    val companySize: Int?,
-    val website: String?,
-    val facebook: String?,
-    val instagram: String?,
-    val linkedIn: String?,
-    val email: String?,
-    @param:Max(100) val offices: Array<String>?,
-    @param:Max(20) val techStack: Array<String>?
+    val description: String? = null,
+    val companyType: String? = null,
+    val category: String? = null,
+    val companySize: Int? = null,
+    val website: String? = null,
+    val facebook: String? = null,
+    val instagram: String? = null,
+    val linkedIn: String? = null,
+    @param:Max(100) val offices: Array<String>? = null,
+    @param:Max(20) val techStack: Array<String>? = null,
+    val agreeToEmailMarketing: Boolean = false
 ) : Formation<Employer>() {
     override fun format(id: String?) = Employer(
         id,
@@ -35,7 +36,8 @@ data class EmployerFormation(
         linkedIn,
         email,
         offices,
-        techStack
+        techStack,
+        agreeToEmailMarketing
     )
 
     override fun equals(other: Any?): Boolean {
@@ -44,6 +46,7 @@ data class EmployerFormation(
 
         other as EmployerFormation
 
+        if (email != other.email) return false
         if (name != other.name) return false
         if (description != other.description) return false
         if (companyType != other.companyType) return false
@@ -53,7 +56,6 @@ data class EmployerFormation(
         if (facebook != other.facebook) return false
         if (instagram != other.instagram) return false
         if (linkedIn != other.linkedIn) return false
-        if (email != other.email) return false
         if (offices != null) {
             if (other.offices == null) return false
             if (!offices.contentEquals(other.offices)) return false
@@ -62,12 +64,14 @@ data class EmployerFormation(
             if (other.techStack == null) return false
             if (!techStack.contentEquals(other.techStack)) return false
         } else if (other.techStack != null) return false
+        if (agreeToEmailMarketing != other.agreeToEmailMarketing) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        var result = name.hashCode()
+        var result = email?.hashCode() ?: 0
+        result = 31 * result + name.hashCode()
         result = 31 * result + (description?.hashCode() ?: 0)
         result = 31 * result + (companyType?.hashCode() ?: 0)
         result = 31 * result + (category?.hashCode() ?: 0)
@@ -76,9 +80,9 @@ data class EmployerFormation(
         result = 31 * result + (facebook?.hashCode() ?: 0)
         result = 31 * result + (instagram?.hashCode() ?: 0)
         result = 31 * result + (linkedIn?.hashCode() ?: 0)
-        result = 31 * result + (email?.hashCode() ?: 0)
         result = 31 * result + (offices?.contentHashCode() ?: 0)
         result = 31 * result + (techStack?.contentHashCode() ?: 0)
+        result = 31 * result + agreeToEmailMarketing.hashCode()
         return result
     }
 }
