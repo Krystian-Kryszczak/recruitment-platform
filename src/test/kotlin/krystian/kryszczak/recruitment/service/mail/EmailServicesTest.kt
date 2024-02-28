@@ -8,12 +8,12 @@ import io.micronaut.email.javamail.sender.authentication.JavaMailAuthenticationC
 import io.micronaut.test.extensions.kotest5.annotation.MicronautTest
 import jakarta.mail.search.SubjectTerm
 import krystian.kryszczak.recruitment.extension.mail.readContent
-import krystian.kryszczak.recruitment.service.mail.pop.PopEmailService
-import krystian.kryszczak.recruitment.service.mail.smtp.SmtpEmailService
+import krystian.kryszczak.recruitment.service.mail.pop.PopMailerService
+import krystian.kryszczak.recruitment.service.mail.smtp.SmtpMailerService
 import java.util.UUID
 
 @MicronautTest
-class EmailServicesTest(smtpEmailService: SmtpEmailService, popEmailService: PopEmailService, mailAuthConfig: JavaMailAuthenticationConfiguration) : StringSpec({
+class EmailServicesTest(smtpMailerService: SmtpMailerService, popMailerService: PopMailerService, mailAuthConfig: JavaMailAuthenticationConfiguration) : StringSpec({
     val receiver: String = mailAuthConfig.username
 
     "the message sent by the SMTP email service should be available to the POP3 email service" {
@@ -24,7 +24,7 @@ class EmailServicesTest(smtpEmailService: SmtpEmailService, popEmailService: Pop
 
         // when
         shouldNotThrowAny {
-            smtpEmailService.send(
+            smtpMailerService.send(
                 receiver,
                 subject,
                 content
@@ -32,7 +32,7 @@ class EmailServicesTest(smtpEmailService: SmtpEmailService, popEmailService: Pop
         }
 
         // then
-        popEmailService.searchMessages(term = SubjectTerm(subject)).blockFirst()
+        popMailerService.searchMessages(term = SubjectTerm(subject)).blockFirst()
             .shouldNotBeNull()
             .readContent() shouldBe content
     }

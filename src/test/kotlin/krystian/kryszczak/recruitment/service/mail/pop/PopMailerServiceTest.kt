@@ -8,29 +8,29 @@ import io.micronaut.test.extensions.kotest5.annotation.MicronautTest
 import jakarta.mail.search.FromStringTerm
 
 @MicronautTest
-class PopEmailServiceTest(popEmailService: PopEmailService, mailAuthConfig: JavaMailAuthenticationConfiguration): StringSpec({
+class PopMailerServiceTest(popMailerService: PopMailerService, mailAuthConfig: JavaMailAuthenticationConfiguration): StringSpec({
     "searchMessages should not be empty" {
-        popEmailService.searchMessages(term = FromStringTerm(mailAuthConfig.username)).toIterable()
+        popMailerService.searchMessages(term = FromStringTerm(mailAuthConfig.username)).toIterable()
             .shouldNotBeEmpty()
     }
 
     "receiveMessages should not be empty" {
-        popEmailService.receiveMessages().toIterable()
+        popMailerService.receiveMessages().toIterable()
             .shouldNotBeEmpty()
     }
 
     "receiveMessages with msgnums should not be empty" {
-        popEmailService.receiveMessages(msgnums = IntArray(5) { it * 1 + 1 }).toIterable()
+        popMailerService.receiveMessages(msgnums = IntArray(5) { it * 1 + 1 }).toIterable()
             .shouldNotBeEmpty()
     }
 
     "receiveMessages with start and end should not be empty" {
-        popEmailService.receiveMessages(start = 1, end = 5).toIterable()
+        popMailerService.receiveMessages(start = 1, end = 5).toIterable()
             .shouldNotBeEmpty()
     }
 
     "receiveMessage should not be null" {
-        popEmailService.receiveMessage(msgnum = 5).block()
+        popMailerService.receiveMessage(msgnum = 5).block()
             .shouldNotBeNull()
     }
 })

@@ -12,12 +12,12 @@ import io.micronaut.views.ModelAndView
 const val testingTemplate = "testing"
 
 @MicronautTest
-class SmtpEmailServiceTest(smtpEmailService: SmtpEmailService, mailAuthConfig: JavaMailAuthenticationConfiguration) : StringSpec({
+class SmtpMailerServiceTest(smtpMailerService: SmtpMailerService, mailAuthConfig: JavaMailAuthenticationConfiguration) : StringSpec({
     val receiver: String = mailAuthConfig.username
 
     "send with string content should not throw any exception" {
         shouldNotThrowAny {
-            smtpEmailService.send(
+            smtpMailerService.send(
                 receiver,
                 "Email sent using string content - SMTP email service test",
                 "Hello world!"
@@ -27,7 +27,7 @@ class SmtpEmailServiceTest(smtpEmailService: SmtpEmailService, mailAuthConfig: J
 
     "send with multipart body content should not throw any exception" {
         shouldNotThrowAny {
-            smtpEmailService.send(
+            smtpMailerService.send(
                 receiver,
                 "Email sent using multipart body content - SMTP email service test",
                 MultipartBody(
@@ -40,26 +40,26 @@ class SmtpEmailServiceTest(smtpEmailService: SmtpEmailService, mailAuthConfig: J
 
     "sendUsingTemplate should not throw any exception" {
         shouldNotThrowAny {
-            smtpEmailService.sendUsingTemplate(receiver, "Email sent using template - SMTP email service test",
+            smtpMailerService.sendUsingTemplate(receiver, "Email sent using template - SMTP email service test",
                 testingTemplate, mapOf())
         }
     }
 
     "sendUserActivationCode should not throw any exception" {
         shouldNotThrowAny {
-            smtpEmailService.sendUserActivationCode(receiver, "`test activation code`")
+            smtpMailerService.sendUserActivationCode(receiver, "`test activation code`")
         }
     }
 
     "sendResetPasswordCode should not throw any exception" {
         shouldNotThrowAny {
-            smtpEmailService.sendResetPasswordCode(receiver, "`test reset password code`")
+            smtpMailerService.sendResetPasswordCode(receiver, "`test reset password code`")
         }
     }
 
     "sendNewVideoNotification should not throw any exception" {
         shouldNotThrowAny {
-            smtpEmailService.sendNewVideoNotification(
+            smtpMailerService.sendNewVideoNotification(
                 receiver,
                 "John Smith",
                 "https://picsum.photos/200/300",
