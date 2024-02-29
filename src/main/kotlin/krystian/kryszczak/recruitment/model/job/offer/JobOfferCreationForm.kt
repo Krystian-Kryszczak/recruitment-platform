@@ -1,22 +1,16 @@
 package krystian.kryszczak.recruitment.model.job.offer
 
 import io.micronaut.core.annotation.Introspected
-import io.micronaut.data.annotation.DateCreated
-import io.micronaut.data.annotation.GeneratedValue
-import io.micronaut.data.annotation.Id
-import io.micronaut.data.annotation.MappedEntity
 import io.micronaut.serde.annotation.Serdeable
+import krystian.kryszczak.recruitment.model.CreationForm
 import krystian.kryszczak.recruitment.model.constant.*
-import krystian.kryszczak.recruitment.model.job.Exhibit
+import java.time.Duration
 import java.time.Instant
 
 @Serdeable
-@MappedEntity
 @Introspected
-data class JobOffer(
-    @field:Id @GeneratedValue override val id: String? = null,
+data class JobOfferCreationForm(
     val title: String,
-    val employerId: String,
     val description: Map<String, String>,
     val mainTechnology: String,
     val typeOfWork: TypeOfWork,
@@ -30,18 +24,33 @@ data class JobOffer(
     val recruitmentType: RecruitmentType,
     val remote: Boolean,
     val expires: Instant,
-    val banned: Boolean = false,
-    @DateCreated val dateCreated: Instant? = null
-) : Exhibit(id, banned) {
+) : CreationForm<JobOffer, JobOfferCreationForm> {
+    override fun transform(metadata: Map<String, Any>): JobOffer = JobOffer(
+        null,
+        title,
+        metadata.getValue("employerId") as String,
+        description,
+        mainTechnology,
+        typeOfWork,
+        experience,
+        employmentType,
+        minEarningsPerMonth,
+        maxEarningsPerMonth,
+        currency,
+        techStack,
+        places,
+        recruitmentType,
+        remote,
+        metadata["expires"] as Instant? ?: Instant.now().plus(Duration.ofDays(31))
+    )
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as JobOffer
+        other as JobOfferCreationForm
 
-        if (id != other.id) return false
         if (title != other.title) return false
-        if (employerId != other.employerId) return false
         if (description != other.description) return false
         if (mainTechnology != other.mainTechnology) return false
         if (typeOfWork != other.typeOfWork) return false
@@ -61,9 +70,7 @@ data class JobOffer(
     }
 
     override fun hashCode(): Int {
-        var result = id?.hashCode() ?: 0
-        result = 31 * result + title.hashCode()
-        result = 31 * result + employerId.hashCode()
+        var result = title.hashCode()
         result = 31 * result + description.hashCode()
         result = 31 * result + mainTechnology.hashCode()
         result = 31 * result + typeOfWork.hashCode()

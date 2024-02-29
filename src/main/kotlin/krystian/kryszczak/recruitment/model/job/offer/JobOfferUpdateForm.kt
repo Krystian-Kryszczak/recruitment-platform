@@ -1,22 +1,18 @@
 package krystian.kryszczak.recruitment.model.job.offer
 
 import io.micronaut.core.annotation.Introspected
-import io.micronaut.data.annotation.DateCreated
-import io.micronaut.data.annotation.GeneratedValue
-import io.micronaut.data.annotation.Id
-import io.micronaut.data.annotation.MappedEntity
 import io.micronaut.serde.annotation.Serdeable
-import krystian.kryszczak.recruitment.model.constant.*
-import krystian.kryszczak.recruitment.model.job.Exhibit
+import krystian.kryszczak.recruitment.model.UpdateForm
+import krystian.kryszczak.recruitment.model.constant.EmploymentType
+import krystian.kryszczak.recruitment.model.constant.Experience
+import krystian.kryszczak.recruitment.model.constant.RecruitmentType
+import krystian.kryszczak.recruitment.model.constant.TypeOfWork
 import java.time.Instant
 
 @Serdeable
-@MappedEntity
 @Introspected
-data class JobOffer(
-    @field:Id @GeneratedValue override val id: String? = null,
+data class JobOfferUpdateForm(
     val title: String,
-    val employerId: String,
     val description: Map<String, String>,
     val mainTechnology: String,
     val typeOfWork: TypeOfWork,
@@ -28,20 +24,34 @@ data class JobOffer(
     val techStack: Map<String, Byte>?,
     val places: Array<String>?,
     val recruitmentType: RecruitmentType,
-    val remote: Boolean,
-    val expires: Instant,
-    val banned: Boolean = false,
-    @DateCreated val dateCreated: Instant? = null
-) : Exhibit(id, banned) {
+    val remote: Boolean
+) : UpdateForm<JobOffer, JobOfferUpdateForm> {
+    override fun transform(id: String, metadata: Map<String, Any>) = JobOffer(
+        id,
+        title,
+        metadata.getValue("employerId") as String,
+        description,
+        mainTechnology,
+        typeOfWork,
+        experience,
+        employmentType,
+        minEarningsPerMonth,
+        maxEarningsPerMonth,
+        currency,
+        techStack,
+        places,
+        recruitmentType,
+        remote,
+        metadata.getValue("expires") as Instant
+    )
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as JobOffer
+        other as JobOfferUpdateForm
 
-        if (id != other.id) return false
         if (title != other.title) return false
-        if (employerId != other.employerId) return false
         if (description != other.description) return false
         if (mainTechnology != other.mainTechnology) return false
         if (typeOfWork != other.typeOfWork) return false
@@ -49,6 +59,7 @@ data class JobOffer(
         if (employmentType != other.employmentType) return false
         if (minEarningsPerMonth != other.minEarningsPerMonth) return false
         if (maxEarningsPerMonth != other.maxEarningsPerMonth) return false
+        if (currency != other.currency) return false
         if (techStack != other.techStack) return false
         if (places != null) {
             if (other.places == null) return false
@@ -61,9 +72,7 @@ data class JobOffer(
     }
 
     override fun hashCode(): Int {
-        var result = id?.hashCode() ?: 0
-        result = 31 * result + title.hashCode()
-        result = 31 * result + employerId.hashCode()
+        var result = title.hashCode()
         result = 31 * result + description.hashCode()
         result = 31 * result + mainTechnology.hashCode()
         result = 31 * result + typeOfWork.hashCode()
@@ -71,10 +80,29 @@ data class JobOffer(
         result = 31 * result + employmentType.hashCode()
         result = 31 * result + minEarningsPerMonth
         result = 31 * result + maxEarningsPerMonth
+        result = 31 * result + currency.hashCode()
         result = 31 * result + (techStack?.hashCode() ?: 0)
         result = 31 * result + (places?.contentHashCode() ?: 0)
         result = 31 * result + recruitmentType.hashCode()
         result = 31 * result + remote.hashCode()
         return result
+    }
+
+    companion object : UpdateForm.Mapper<JobOffer, JobOfferUpdateForm> {
+        override fun from(item: JobOffer) = JobOfferUpdateForm(
+            item.title,
+            item.description,
+            item.mainTechnology,
+            item.typeOfWork,
+            item.experience,
+            item.employmentType,
+            item.minEarningsPerMonth,
+            item.maxEarningsPerMonth,
+            item.currency,
+            item.techStack,
+            item.places,
+            item.recruitmentType,
+            item.remote
+        )
     }
 }
