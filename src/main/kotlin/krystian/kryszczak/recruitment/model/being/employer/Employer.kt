@@ -26,7 +26,7 @@ data class Employer(
     @param:Max(100) val offices: Array<String>? = null,
     @param:Max(20) val techStack: Array<String>? = null,
     val agreeToEmailMarketing: Boolean = false
-): Being(id) {
+) : Being(id) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

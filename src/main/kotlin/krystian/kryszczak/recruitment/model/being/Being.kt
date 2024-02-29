@@ -6,6 +6,4 @@ import krystian.kryszczak.recruitment.model.Item
 
 @Serdeable
 @Introspected
-abstract class Being(
-    override val id: String? = null
-) : Item(id)
+abstract class Being(id: String? = null) : Item(id)

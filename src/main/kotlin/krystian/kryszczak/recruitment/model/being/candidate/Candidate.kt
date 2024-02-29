@@ -8,6 +8,7 @@ import io.micronaut.serde.annotation.Serdeable
 import jakarta.validation.constraints.Max
 import jakarta.validation.constraints.PositiveOrZero
 import krystian.kryszczak.recruitment.model.being.Being
+import krystian.kryszczak.recruitment.model.constant.Sex
 
 @Serdeable
 @MappedEntity
@@ -25,10 +26,10 @@ data class Candidate(
     @param:Max(50) val yearsOfExperience: Byte = 0,
     @param:Max(4) val categories: Array<String>? = null,
     @param:Max(12) val skills: Array<String>? = null,
-    @param:Max(5) val employmentTypeAndSalary: Array<String>? = null,
+    @param:Max(5) val employmentTypeAndSalary: Map<String, String>? = null,
     @param:Max(10) val locations: Array<String>? = null,
     @param:PositiveOrZero @param:Max(7) val englishLevel: Int = 0,
-    val sex: Boolean? = null,
+    val sex: Sex? = null,
     val agreeToEmailMarketing: Boolean = false
 ) : Being(id) {
     override fun equals(other: Any?): Boolean {
@@ -58,10 +59,7 @@ data class Candidate(
             if (other.skills == null) return false
             if (!skills.contentEquals(other.skills)) return false
         } else if (other.skills != null) return false
-        if (employmentTypeAndSalary != null) {
-            if (other.employmentTypeAndSalary == null) return false
-            if (!employmentTypeAndSalary.contentEquals(other.employmentTypeAndSalary)) return false
-        } else if (other.employmentTypeAndSalary != null) return false
+        if (employmentTypeAndSalary != other.employmentTypeAndSalary) return false
         if (locations != null) {
             if (other.locations == null) return false
             if (!locations.contentEquals(other.locations)) return false
@@ -86,7 +84,7 @@ data class Candidate(
         result = 31 * result + yearsOfExperience
         result = 31 * result + (categories?.contentHashCode() ?: 0)
         result = 31 * result + (skills?.contentHashCode() ?: 0)
-        result = 31 * result + (employmentTypeAndSalary?.contentHashCode() ?: 0)
+        result = 31 * result + (employmentTypeAndSalary?.hashCode() ?: 0)
         result = 31 * result + (locations?.contentHashCode() ?: 0)
         result = 31 * result + englishLevel
         result = 31 * result + (sex?.hashCode() ?: 0)

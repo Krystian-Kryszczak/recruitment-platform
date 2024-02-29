@@ -1,15 +1,14 @@
-package krystian.kryszczak.recruitment.model.being.employer.formation
+package krystian.kryszczak.recruitment.model.being.employer
 
 import io.micronaut.core.annotation.Introspected
 import io.micronaut.serde.annotation.Serdeable
 import jakarta.validation.constraints.Max
-import krystian.kryszczak.recruitment.model.Formation
-import krystian.kryszczak.recruitment.model.being.employer.Employer
+import krystian.kryszczak.recruitment.model.being.BeingCreationForm
 
 @Serdeable
 @Introspected
-data class EmployerFormation(
-    val email: String? = null,
+data class EmployerCreationForm(
+    override val email: String,
     val name: String,
     val description: String? = null,
     val companyType: String? = null,
@@ -21,10 +20,12 @@ data class EmployerFormation(
     val linkedIn: String? = null,
     @param:Max(100) val offices: Array<String>? = null,
     @param:Max(20) val techStack: Array<String>? = null,
-    val agreeToEmailMarketing: Boolean = false
-) : Formation<Employer>() {
-    override fun format(id: String?) = Employer(
-        id,
+    val agreeToEmailMarketing: Boolean = false,
+    override val password: String,
+    override val acceptRules: Boolean
+) : BeingCreationForm<Employer, EmployerCreationForm>(email, password, acceptRules) {
+    override fun transform(metadata: Map<String, Any>): Employer = Employer(
+        null,
         name,
         description,
         companyType,
@@ -44,7 +45,7 @@ data class EmployerFormation(
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as EmployerFormation
+        other as EmployerCreationForm
 
         if (email != other.email) return false
         if (name != other.name) return false
@@ -70,7 +71,7 @@ data class EmployerFormation(
     }
 
     override fun hashCode(): Int {
-        var result = email?.hashCode() ?: 0
+        var result = email.hashCode()
         result = 31 * result + name.hashCode()
         result = 31 * result + (description?.hashCode() ?: 0)
         result = 31 * result + (companyType?.hashCode() ?: 0)
