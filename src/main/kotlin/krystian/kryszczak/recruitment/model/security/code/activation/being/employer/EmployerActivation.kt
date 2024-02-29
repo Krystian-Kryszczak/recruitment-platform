@@ -6,10 +6,10 @@ import io.micronaut.data.annotation.Id
 import io.micronaut.data.annotation.MappedEntity
 import io.micronaut.serde.annotation.Serdeable
 import krystian.kryszczak.recruitment.model.being.employer.Employer
-import krystian.kryszczak.recruitment.model.being.employer.formation.EmployerFormation
+import krystian.kryszczak.recruitment.model.being.employer.EmployerCreationForm
 import krystian.kryszczak.recruitment.model.security.code.activation.being.BeingActivation
 import krystian.kryszczak.recruitment.model.security.credentials.being.employer.EmployerCredentials
-import krystian.kryszczak.recruitment.security.generator.activation.ActivationCodeGeneratorImpl
+import krystian.kryszczak.recruitment.security.generator.activation.ActivationCodeGenerator
 import java.beans.Transient
 
 @Serdeable
@@ -19,17 +19,17 @@ data class EmployerActivation(
     @field:Id @field:GeneratedValue override val id: String? = null,
     override val code: String,
     override val identity: String,
-    override val formation: EmployerFormation,
+    override val creationForm: EmployerCreationForm,
     override val encodedPassword: String
-) : BeingActivation<Employer, EmployerFormation, EmployerCredentials>(id, code, identity, formation, encodedPassword) {
+) : BeingActivation<Employer, EmployerCreationForm, EmployerCredentials>(id, code, identity, creationForm, encodedPassword) {
     @Transient
-    override fun toFormationTarget() = formation.format(id)
+    override fun toFormationTarget() = creationForm.transform()
 
     @Transient
     override fun toCredentials() = EmployerCredentials(null, identity, encodedPassword)
 
     companion object {
-        fun createWithGeneratedCode(identity: String, formation: EmployerFormation, encodedPassword: String) =
-            EmployerActivation(null, ActivationCodeGeneratorImpl.generateCode(), identity, formation, encodedPassword)
+        fun createWithGeneratedCode(identity: String, formation: EmployerCreationForm, encodedPassword: String, generator: ActivationCodeGenerator) =
+            EmployerActivation(null, generator.generateCode(), identity, formation, encodedPassword)
     }
 }

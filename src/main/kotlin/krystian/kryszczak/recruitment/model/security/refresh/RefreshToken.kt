@@ -19,7 +19,7 @@ data class RefreshToken(
     @NotBlank val refreshToken: String,
     val revoked: Boolean,
     @DateCreated val dateCreated: Instant? = null
-): Item(id) {
+) : Item(id) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
