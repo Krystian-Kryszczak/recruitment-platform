@@ -4,7 +4,7 @@ import io.micronaut.data.repository.reactive.ReactorCrudRepository
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
-abstract class DataAccessServiceBase<E, ID>(internal val repository: ReactorCrudRepository<E, ID>) : DataAccessService<E, ID> {
+abstract class DataAccessServiceBase<E, ID>(internal open val repository: ReactorCrudRepository<E, ID>) : DataAccessService<E, ID> {
     override fun <S : E> save(entity: S): Mono<S> = repository.save(entity)
 
     override fun <S : E> saveAll(entities: Iterable<S>): Flux<S> = repository.saveAll(entities)
