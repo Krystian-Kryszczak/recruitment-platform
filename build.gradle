@@ -8,7 +8,7 @@ plugins {
     id("io.micronaut.aot") version "4.3.2"
 }
 
-version = "0.1"
+version = "0.2"
 group = "krystian.kryszczak.recruitment"
 
 repositories {
@@ -44,6 +44,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
     implementation("org.jsoup:jsoup:1.17.2")
+    implementation("at.favre.lib:bcrypt:0.10.2")
     compileOnly("io.micronaut:micronaut-http-client")
     compileOnly("io.micronaut.openapi:micronaut-openapi-annotations")
     runtimeOnly("ch.qos.logback:logback-classic")
