@@ -2,6 +2,7 @@ package krystian.kryszczak.recruitment.repository.being.candidate
 
 import io.micronaut.test.extensions.kotest5.annotation.MicronautTest
 import krystian.kryszczak.recruitment.model.being.candidate.Candidate
+import krystian.kryszczak.recruitment.model.constant.Sex
 import krystian.kryszczak.recruitment.repository.being.BeingRepositoryTest
 
 @MicronautTest(transactional = false)
@@ -24,7 +25,7 @@ arrayOf(
         null,
         null,
         6,
-        true
+        Sex.MALE
     ), Candidate(
         null,
         "jack.smith@example.com",
@@ -41,7 +42,7 @@ arrayOf(
         null,
         null,
         6,
-        true
+        Sex.MALE
     )
 ), { it.copy(firstName = it.firstName + "-" + it.lastName) },
 { item, id -> item.copy(id = id) })
