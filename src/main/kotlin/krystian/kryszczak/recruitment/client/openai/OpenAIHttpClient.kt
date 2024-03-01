@@ -6,8 +6,8 @@ import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Header
 import io.micronaut.http.annotation.Post
 import io.micronaut.http.client.annotation.Client
-import krystian.kryszczak.recruitment.model.moderation.openai.request.ModerationRequest
-import krystian.kryszczak.recruitment.model.moderation.openai.response.ModerationResponse
+import krystian.kryszczak.recruitment.model.moderation.request.ModerationRequest
+import krystian.kryszczak.recruitment.model.moderation.response.ModerationResponse
 import reactor.core.publisher.Mono
 
 @Client(id = "open-ai")
