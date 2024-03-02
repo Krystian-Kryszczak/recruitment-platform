@@ -28,7 +28,7 @@ data class CandidateCreationForm(
     val agreeToEmailMarketing: Boolean = false,
     override val password: String,
     override val acceptRules: Boolean
-): BeingCreationForm<Candidate, CandidateCreationForm>(email, password, acceptRules) {
+) : BeingCreationForm<Candidate, CandidateCreationForm>(email, password, acceptRules) {
     override fun transform(metadata: Map<String, Any>): Candidate = Candidate(
         null,
         email,
