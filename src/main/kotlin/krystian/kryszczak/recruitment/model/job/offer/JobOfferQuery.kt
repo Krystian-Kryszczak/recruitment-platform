@@ -8,7 +8,7 @@ import krystian.kryszczak.recruitment.model.constant.*
 
 @Introspected
 data class JobOfferQuery(
-    @field:QueryValue val query: String?,
+    @field:QueryValue val keyword: String?,
     @field:QueryValue("main-technology") val mainTechnology: String?,
     @field:QueryValue val location: String?,
     @field:QueryValue val remote: Boolean?,

@@ -41,7 +41,8 @@ data class JobOfferCreationForm(
         places,
         recruitmentType,
         remote,
-        metadata["expires"] as Instant? ?: Instant.now().plus(Duration.ofDays(31))
+        metadata["expires"] as Instant? ?: Instant.now().plus(Duration.ofDays(31)),
+        "" // TODO
     )
 
     override fun equals(other: Any?): Boolean {

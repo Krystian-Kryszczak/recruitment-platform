@@ -42,7 +42,8 @@ data class JobOfferUpdateForm(
         places,
         recruitmentType,
         remote,
-        metadata.getValue("expires") as Instant
+        metadata.getValue("expires") as Instant,
+        "" // TODO
     )
 
     override fun equals(other: Any?): Boolean {

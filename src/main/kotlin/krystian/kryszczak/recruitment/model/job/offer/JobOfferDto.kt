@@ -1,20 +1,18 @@
 package krystian.kryszczak.recruitment.model.job.offer
 
 import io.micronaut.core.annotation.Introspected
-import io.micronaut.data.annotation.DateCreated
-import io.micronaut.data.annotation.GeneratedValue
-import io.micronaut.data.annotation.Id
-import io.micronaut.data.annotation.MappedEntity
 import io.micronaut.serde.annotation.Serdeable
-import krystian.kryszczak.recruitment.model.constant.*
-import krystian.kryszczak.recruitment.model.job.Exhibit
+import krystian.kryszczak.recruitment.model.Dto
+import krystian.kryszczak.recruitment.model.constant.EmploymentType
+import krystian.kryszczak.recruitment.model.constant.Experience
+import krystian.kryszczak.recruitment.model.constant.RecruitmentType
+import krystian.kryszczak.recruitment.model.constant.TypeOfWork
 import java.time.Instant
 
 @Serdeable
-@MappedEntity
 @Introspected
-data class JobOffer(
-    @field:Id @GeneratedValue override val id: String? = null,
+data class JobOfferDto(
+    val id: String?,
     val title: String,
     val employerId: String,
     val description: Map<String, String>,
@@ -31,14 +29,13 @@ data class JobOffer(
     val remote: Boolean,
     val expires: Instant,
     val path: String,
-    val banned: Boolean = false,
-    @DateCreated val dateCreated: Instant? = null
-) : Exhibit(id, banned) {
+    val dateCreated: Instant?
+) : Dto<JobOffer, JobOfferDto> {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as JobOffer
+        other as JobOfferDto
 
         if (id != other.id) return false
         if (title != other.title) return false
@@ -60,7 +57,7 @@ data class JobOffer(
         if (remote != other.remote) return false
         if (expires != other.expires) return false
         if (path != other.path) return false
-        if (banned != other.banned) return false
+        if (dateCreated != other.dateCreated) return false
 
         return true
     }
@@ -83,8 +80,30 @@ data class JobOffer(
         result = 31 * result + remote.hashCode()
         result = 31 * result + expires.hashCode()
         result = 31 * result + path.hashCode()
-        result = 31 * result + banned.hashCode()
+        result = 31 * result + (dateCreated?.hashCode() ?: 0)
         return result
     }
 
+    companion object : Dto.Mapper<JobOffer, JobOfferDto> {
+        override fun from(item: JobOffer) = JobOfferDto(
+            item.id,
+            item.title,
+            item.employerId,
+            item.description,
+            item.mainTechnology,
+            item.typeOfWork,
+            item.experience,
+            item.employmentType,
+            item.minEarningsPerMonth,
+            item.maxEarningsPerMonth,
+            item.currency,
+            item.techStack,
+            item.places,
+            item.recruitmentType,
+            item.remote,
+            item.expires,
+            item.path,
+            item.dateCreated
+        )
+    }
 }
