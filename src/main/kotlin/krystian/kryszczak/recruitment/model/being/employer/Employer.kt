@@ -25,6 +25,7 @@ data class Employer(
     val email: String? = null,
     @param:Max(100) val offices: Array<String>? = null,
     @param:Max(20) val techStack: Array<String>? = null,
+    val banned: Boolean = false,
     val agreeToEmailMarketing: Boolean = false
 ) : Being(id) {
     override fun equals(other: Any?): Boolean {
@@ -52,6 +53,7 @@ data class Employer(
             if (other.techStack == null) return false
             if (!techStack.contentEquals(other.techStack)) return false
         } else if (other.techStack != null) return false
+        if (banned != other.banned) return false
         if (agreeToEmailMarketing != other.agreeToEmailMarketing) return false
 
         return true
@@ -71,6 +73,7 @@ data class Employer(
         result = 31 * result + (email?.hashCode() ?: 0)
         result = 31 * result + (offices?.contentHashCode() ?: 0)
         result = 31 * result + (techStack?.contentHashCode() ?: 0)
+        result = 31 * result + banned.hashCode()
         result = 31 * result + agreeToEmailMarketing.hashCode()
         return result
     }

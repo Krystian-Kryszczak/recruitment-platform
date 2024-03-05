@@ -30,6 +30,7 @@ data class Candidate(
     @param:Max(10) val locations: Array<String>? = null,
     @param:PositiveOrZero @param:Max(7) val englishLevel: Int = 0,
     val sex: Sex? = null,
+    val banned: Boolean = false,
     val agreeToEmailMarketing: Boolean = false
 ) : Being(id) {
     override fun equals(other: Any?): Boolean {
@@ -66,6 +67,7 @@ data class Candidate(
         } else if (other.locations != null) return false
         if (englishLevel != other.englishLevel) return false
         if (sex != other.sex) return false
+        if (banned != other.banned) return false
         if (agreeToEmailMarketing != other.agreeToEmailMarketing) return false
 
         return true
@@ -88,6 +90,7 @@ data class Candidate(
         result = 31 * result + (locations?.contentHashCode() ?: 0)
         result = 31 * result + englishLevel
         result = 31 * result + (sex?.hashCode() ?: 0)
+        result = 31 * result + banned.hashCode()
         result = 31 * result + agreeToEmailMarketing.hashCode()
         return result
     }
