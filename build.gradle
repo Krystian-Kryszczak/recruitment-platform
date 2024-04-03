@@ -1,11 +1,11 @@
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.9.22"
-    id("org.jetbrains.kotlin.kapt") version "1.9.22"
-    id("org.jetbrains.kotlin.plugin.allopen") version "1.9.22"
+    id("org.jetbrains.kotlin.jvm") version "1.9.23"
+    id("org.jetbrains.kotlin.kapt") version "1.9.23"
+    id("org.jetbrains.kotlin.plugin.allopen") version "1.9.23"
     id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("io.micronaut.crac") version "4.3.2"
-    id("io.micronaut.application") version "4.3.2"
-    id("io.micronaut.aot") version "4.3.2"
+    id("io.micronaut.crac") version "4.3.5"
+    id("io.micronaut.application") version "4.3.5"
+    id("io.micronaut.aot") version "4.3.5"
 }
 
 version = "0.2"
@@ -56,7 +56,7 @@ dependencies {
     testImplementation("org.awaitility:awaitility-kotlin:4.2.0")
     testImplementation("org.testcontainers:mongodb")
     testImplementation("org.testcontainers:testcontainers")
-    aotPlugins platform("io.micronaut.platform:micronaut-platform:4.3.2")
+    aotPlugins platform("io.micronaut.platform:micronaut-platform:4.3.7")
     aotPlugins("io.micronaut.security:micronaut-security-aot")
 }
 
@@ -99,5 +99,6 @@ micronaut {
         deduceEnvironment = true
         optimizeNetty = true
         configurationProperties.put("micronaut.security.jwks.enabled","false")
+//        configurationProperties.put("micronaut.security.openid-configuration.enabled","false")
     }
 }
