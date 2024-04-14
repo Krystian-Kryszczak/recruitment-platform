@@ -2,7 +2,7 @@ package krystian.kryszczak.recruitment.service.being.candidate
 
 import jakarta.inject.Singleton
 import krystian.kryszczak.recruitment.model.being.candidate.Candidate
-import krystian.kryszczak.recruitment.model.being.candidate.formation.CandidateFormation
+import krystian.kryszczak.recruitment.model.being.candidate.CandidateCreationForm
 import krystian.kryszczak.recruitment.model.security.code.activation.being.candidate.CandidateActivation
 import krystian.kryszczak.recruitment.model.security.credentials.being.candidate.CandidateCredentials
 import krystian.kryszczak.recruitment.repository.being.candidate.CandidateRepository
@@ -24,7 +24,7 @@ class CandidateServiceImpl(
     credentialsRepository: CandidateCredentialsRepository,
     metricsService: MetricsService,
     generator: ActivationCodeGenerator
-) : CandidateService, BeingServiceBase<Candidate, CandidateFormation, CandidateCredentials, CandidateActivation>(
+) : CandidateService, BeingServiceBase<Candidate, CandidateCreationForm, CandidateCredentials, CandidateActivation>(
     repository, passwordEncoder, smtpMailerService, activationRepository, credentialsRepository, metricsService,
     generator, CandidateActivation::createWithGeneratedCode
 )

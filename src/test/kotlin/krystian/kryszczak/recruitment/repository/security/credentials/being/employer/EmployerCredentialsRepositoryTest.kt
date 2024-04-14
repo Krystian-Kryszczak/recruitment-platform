@@ -12,6 +12,5 @@ arrayOf(
     EmployerCredentials(null, "angela.moss@e-corp.com", "some-password-1"),
     EmployerCredentials(null, "tyrell.wellick@e-corp.com", "some-password-2"),
     EmployerCredentials(null, "terry.colby@e-corp.com", "some-password-3")
-),
-{ it.copy(username = "${it.username} - ${it.username}") },
+), { it.copy(username = "${it.username} - ${it.username}") },
 { item, id -> item.copy(id = id) })

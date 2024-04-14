@@ -12,6 +12,5 @@ arrayOf(
     CandidateCredentials(null, "jack@smith.com", "some-password-1"),
     CandidateCredentials(null, "eliot@fsociety.com", "some-password-2"),
     CandidateCredentials(null, "mr.robot@fsociety.com", "some-password-3")
-),
-{ it.copy(username = "${it.username} - ${it.username}") },
+), { it.copy(username = "${it.username} - ${it.username}") },
 { item, id -> item.copy(id = id) })

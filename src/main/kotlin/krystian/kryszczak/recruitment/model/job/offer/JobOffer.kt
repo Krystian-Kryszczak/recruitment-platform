@@ -30,7 +30,7 @@ data class JobOffer(
     val recruitmentType: RecruitmentType,
     val remote: Boolean,
     val expires: Instant,
-    val path: String,
+    val path: String, // TODO change to list or add old links val that will be use full after edit
     val banned: Boolean = false,
     @DateCreated val dateCreated: Instant? = null
 ) : Exhibit(id, banned) {
@@ -58,7 +58,7 @@ data class JobOffer(
         } else if (other.places != null) return false
         if (recruitmentType != other.recruitmentType) return false
         if (remote != other.remote) return false
-        if (expires != other.expires) return false
+        if (expires.epochSecond != other.expires.epochSecond) return false
         if (path != other.path) return false
         if (banned != other.banned) return false
 
@@ -86,5 +86,4 @@ data class JobOffer(
         result = 31 * result + banned.hashCode()
         return result
     }
-
 }

@@ -13,7 +13,7 @@ import reactor.core.publisher.Mono
 import java.util.Properties
 
 @Singleton
-class PopEmailServiceImpl(private val session: Session, private val mailAuthConfig: JavaMailAuthenticationConfiguration) : PopEmailService {
+class PopEmailServiceImpl(private val session: Session, private val mailAuthConfig: JavaMailAuthenticationConfiguration) : PopMailerService {
     private val properties: Properties = session.properties
 
     private inline fun useStore(body: (Store) -> Unit) {

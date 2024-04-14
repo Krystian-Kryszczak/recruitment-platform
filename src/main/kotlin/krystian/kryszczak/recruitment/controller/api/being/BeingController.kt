@@ -7,6 +7,7 @@ import io.micronaut.http.annotation.*
 import io.micronaut.security.authentication.Authentication
 import jakarta.annotation.security.PermitAll
 import jakarta.validation.Valid
+import krystian.kryszczak.recruitment.controller.api.ID_PATTERN
 import krystian.kryszczak.recruitment.extension.authentication.getClientId
 import krystian.kryszczak.recruitment.model.being.Being
 import krystian.kryszczak.recruitment.model.being.BeingCreationForm
@@ -20,7 +21,7 @@ abstract class BeingController<T : Being, S : BeingCreationForm<T, S>, U : Being
     private val dtoMapper: BeingDto.Mapper<T, V>
 ) {
     @PermitAll
-    @Get("{/id}")
+    @Get("{/id:$ID_PATTERN}")
     fun findById(id: String?, authentication: Authentication?) =
         handleWithIdPermitAll(authentication) { clientId ->
             (id ?: clientId)?.let { id ->
@@ -29,11 +30,6 @@ abstract class BeingController<T : Being, S : BeingCreationForm<T, S>, U : Being
                     .defaultIfEmpty(HttpResponse.notFound())
             } ?: Mono.just(HttpResponse.status(HttpStatus.NO_CONTENT))
         }
-
-    @Put("/test/", consumes = [MediaType.APPLICATION_FORM_URLENCODED])
-    open fun update(authentication: Authentication) {
-        println("Test!")
-    }
 
     @Put(consumes = [MediaType.APPLICATION_FORM_URLENCODED])
     open fun update(@Valid @RequestBean bean: U, authentication: Authentication) =

@@ -30,7 +30,9 @@ arrayOf(
         arrayOf("Warsaw"),
         RecruitmentType.ONLINE_INTERVIEW,
         false,
-        Instant.now()
+        Instant.now(),
+        "senior-java-software-developer",
+        false
     ), JobOffer(
         null,
         "Java Developer",
@@ -47,7 +49,9 @@ arrayOf(
         arrayOf("Warsaw"),
         RecruitmentType.ONLINE_INTERVIEW,
         false,
-        Instant.now()
+        Instant.now(),
+        "java-developer",
+        false
     ), JobOffer(
         null,
         "Kotlin Developer",
@@ -64,7 +68,9 @@ arrayOf(
         arrayOf("Warsaw"),
         RecruitmentType.ONLINE_INTERVIEW,
         false,
-        Instant.now()
+        Instant.now(),
+        "kotlin-developer",
+        false
     ), JobOffer(
         null,
         "Java Developer",
@@ -81,7 +87,9 @@ arrayOf(
         arrayOf("Warsaw"),
         RecruitmentType.ONLINE_INTERVIEW,
         false,
-        Instant.now()
+        Instant.now(),
+        "java-developer",
+        false
     )
 ), { it.copy(title = "${it.title} - ${it.title}") },
 { item, id -> item.copy(id = id) })

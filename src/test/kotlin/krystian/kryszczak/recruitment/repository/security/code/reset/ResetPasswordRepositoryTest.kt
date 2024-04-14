@@ -5,7 +5,7 @@ import io.micronaut.test.extensions.kotest5.annotation.MicronautTest
 import krystian.kryszczak.recruitment.model.security.code.reset.ResetPassword
 import krystian.kryszczak.recruitment.repository.security.code.CodeRepositoryTest
 
-@MicronautTest
+@MicronautTest(transactional = false)
 class ResetPasswordRepositoryTest(repository: ResetPasswordRepository) : CodeRepositoryTest<ResetPassword>(
 repository,
 arrayOf(

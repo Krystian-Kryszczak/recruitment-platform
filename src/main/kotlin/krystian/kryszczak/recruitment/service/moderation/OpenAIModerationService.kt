@@ -8,7 +8,7 @@ import krystian.kryszczak.recruitment.model.moderation.response.ModerationResult
 import reactor.core.publisher.Mono
 
 @Singleton
-class OpenAIModerationService(private val httpClient: OpenAIHttpClient): ModerationService {
+open class OpenAIModerationService(private val httpClient: OpenAIHttpClient): ModerationService {
     override fun checkIfInputIsHarmful(input: String): Mono<Boolean> =
         httpClient.createModeration(ModerationRequest(input))
             .map(ModerationResponse::result)

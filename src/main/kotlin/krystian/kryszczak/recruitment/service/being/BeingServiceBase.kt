@@ -1,7 +1,7 @@
 package krystian.kryszczak.recruitment.service.being
 
 import krystian.kryszczak.recruitment.model.being.Being
-import krystian.kryszczak.recruitment.model.being.BeingFormation
+import krystian.kryszczak.recruitment.model.being.BeingCreationForm
 import krystian.kryszczak.recruitment.model.security.code.activation.being.BeingActivation
 import krystian.kryszczak.recruitment.model.security.credentials.being.BeingCredentials
 import krystian.kryszczak.recruitment.repository.being.BeingRepository
@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
-abstract class BeingServiceBase<T : Being, S : BeingFormation<T>, U : BeingCredentials, V : BeingActivation<T, S, U>>(
+abstract class BeingServiceBase<T : Being, S : BeingCreationForm<T, S>, U : BeingCredentials, V : BeingActivation<T, S, U>>(
     repository: BeingRepository<T>,
     private val passwordEncoder: PasswordEncoder,
     private val smtpMailerService: SmtpMailerService,
@@ -36,15 +36,15 @@ abstract class BeingServiceBase<T : Being, S : BeingFormation<T>, U : BeingCrede
         .defaultIfEmpty(false)
     }
 
-    override fun register(formation: S, password: String): Mono<Boolean> {
+    override fun register(creationForm: S, password: String): Mono<Boolean> {
         if (!PasswordValidator.validate(password)) {
-            logger.debug("Invalid user password! User email: ${formation.email}")
+            logger.debug("Invalid user password! User email: ${creationForm.email}")
             return Mono.just(false)
         }
 
-        return generateActivationCodeForUser(formation, passwordEncoder.encode(password), generator)
+        return generateActivationCodeForUser(creationForm, passwordEncoder.encode(password), generator)
             .doOnSuccess { code ->
-                val email: String = formation.email
+                val email: String = creationForm.email
                 logger.info("The activation code `$code` will be sent to the email address $email")
                 smtpMailerService.sendUserActivationCode(email, code)
             }.thenReturn(true)

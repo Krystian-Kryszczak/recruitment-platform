@@ -17,8 +17,7 @@ arrayOf(
     RefreshToken(null, "Darlene", "token-1", true, now() + ofHours(1)),
     RefreshToken(null, "Leon", "token-2", false, now() + ofHours(2)),
     RefreshToken(null, "Phillip", "token-3", true, now() + ofHours(3))
-),
-{ it.copy(username = "${it.username} - ${it.username}") },
+), { it.copy(username = "${it.username} - ${it.username}") },
 { item, id -> item.copy(id = id) }, {
     "refresh token repository tests" - {
         "find by refresh token" {
