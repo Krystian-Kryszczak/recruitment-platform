@@ -13,7 +13,7 @@ import krystian.kryszczak.recruitment.model.being.employer.EmployerUpdateForm
 import krystian.kryszczak.recruitment.service.being.employer.EmployerService
 
 @RolesAllowed("EMPLOYER")
-@Controller("api/v1/employer")
+@Controller("api/v1/employer/")
 @ExecuteOn(TaskExecutors.BLOCKING)
 open class EmployerController(service: EmployerService) :
     BeingController<Employer, EmployerCreationForm, EmployerUpdateForm, EmployerDto>(service, mapper)

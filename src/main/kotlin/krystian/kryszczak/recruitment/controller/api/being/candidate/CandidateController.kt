@@ -13,7 +13,7 @@ import krystian.kryszczak.recruitment.model.being.candidate.CandidateUpdateForm
 import krystian.kryszczak.recruitment.service.being.candidate.CandidateService
 
 @RolesAllowed("CANDIDATE")
-@Controller("api/v1/candidate")
+@Controller("api/v1/candidate/")
 @ExecuteOn(TaskExecutors.BLOCKING)
 open class CandidateController(service: CandidateService) :
     BeingController<Candidate, CandidateCreationForm, CandidateUpdateForm, CandidateDto>(service, mapper)

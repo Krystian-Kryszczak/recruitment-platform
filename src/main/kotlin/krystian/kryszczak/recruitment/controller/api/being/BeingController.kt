@@ -34,7 +34,7 @@ abstract class BeingController<T : Being, S : BeingCreationForm<T, S>, U : Being
     @Put(consumes = [MediaType.APPLICATION_FORM_URLENCODED])
     open fun update(@Valid @RequestBean bean: U, authentication: Authentication) =
         handleWithId(authentication) { id ->
-            service.update(bean.transform(id))
+            service.update(id, bean, authentication.getClientId()?.let { mapOf("employerId" to it) } ?: mapOf())
                 .map { HttpResponse.ok(dtoMapper.from(it)) }
                 .defaultIfEmpty(HttpResponse.serverError())
         }
