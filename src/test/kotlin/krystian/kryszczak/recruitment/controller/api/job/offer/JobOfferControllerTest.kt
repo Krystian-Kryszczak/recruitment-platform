@@ -22,10 +22,10 @@ import krystian.kryszczak.recruitment.model.job.offer.JobOffer
 import krystian.kryszczak.recruitment.model.job.offer.JobOfferCreationForm
 import krystian.kryszczak.recruitment.model.job.offer.JobOfferUpdateForm
 import krystian.kryszczak.recruitment.service.job.offer.JobOfferService
+import krystian.kryszczak.test.mock.jobOfferMock
 import krystian.kryszczak.test.util.generateToken
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
-import java.time.Duration
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 
@@ -121,7 +121,7 @@ class JobOfferControllerTest(@Client("/api/v1/job/offers/") client: HttpClient, 
                 result.body().shouldNotBeNull()
             }
 
-            "should throw Unauthorized exception" {
+            "should throw HTTP client exception with `Unauthorized` message" {
                 shouldThrowWithMessage<HttpClientException>("Unauthorized") {
                     client.toBlocking().exchange(
                         HttpRequest.POST(
@@ -195,33 +195,13 @@ class JobOfferControllerTest(@Client("/api/v1/job/offers/") client: HttpClient, 
     fun service(): JobOfferService {
         val service = mockk<JobOfferService>()
 
-        val offer = JobOffer(
-            uniqueId(),
-            "java-senior-developer",
-            uniqueId(),
-            mapOf(),
-            "Java",
-            TypeOfWork.FULL_TIME,
-            Experience.MID,
-            EmploymentType.B2B,
-            18000,
-            22000,
-            "PLN",
-            mapOf("Java" to 5, "Micronaut" to 4, "Microservices" to 4),
-            arrayOf("Warsaw"),
-            RecruitmentType.ONLINE_INTERVIEW,
-            true,
-            Instant.now().plus(Duration.ofDays(30)),
-            "e-corp-java-senior-developer"
-        )
-
-        every { service.search(any()) } returns Flux.just(offer)
-        every { service.findById(any()) } returns Mono.just(offer)
-        every { service.findByPath(any()) } returns Mono.just(offer)
-        every { service.findByPathOrId(any()) } returns Mono.just(offer)
-        every { service.findByEmployerId(any(), any(), any()) } returns Flux.just(offer)
-        every { service.findByEmployerAuth(any(), any()) } returns Flux.just(offer)
-        every { service.employerAdd(any(), any()) } returns Mono.just(offer)
+        every { service.search(any()) } returns Flux.just(jobOfferMock)
+        every { service.findById(any()) } returns Mono.just(jobOfferMock)
+        every { service.findByPath(any()) } returns Mono.just(jobOfferMock)
+        every { service.findByPathOrId(any()) } returns Mono.just(jobOfferMock)
+        every { service.findByEmployerId(any(), any(), any()) } returns Flux.just(jobOfferMock)
+        every { service.findByEmployerAuth(any(), any()) } returns Flux.just(jobOfferMock)
+        every { service.employerAdd(any(), any()) } returns Mono.just(jobOfferMock)
         every { service.employerRemove(any(), any()) } returns Mono.just(true)
         every { service.employerUpdate(any(), any(), any()) } returns Mono.just(true)
 
