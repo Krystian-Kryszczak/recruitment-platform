@@ -8,7 +8,6 @@ import io.micronaut.http.HttpRequest
 import io.micronaut.http.HttpStatus
 import io.micronaut.http.MediaType
 import io.micronaut.http.client.HttpClient
-import io.micronaut.security.authentication.Authentication
 import io.micronaut.security.token.jwt.generator.JwtTokenGenerator
 import io.mockk.every
 import io.mockk.mockk
@@ -16,6 +15,7 @@ import krystian.kryszczak.recruitment.model.being.Being
 import krystian.kryszczak.recruitment.model.being.BeingCreationForm
 import krystian.kryszczak.recruitment.model.being.BeingUpdateForm
 import krystian.kryszczak.recruitment.service.being.BeingService
+import krystian.kryszczak.test.util.generateToken
 import reactor.core.publisher.Mono
 
 abstract class BeingControllerTest<T : Being, S : BeingCreationForm<T, S>, U : BeingUpdateForm<T, U>>(
@@ -26,9 +26,7 @@ abstract class BeingControllerTest<T : Being, S : BeingCreationForm<T, S>, U : B
     role: String,
     body: FreeSpec.() -> Unit = {}
 ) : FreeSpec({
-    fun generateToken() = tokenGenerator.generateToken(
-        Authentication.build("john", listOf(role), mapOf("ID" to uniqueId())), 3600
-    ).get()
+    fun generateToken() = generateToken(listOf(role), tokenGenerator)
 
     "basic endpoints tests" - {
         "find by id" - {
