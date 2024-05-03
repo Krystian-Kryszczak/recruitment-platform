@@ -1,5 +1,6 @@
 package krystian.kryszczak.recruitment.controller.api.job.offer
 
+import io.micronaut.http.HttpStatus
 import io.micronaut.http.annotation.*
 import io.micronaut.scheduling.TaskExecutors
 import io.micronaut.scheduling.annotation.ExecuteOn
@@ -17,30 +18,32 @@ import krystian.kryszczak.recruitment.service.job.offer.JobOfferService
 @Controller("api/v1/job/offers/")
 @ExecuteOn(TaskExecutors.BLOCKING)
 open class JobOfferController(private val service: JobOfferService) {
-    @Get
+    @Get("/search/")
     open fun search(@Valid @RequestBean bean: JobOfferQuery) = service.search(bean)
 
-    @Get("/{id:$ID_PATTERN}")
-    fun findById(id: String) = service.findById(id)
+    @Get("/{data}")
+    fun findByPathOrId(data: String) = service.findByPathOrId(data)
 
-    @Get("/{path}")
-    fun findByName(path: String) = service.findByPath(path)
+    @Get("/employer/{id}{/page}")
+    fun getByEmployerId(id: String, page: Int?, authentication: Authentication?) = service.findByEmployerId(id, page, authentication)
 
     @RolesAllowed("EMPLOYER")
     @Get("/own{/page}")
-    fun getOwn(page: Int?, authentication: Authentication) = service.getEmployerOffers(authentication)
+    fun getOwn(page: Int?, authentication: Authentication) = service.findByEmployerAuth(page, authentication)
 
+    @Status(HttpStatus.CREATED)
     @RolesAllowed("EMPLOYER")
     @Post
     open fun add(@Body @Valid body: JobOfferCreationForm, auth: Authentication) = service.employerAdd(body, auth)
 
+    @Status(HttpStatus.ACCEPTED)
     @RolesAllowed("EMPLOYER")
     @Put("/{id:$ID_PATTERN}")
-    fun modify(id: String, form: JobOfferUpdateForm, authentication: Authentication) =
+    open fun modify(id: String, @Body @Valid form: JobOfferUpdateForm, authentication: Authentication) =
         service.employerUpdate(id, form, authentication)
 
+    @Status(HttpStatus.ACCEPTED)
     @RolesAllowed("EMPLOYER")
     @Delete("/{id:$ID_PATTERN}")
-    fun remove(id: String, authentication: Authentication) =
-        service.employerRemove(id, authentication)
+    fun remove(id: String, authentication: Authentication) = service.employerRemove(id, authentication)
 }
