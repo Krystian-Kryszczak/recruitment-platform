@@ -7,9 +7,8 @@ import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 interface JobApplicationService : DataAccessService<JobApplication, String> {
-    fun findByEmployerClient(id: String, authentication: Authentication): Mono<JobApplication>
-
-    fun findSentByCandidateClient(authentication: Authentication): Flux<JobApplication>
-    fun findByIdSentByCandidateClient(id: String, authentication: Authentication): Flux<JobApplication>
-    fun cancelOwnById(id: String, authentication: Authentication): Mono<Boolean>
+    fun findByIdForEmployerClient(id: String, authentication: Authentication): Mono<JobApplication>
+    fun findByOfferIdForEmployerClient(id: String, authentication: Authentication): Flux<JobApplication>
+    fun findPublishedByCandidateClient(authentication: Authentication): Flux<JobApplication>
+    fun deleteOwnByIdForCandidateClient(id: String, authentication: Authentication): Mono<Boolean>
 }

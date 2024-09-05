@@ -26,7 +26,7 @@ class CandidateControllerTest(@Client("/api/v1/candidate") httpClient: HttpClien
             acceptRules = true
         ) }, "CANDIDATE") {
     @MockBean(CandidateService::class)
-    fun mockService() = createServiceMock<CandidateService, Candidate, CandidateCreationForm>(
+    fun mockService() = createServiceMock<CandidateService, Candidate, CandidateCreationForm, CandidateUpdateForm>(
         Candidate(uniqueId(), "john@smith.com", "John", "Smith")
     )
 }

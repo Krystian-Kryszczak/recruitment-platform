@@ -1,5 +1,6 @@
 package krystian.kryszczak.recruitment.service
 
+import krystian.kryszczak.recruitment.model.UpdateForm
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
@@ -23,4 +24,6 @@ interface DataAccessService<E, ID> {
     fun delete(entity: E): Mono<Long>
 
     fun deleteAll(entities: Iterable<E>): Mono<Long>
+
+    fun <S : UpdateForm<E, S>> update(id: ID, form: S, metadata: Map<String, Any> = mapOf()): Mono<E>
 }

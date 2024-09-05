@@ -9,41 +9,44 @@ import krystian.kryszczak.recruitment.model.constant.RecruitmentType
 import krystian.kryszczak.recruitment.model.constant.TypeOfWork
 import java.time.Instant
 
+/**
+ * If any variable has a null value, it should not be changed.
+ */
 @Serdeable
 @Introspected
 data class JobOfferUpdateForm(
-    val title: String,
-    val description: Map<String, String>,
-    val mainTechnology: String,
-    val typeOfWork: TypeOfWork,
-    val experience: Experience,
-    val employmentType: EmploymentType,
-    val minEarningsPerMonth: Int,
-    val maxEarningsPerMonth: Int,
-    val currency: String,
+    val title: String?,
+    val description: Map<String, String>?,
+    val mainTechnology: String?,
+    val typeOfWork: TypeOfWork?,
+    val experience: Experience?,
+    val employmentType: EmploymentType?,
+    val minEarningsPerMonth: Int?,
+    val maxEarningsPerMonth: Int?,
+    val currency: String?,
     val techStack: Map<String, Byte>?,
     val places: Array<String>?,
-    val recruitmentType: RecruitmentType,
-    val remote: Boolean
+    val recruitmentType: RecruitmentType?,
+    val remote: Boolean?,
 ) : UpdateForm<JobOffer, JobOfferUpdateForm> {
-    override fun transform(id: String, metadata: Map<String, Any>) = JobOffer(
-        id,
-        title,
+    override fun transform(actual: JobOffer, metadata: Map<String, Any>) = JobOffer(
+        actual.id,
+        title ?: actual.title,
         metadata.getValue("employerId") as String,
-        description,
-        mainTechnology,
-        typeOfWork,
-        experience,
-        employmentType,
-        minEarningsPerMonth,
-        maxEarningsPerMonth,
-        currency,
-        techStack,
-        places,
-        recruitmentType,
-        remote,
+        description ?: actual.description,
+        mainTechnology ?: actual.mainTechnology,
+        typeOfWork ?: actual.typeOfWork,
+        experience ?: actual.experience,
+        employmentType ?: actual.employmentType,
+        minEarningsPerMonth ?: actual.minEarningsPerMonth,
+        maxEarningsPerMonth ?: actual.maxEarningsPerMonth,
+        currency ?: actual.currency,
+        techStack ?: actual.techStack,
+        places ?: actual.places,
+        recruitmentType ?: actual.recruitmentType,
+        remote ?: actual.remote,
         metadata.getValue("expires") as Instant,
-        "" // TODO
+        actual.path
     )
 
     override fun equals(other: Any?): Boolean {
@@ -73,19 +76,19 @@ data class JobOfferUpdateForm(
     }
 
     override fun hashCode(): Int {
-        var result = title.hashCode()
-        result = 31 * result + description.hashCode()
-        result = 31 * result + mainTechnology.hashCode()
-        result = 31 * result + typeOfWork.hashCode()
-        result = 31 * result + experience.hashCode()
-        result = 31 * result + employmentType.hashCode()
-        result = 31 * result + minEarningsPerMonth
-        result = 31 * result + maxEarningsPerMonth
-        result = 31 * result + currency.hashCode()
+        var result = title?.hashCode() ?: 0
+        result = 31 * result + (description?.hashCode() ?: 0)
+        result = 31 * result + (mainTechnology?.hashCode() ?: 0)
+        result = 31 * result + (typeOfWork?.hashCode() ?: 0)
+        result = 31 * result + (experience?.hashCode() ?: 0)
+        result = 31 * result + (employmentType?.hashCode() ?: 0)
+        result = 31 * result + (minEarningsPerMonth ?: 0)
+        result = 31 * result + (maxEarningsPerMonth ?: 0)
+        result = 31 * result + (currency?.hashCode() ?: 0)
         result = 31 * result + (techStack?.hashCode() ?: 0)
         result = 31 * result + (places?.contentHashCode() ?: 0)
-        result = 31 * result + recruitmentType.hashCode()
-        result = 31 * result + remote.hashCode()
+        result = 31 * result + (recruitmentType?.hashCode() ?: 0)
+        result = 31 * result + (remote?.hashCode() ?: 0)
         return result
     }
 

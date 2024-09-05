@@ -10,7 +10,6 @@ import krystian.kryszczak.recruitment.repository.security.code.activation.being.
 import krystian.kryszczak.recruitment.repository.security.credentials.being.candidate.CandidateCredentialsRepository
 import krystian.kryszczak.recruitment.security.encoder.PasswordEncoder
 import krystian.kryszczak.recruitment.security.generator.activation.ActivationCodeGenerator
-
 import krystian.kryszczak.recruitment.service.being.BeingServiceBase
 import krystian.kryszczak.recruitment.service.mail.smtp.SmtpMailerService
 import krystian.kryszczak.recruitment.service.metrics.MetricsService

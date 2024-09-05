@@ -10,6 +10,7 @@ import java.time.Instant
 @Serdeable
 @Introspected
 data class JobOfferCreationForm(
+    val tier: Tier, // TODO
     val title: String,
     val description: Map<String, String>,
     val mainTechnology: String,

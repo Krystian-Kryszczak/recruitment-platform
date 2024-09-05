@@ -22,30 +22,27 @@ abstract class BeingController<T : Being, S : BeingCreationForm<T, S>, U : Being
 ) {
     @PermitAll
     @Get("{/id:$ID_PATTERN}")
-    fun findById(id: String?, authentication: Authentication?) =
-        handleWithIdPermitAll(authentication) { clientId ->
-            (id ?: clientId)?.let { id ->
-                service.findById(id)
-                    .map { HttpResponse.ok(dtoMapper.from(it)) }
-                    .defaultIfEmpty(HttpResponse.notFound())
-            } ?: Mono.just(HttpResponse.status(HttpStatus.NO_CONTENT))
-        }
+    fun findById(id: String?, authentication: Authentication?) = handleWithIdPermitAll(authentication) { clientId ->
+        (id ?: clientId)?.let { id ->
+            service.findById(id)
+                .map { HttpResponse.ok(dtoMapper.from(it)) }
+                .defaultIfEmpty(HttpResponse.notFound())
+        } ?: Mono.just(HttpResponse.status(HttpStatus.NO_CONTENT))
+    }
 
     @Put(consumes = [MediaType.APPLICATION_FORM_URLENCODED])
-    open fun update(@Valid @RequestBean bean: U, authentication: Authentication) =
-        handleWithId(authentication) { id ->
-            service.update(id, bean, authentication.getClientId()?.let { mapOf("employerId" to it) } ?: mapOf())
-                .map { HttpResponse.ok(dtoMapper.from(it)) }
-                .defaultIfEmpty(HttpResponse.serverError())
-        }
+    open fun update(@Valid @RequestBean bean: U, authentication: Authentication) = handleWithId(authentication) { id ->
+        service.update(id, bean, authentication.attributes ?: mapOf())
+            .map { HttpResponse.ok(dtoMapper.from(it)) }
+            .defaultIfEmpty(HttpResponse.serverError())
+    }
 
     @Delete(consumes = [MediaType.APPLICATION_FORM_URLENCODED])
-    fun remove(password: String, authentication: Authentication) =
-        handleWithId(authentication) { id ->
-            service.autoDeleteByUser(password, id)
-                .map { if (it) HttpResponse.ok<Any>() else HttpResponse.unauthorized() }
-                .defaultIfEmpty(HttpResponse.serverError())
-        }
+    fun remove(password: String, authentication: Authentication) = handleWithId(authentication) { id ->
+        service.autoDeleteByUser(password, id)
+            .map { if (it) HttpResponse.ok<Any>() else HttpResponse.unauthorized() }
+            .defaultIfEmpty(HttpResponse.serverError())
+    }
 
     @PermitAll
     @Post("/register", consumes = [MediaType.APPLICATION_FORM_URLENCODED])
@@ -63,18 +60,17 @@ abstract class BeingController<T : Being, S : BeingCreationForm<T, S>, U : Being
             .map { if (it) HttpResponse.ok<String>() else HttpResponse.unauthorized() }
             .defaultIfEmpty(HttpResponse.serverError())
 
-    private inline fun <T> handleWithId(authentication: Authentication,
-            crossinline body: (id: String) -> Mono<out HttpResponse<T>>): Mono<out HttpResponse<T>> {
+    private inline fun <T> handleWithId(
+        authentication: Authentication,
+        crossinline body: (id: String) -> Mono<out HttpResponse<T>>
+    ): Mono<out HttpResponse<T>> {
         val clientId = authentication.getClientId()
             ?: return Mono.just(HttpResponse.status(HttpStatus.FAILED_DEPENDENCY, "missing client id"))
         return body(clientId)
     }
 
-    private inline fun <T> handleWithIdPermitAll(authentication: Authentication?,
-            crossinline body: (id: String?) -> Mono<out HttpResponse<T>>): Mono<out HttpResponse<T>> {
-        if (authentication == null) return body(null)
-        val clientId = authentication.getClientId()
-            ?: return Mono.just(HttpResponse.status(HttpStatus.FAILED_DEPENDENCY, "missing client id"))
-        return body(clientId)
-    }
+    private inline fun <T> handleWithIdPermitAll(
+        authentication: Authentication?,
+        crossinline body: (id: String?) -> Mono<out HttpResponse<T>>
+    ) = body(authentication?.getClientId())
 }

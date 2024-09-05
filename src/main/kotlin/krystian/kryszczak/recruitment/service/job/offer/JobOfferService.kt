@@ -10,11 +10,15 @@ import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 interface JobOfferService : DataAccessService<JobOffer, String> {
+    fun findByPathOrId(data: String): Mono<JobOffer>
+
     fun findByPath(path: String): Mono<JobOffer>
 
     fun search(bean: JobOfferQuery): Flux<JobOffer>
 
-    fun getEmployerOffers(authentication: Authentication): Flux<JobOffer>
+    fun findByEmployerId(id: String, page: Int?, authentication: Authentication?): Flux<JobOffer>
+
+    fun findByEmployerAuth(page: Int?, authentication: Authentication): Flux<JobOffer>
 
     fun employerAdd(creation: JobOfferCreationForm, authentication: Authentication): Mono<JobOffer>
 

@@ -2,7 +2,6 @@ package krystian.kryszczak.recruitment.repository.being
 
 import io.kotest.core.spec.style.FreeSpec
 import krystian.kryszczak.recruitment.model.being.Being
-import krystian.kryszczak.recruitment.repository.CrudRepositoryBase
 import krystian.kryszczak.recruitment.repository.CrudRepositoryBaseTest
 
 abstract class BeingRepositoryTest<E : Being>(

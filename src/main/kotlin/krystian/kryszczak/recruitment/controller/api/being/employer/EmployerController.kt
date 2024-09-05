@@ -14,6 +14,6 @@ import krystian.kryszczak.recruitment.service.being.employer.EmployerService
 
 @RolesAllowed("EMPLOYER")
 @Controller("api/v1/employer/")
-@ExecuteOn(TaskExecutors.BLOCKING)
+@ExecuteOn(TaskExecutors.IO)
 open class EmployerController(service: EmployerService) :
     BeingController<Employer, EmployerCreationForm, EmployerUpdateForm, EmployerDto>(service, mapper)

@@ -26,7 +26,7 @@ class EmployerControllerTest(@Client("/api/v1/employer") httpClient: HttpClient,
             acceptRules = true
         ) }, "EMPLOYER") {
     @MockBean(EmployerService::class)
-    fun mockService() = createServiceMock<EmployerService, Employer, EmployerCreationForm>(
+    fun mockService() = createServiceMock<EmployerService, Employer, EmployerCreationForm, EmployerUpdateForm>(
         Employer(uniqueId(), "test")
     )
 }

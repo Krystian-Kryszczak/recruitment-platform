@@ -16,7 +16,7 @@ import krystian.kryszczak.recruitment.service.job.offer.JobOfferService
 
 @PermitAll
 @Controller("api/v1/job/offers/")
-@ExecuteOn(TaskExecutors.BLOCKING)
+@ExecuteOn(TaskExecutors.IO)
 open class JobOfferController(private val service: JobOfferService) {
     @Get("/search/")
     open fun search(@Valid @RequestBean bean: JobOfferQuery) = service.search(bean)

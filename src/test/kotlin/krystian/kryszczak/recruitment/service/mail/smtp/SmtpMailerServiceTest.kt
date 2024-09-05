@@ -56,16 +56,4 @@ class SmtpMailerServiceTest(smtpMailerService: SmtpMailerService, mailAuthConfig
             smtpMailerService.sendResetPasswordCode(receiver, "`test reset password code`")
         }
     }
-
-    "sendNewVideoNotification should not throw any exception" {
-        shouldNotThrowAny {
-            smtpMailerService.sendNewVideoNotification(
-                receiver,
-                "John Smith",
-                "https://picsum.photos/200/300",
-                "Send new video notification - SMTP email service test",
-                "https://www.youtube.com/"
-            )
-        }
-    }
 })

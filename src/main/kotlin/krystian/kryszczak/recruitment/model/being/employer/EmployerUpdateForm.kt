@@ -5,10 +5,13 @@ import io.micronaut.serde.annotation.Serdeable
 import jakarta.validation.constraints.Max
 import krystian.kryszczak.recruitment.model.being.BeingUpdateForm
 
+/**
+ * If any variable has a null value, it should not be changed.
+ */
 @Serdeable
 @Introspected
 data class EmployerUpdateForm(
-    val name: String,
+    val name: String? = null,
     val description: String? = null,
     val companyType: String? = null,
     val category: String? = null,
@@ -20,23 +23,24 @@ data class EmployerUpdateForm(
     val email: String? = null,
     @param:Max(100) val offices: Array<String>? = null,
     @param:Max(20) val techStack: Array<String>? = null,
-    val agreeToEmailMarketing: Boolean = false
+    val agreeToEmailMarketing: Boolean? = null
 ) : BeingUpdateForm<Employer, EmployerUpdateForm> {
-    override fun transform(id: String, metadata: Map<String, Any>): Employer = Employer(
-        id,
-        name,
-        description,
-        companyType,
-        category,
-        companySize,
-        website,
-        facebook,
-        instagram,
-        linkedIn,
-        email,
-        offices,
-        techStack,
-        agreeToEmailMarketing
+    override fun transform(actual: Employer, metadata: Map<String, Any>): Employer = Employer(
+        actual.id,
+        name ?: actual.name,
+        description ?: actual.description,
+        companyType ?: actual.companyType,
+        category ?: actual.category,
+        companySize ?: actual.companySize,
+        website ?: actual.website,
+        facebook ?: actual.facebook,
+        instagram ?: actual.instagram,
+        linkedIn ?: actual.linkedIn,
+        email ?: actual.email,
+        offices ?: actual.offices,
+        techStack ?: actual.techStack,
+        actual.banned,
+        agreeToEmailMarketing ?: actual.agreeToEmailMarketing
     )
 
     override fun equals(other: Any?): Boolean {

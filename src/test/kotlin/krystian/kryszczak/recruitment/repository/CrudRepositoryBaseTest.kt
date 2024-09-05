@@ -175,5 +175,5 @@ abstract class CrudRepositoryBaseTest<E : Item>(
         }
     }
 
-    body()
+    body(this)
 })

@@ -7,44 +7,48 @@ import jakarta.validation.constraints.PositiveOrZero
 import krystian.kryszczak.recruitment.model.being.BeingUpdateForm
 import krystian.kryszczak.recruitment.model.constant.Sex
 
+/**
+ * If any variable has a null value, it should not be changed.
+ */
 @Serdeable
 @Introspected
 data class CandidateUpdateForm(
-    val email: String,
-    val firstName: String,
-    val lastName: String,
+    val email: String? = null,
+    val firstName: String? = null,
+    val lastName: String? = null,
     @param:Max(1000) val messageToTheEmployer: String? = null,
     val linkedInProfile: String? = null,
     val gitHubProfile: String? = null,
     @param:Max(10) val workHistory: Array<String>? = null,
     val position: String? = null,
-    @param:Max(50) val yearsOfExperience: Byte = 0,
+    @param:Max(50) val yearsOfExperience: Byte? = null,
     @param:Max(4) val categories: Array<String>? = null,
     @param:Max(12) val skills: Array<String>? = null,
     @param:Max(5) val employmentTypeAndSalary: Map<String, String>? = null,
     @param:Max(10) val locations: Array<String>? = null,
-    @param:PositiveOrZero @param:Max(7) val englishLevel: Int = 0,
+    @param:PositiveOrZero @param:Max(7) val englishLevel: Int? = null,
     val sex: Sex? = null,
-    val agreeToEmailMarketing: Boolean = false
+    val agreeToEmailMarketing: Boolean? = null
 ) : BeingUpdateForm<Candidate, CandidateUpdateForm> {
-    override fun transform(id: String, metadata: Map<String, Any>): Candidate = Candidate(
-        id,
-        email,
-        firstName,
-        lastName,
-        messageToTheEmployer,
-        linkedInProfile,
-        gitHubProfile,
-        workHistory,
-        position,
-        yearsOfExperience,
-        categories,
-        skills,
-        employmentTypeAndSalary,
-        locations,
-        englishLevel,
-        sex,
-        agreeToEmailMarketing
+    override fun transform(actual: Candidate, metadata: Map<String, Any>): Candidate = Candidate(
+        actual.id,
+        email ?: actual.email,
+        firstName ?: actual.firstName,
+        lastName ?: actual.lastName,
+        messageToTheEmployer ?: actual.messageToTheEmployer,
+        linkedInProfile ?: actual.linkedInProfile,
+        gitHubProfile ?: actual.gitHubProfile,
+        workHistory ?: actual.workHistory,
+        position ?: actual.position,
+        yearsOfExperience ?: actual.yearsOfExperience,
+        categories ?: actual.categories,
+        skills ?: actual.skills,
+        employmentTypeAndSalary ?: actual.employmentTypeAndSalary,
+        locations ?: actual.locations,
+        englishLevel ?: actual.englishLevel,
+        sex ?: actual.sex,
+        actual.banned,
+        agreeToEmailMarketing ?: actual.agreeToEmailMarketing
     )
 
     override fun equals(other: Any?): Boolean {
@@ -86,22 +90,22 @@ data class CandidateUpdateForm(
     }
 
     override fun hashCode(): Int {
-        var result = email.hashCode()
-        result = 31 * result + firstName.hashCode()
-        result = 31 * result + lastName.hashCode()
+        var result = email?.hashCode() ?: 0
+        result = 31 * result + (firstName?.hashCode() ?: 0)
+        result = 31 * result + (lastName?.hashCode() ?: 0)
         result = 31 * result + (messageToTheEmployer?.hashCode() ?: 0)
         result = 31 * result + (linkedInProfile?.hashCode() ?: 0)
         result = 31 * result + (gitHubProfile?.hashCode() ?: 0)
         result = 31 * result + (workHistory?.contentHashCode() ?: 0)
         result = 31 * result + (position?.hashCode() ?: 0)
-        result = 31 * result + yearsOfExperience
+        result = 31 * result + (yearsOfExperience ?: 0)
         result = 31 * result + (categories?.contentHashCode() ?: 0)
         result = 31 * result + (skills?.contentHashCode() ?: 0)
         result = 31 * result + (employmentTypeAndSalary?.hashCode() ?: 0)
         result = 31 * result + (locations?.contentHashCode() ?: 0)
-        result = 31 * result + englishLevel
+        result = 31 * result + (englishLevel ?: 0)
         result = 31 * result + (sex?.hashCode() ?: 0)
-        result = 31 * result + agreeToEmailMarketing.hashCode()
+        result = 31 * result + (agreeToEmailMarketing?.hashCode() ?: 0)
         return result
     }
 

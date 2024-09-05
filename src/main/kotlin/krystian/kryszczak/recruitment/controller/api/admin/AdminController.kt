@@ -11,7 +11,7 @@ import krystian.kryszczak.recruitment.service.admin.AdminService
 
 @RolesAllowed("ADMIN")
 @Controller("api/v1/admin/")
-@ExecuteOn(TaskExecutors.BLOCKING)
+@ExecuteOn(TaskExecutors.IO)
 class AdminController(private val adminService: AdminService) {
     @Status(HttpStatus.ACCEPTED)
     @Post("/employer/ban/{id}")

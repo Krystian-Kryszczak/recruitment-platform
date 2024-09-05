@@ -17,14 +17,14 @@ class AuthenticationServiceImpl(
 //    private val passwordEncoder: PasswordEncoder,
 //    private val metricsService: MetricsService
 ): AuthenticationService {
-    override fun authenticate(
+    override fun authenticate( // TODO
         context: HttpRequest<*>,
         authenticationRequest: AuthenticationRequest<*, *>
-    ): Flux<AuthenticationResponse> {
+    ): Mono<AuthenticationResponse> {
         val login: String = authenticationRequest.identity.toString()
         val password: String = authenticationRequest.secret.toString()
 
-        return Flux.just(AuthenticationResponse.failure())
+        return Mono.just(AuthenticationResponse.failure())
 //        return Mono.from(userCredentialsDao.findByEmail(login))
 //            .flatMap { credentials ->
 //                if (credentials.hashedPassword != null && passwordEncoder.matches(password, credentials.hashedPassword)) Maybe.just(credentials) else Maybe.empty()

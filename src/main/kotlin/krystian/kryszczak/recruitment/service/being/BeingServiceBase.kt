@@ -10,7 +10,7 @@ import krystian.kryszczak.recruitment.repository.security.credentials.being.Bein
 import krystian.kryszczak.recruitment.security.encoder.PasswordEncoder
 import krystian.kryszczak.recruitment.security.generator.activation.ActivationCodeGenerator
 import krystian.kryszczak.recruitment.security.validation.PasswordValidator
-import krystian.kryszczak.recruitment.service.DataAccessServiceBase
+import krystian.kryszczak.recruitment.service.DataAccessServiceImpl
 import krystian.kryszczak.recruitment.service.mail.smtp.SmtpMailerService
 import krystian.kryszczak.recruitment.service.metrics.MetricsService
 import org.slf4j.Logger
@@ -28,7 +28,7 @@ abstract class BeingServiceBase<T : Being, S : BeingCreationForm<T, S>, U : Bein
     private val generator: ActivationCodeGenerator,
     private val createWithGeneratedCode: (identity: String, formation: S,
         encodedPassword: String, generator: ActivationCodeGenerator) -> V
-) : BeingService<T, S>, DataAccessServiceBase<T, String>(repository) {
+) : BeingService<T, S>, DataAccessServiceImpl<T>(repository) {
     override fun autoDeleteByUser(password: String, clientId: String): Mono<Boolean> {
         return credentialsRepository.findById(clientId).map {
             passwordEncoder.matches(password, it.secret)

@@ -149,5 +149,5 @@ abstract class DataAccessServiceTest<E: Item>(
         }
     }
 
-    body.invoke(this)
+    body(this)
 })

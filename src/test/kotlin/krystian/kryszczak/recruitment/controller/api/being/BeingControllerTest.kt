@@ -26,11 +26,11 @@ abstract class BeingControllerTest<T : Being, S : BeingCreationForm<T, S>, U : B
     role: String,
     body: FreeSpec.() -> Unit = {}
 ) : FreeSpec({
-    fun generateToken() = generateToken(listOf(role), tokenGenerator)
+    fun generateToken() = generateToken(listOf(role), tokenGenerator, uniqueId())
 
     "basic endpoints tests" - {
         "find by id" - {
-            "should return OK status" {
+            "should return OK status (path variable)" {
                 client.toBlocking().exchange(
                     HttpRequest.GET<String>("/${uniqueId()}"),
                     String::class.java
@@ -38,7 +38,7 @@ abstract class BeingControllerTest<T : Being, S : BeingCreationForm<T, S>, U : B
                 .status shouldBe HttpStatus.OK
             }
 
-            "should return not null value" {
+            "should return OK status (client id)" {
                 client.toBlocking().exchange(
                     HttpRequest.GET<String>("/")
                         .bearerAuth(generateToken()),
@@ -47,7 +47,7 @@ abstract class BeingControllerTest<T : Being, S : BeingCreationForm<T, S>, U : B
                 .status shouldBe HttpStatus.OK
             }
 
-            "should return no content error" {
+            "should return NO CONTENT status" {
                 client.toBlocking().exchange(
                     HttpRequest.GET<String>("/"),
                     String::class.java
@@ -108,8 +108,8 @@ abstract class BeingControllerTest<T : Being, S : BeingCreationForm<T, S>, U : B
 
     body()
 }) {
-    protected inline fun <reified U : BeingService<T, S>, reified V : T, reified W : S> createServiceMock(result: V): U {
-        val service = mockk<U>()
+    protected inline fun <reified R : BeingService<T, S>, reified V : T, reified W : S, reified F : U> createServiceMock(result: V): R {
+        val service = mockk<R>()
 
         every { service.save(any<V>()) } returns Mono.just(result)
 
@@ -117,7 +117,7 @@ abstract class BeingControllerTest<T : Being, S : BeingCreationForm<T, S>, U : B
         every { service.deleteById(any()) } returns Mono.just(Long.MAX_VALUE)
         every { service.autoDeleteByUser("sherlock", any()) } returns Mono.just(true)
 
-        every { service.update(any<V>()) } returns Mono.just(result)
+        every { service.update(any(), any<F>(), any()) } returns Mono.just(result)
 
         every { service.register(any<W>(), any()) } returns Mono.just(true)
         every { service.completeActivation(any(), any()) } returns Mono.just(true)

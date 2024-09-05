@@ -10,19 +10,23 @@ import reactor.core.publisher.Mono
 
 @Singleton
 class JobApplicationServiceImpl(repository: JobApplicationRepository) : JobApplicationService, DataAccessServiceImpl<JobApplication>(repository) {
-    override fun findByEmployerClient(id: String, authentication: Authentication): Mono<JobApplication> {
+    override fun findByIdForEmployerClient(id: String, authentication: Authentication): Mono<JobApplication> {
         TODO("Not yet implemented")
     }
 
-    override fun findSentByCandidateClient(authentication: Authentication): Flux<JobApplication> {
+    override fun findByOfferIdForEmployerClient(id: String, authentication: Authentication): Flux<JobApplication> {
         TODO("Not yet implemented")
     }
 
-    override fun findByIdSentByCandidateClient(id: String, authentication: Authentication): Flux<JobApplication> {
+    override fun findPublishedByCandidateClient(authentication: Authentication): Flux<JobApplication> {
         TODO("Not yet implemented")
     }
 
-    override fun cancelOwnById(id: String, authentication: Authentication): Mono<Boolean> {
+    override fun deleteOwnByIdForCandidateClient(id: String, authentication: Authentication): Mono<Boolean> {
+        TODO("Not yet implemented")
+    }
+
+    override fun <S : JobApplication> saveAll(entities: Iterable<S>): Flux<S> {
         TODO("Not yet implemented")
     }
 }

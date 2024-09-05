@@ -14,7 +14,7 @@ import krystian.kryszczak.recruitment.controller.api.ID_PATTERN
 import krystian.kryszczak.recruitment.service.job.application.JobApplicationService
 
 @Controller("api/v1/job/applications/")
-@ExecuteOn(TaskExecutors.BLOCKING)
+@ExecuteOn(TaskExecutors.IO)
 class JobApplicationController(private val service: JobApplicationService) {
     @RolesAllowed("EMPLOYER")
     @Get("/{id:$ID_PATTERN}")
@@ -22,7 +22,7 @@ class JobApplicationController(private val service: JobApplicationService) {
         service.findByIdForEmployerClient(id, authentication)
 
     @RolesAllowed("EMPLOYER")
-    @Get("offer/{id:$ID_PATTERN}")
+    @Get("/offer/{id:$ID_PATTERN}")
     fun getByOfferId(@PathVariable id: String, authentication: Authentication) =
         service.findByOfferIdForEmployerClient(id, authentication)
 
