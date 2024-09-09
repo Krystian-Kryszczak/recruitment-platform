@@ -7,7 +7,7 @@ import io.micronaut.security.token.event.RefreshTokenGeneratedEvent
 import io.micronaut.security.token.refresh.RefreshTokenPersistence
 import jakarta.inject.Singleton
 import krystian.kryszczak.recruitment.model.security.refresh.RefreshToken
-import krystian.kryszczak.recruitment.repository.security.refresh.RefreshTokenRepository
+import krystian.kryszczak.recruitment.database.mongodb.repository.security.refresh.RefreshTokenRepository
 import org.reactivestreams.Publisher
 import reactor.core.publisher.Mono
 import reactor.core.scheduler.Schedulers

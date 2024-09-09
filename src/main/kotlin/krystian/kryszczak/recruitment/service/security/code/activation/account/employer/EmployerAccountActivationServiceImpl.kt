@@ -3,5 +3,4 @@ package krystian.kryszczak.recruitment.service.security.code.activation.account.
 import jakarta.inject.Singleton
 
 @Singleton
-class EmployerAccountActivationServiceImpl : EmployerAccountActivationService {
-}
+class EmployerAccountActivationServiceImpl : EmployerAccountActivationService

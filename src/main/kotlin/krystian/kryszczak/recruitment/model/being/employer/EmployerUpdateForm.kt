@@ -1,6 +1,5 @@
 package krystian.kryszczak.recruitment.model.being.employer
 
-import io.micronaut.core.annotation.Introspected
 import io.micronaut.serde.annotation.Serdeable
 import jakarta.validation.constraints.Max
 import krystian.kryszczak.recruitment.model.being.BeingUpdateForm
@@ -9,7 +8,6 @@ import krystian.kryszczak.recruitment.model.being.BeingUpdateForm
  * If any variable has a null value, it should not be changed.
  */
 @Serdeable
-@Introspected
 data class EmployerUpdateForm(
     val name: String? = null,
     val description: String? = null,
@@ -25,24 +23,6 @@ data class EmployerUpdateForm(
     @param:Max(20) val techStack: Array<String>? = null,
     val agreeToEmailMarketing: Boolean? = null
 ) : BeingUpdateForm<Employer, EmployerUpdateForm> {
-    override fun transform(actual: Employer, metadata: Map<String, Any>): Employer = Employer(
-        actual.id,
-        name ?: actual.name,
-        description ?: actual.description,
-        companyType ?: actual.companyType,
-        category ?: actual.category,
-        companySize ?: actual.companySize,
-        website ?: actual.website,
-        facebook ?: actual.facebook,
-        instagram ?: actual.instagram,
-        linkedIn ?: actual.linkedIn,
-        email ?: actual.email,
-        offices ?: actual.offices,
-        techStack ?: actual.techStack,
-        actual.banned,
-        agreeToEmailMarketing ?: actual.agreeToEmailMarketing
-    )
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -87,23 +67,5 @@ data class EmployerUpdateForm(
         result = 31 * result + (techStack?.contentHashCode() ?: 0)
         result = 31 * result + agreeToEmailMarketing.hashCode()
         return result
-    }
-
-    companion object : BeingUpdateForm.Mapper<Employer, EmployerUpdateForm> {
-        override fun from(item: Employer) = EmployerUpdateForm(
-            item.name,
-            item.description,
-            item.companyType,
-            item.category,
-            item.companySize,
-            item.website,
-            item.facebook,
-            item.instagram,
-            item.linkedIn,
-            item.email,
-            item.offices,
-            item.techStack,
-            item.agreeToEmailMarketing
-        )
     }
 }

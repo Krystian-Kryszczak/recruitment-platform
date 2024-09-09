@@ -4,8 +4,10 @@ import io.kotest.mpp.uniqueId
 import krystian.kryszczak.recruitment.model.being.candidate.Candidate
 import krystian.kryszczak.recruitment.model.being.employer.Employer
 import krystian.kryszczak.recruitment.model.constant.*
-import krystian.kryszczak.recruitment.model.job.application.JobApplication
-import krystian.kryszczak.recruitment.model.job.offer.JobOffer
+import krystian.kryszczak.recruitment.model.exhibit.job.application.JobApplication
+import krystian.kryszczak.recruitment.model.exhibit.job.offer.JobOffer
+import krystian.kryszczak.recruitment.model.price.Price
+import krystian.kryszczak.recruitment.model.pricing.tier.Tier
 import java.time.Duration
 import java.time.Instant
 
@@ -26,8 +28,8 @@ val candidateMock = Candidate(
     arrayOf(),
     5,
     Sex.MALE,
-    false,
-    true
+    banned = false,
+    agreeToEmailMarketing = true
 )
 
 val employerMock = Employer(
@@ -44,18 +46,19 @@ val employerMock = Employer(
     "contact@e-corp.com",
     arrayOf(),
     arrayOf(),
-    false,
-    true
+    banned = false,
+    agreeToEmailMarketing = true
 )
 
 val jobOfferMock = JobOffer(
     uniqueId(),
-    "java-senior-developer",
+    uniqueId(),
+    "Java Senior Developer",
     employerMock.id!!,
     mapOf(),
     "Java",
     TypeOfWork.FULL_TIME,
-    Experience.MID,
+    Experience.SENIOR,
     EmploymentType.B2B,
     18000,
     22000,
@@ -63,9 +66,11 @@ val jobOfferMock = JobOffer(
     mapOf("Java" to 5, "Micronaut" to 4, "Microservices" to 4),
     arrayOf("Warsaw"),
     RecruitmentType.ONLINE_INTERVIEW,
-    true,
+    OperatingMode.REMOTE,
     Instant.now().plus(Duration.ofDays(30)),
-    "e-corp-java-senior-developer"
+    setOf("e-corp-java-senior-developer"),
+    false,
+    Instant.now()
 )
 
 val jobApplicationMock = JobApplication(
@@ -74,7 +79,25 @@ val jobApplicationMock = JobApplication(
     candidateMock.id!!,
     uniqueId(),
     "Hello there!",
-    null,
     false,
     Instant.now()
+)
+
+val tierMock = Tier(
+    null,
+    "Standard",
+    Price(599.0, "PLN"),
+    false,
+    30,
+    2,
+    5,
+    4,
+    individualPromotionInSocialMedia = false,
+    individualCustomerCare = false,
+    jobAdPromotionInTechnologicalSummaries = false,
+    graphicInTheJobAd = false,
+    videoInTheJobAd = false,
+    topPriorityInSimilarAds = true,
+    topPriorityInSubscriptions = true,
+    ableToBuy = true
 )

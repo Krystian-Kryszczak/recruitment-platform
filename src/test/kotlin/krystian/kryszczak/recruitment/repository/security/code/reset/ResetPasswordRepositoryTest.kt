@@ -2,6 +2,7 @@ package krystian.kryszczak.recruitment.repository.security.code.reset
 
 import io.kotest.mpp.uniqueId
 import io.micronaut.test.extensions.kotest5.annotation.MicronautTest
+import krystian.kryszczak.recruitment.database.mongodb.repository.security.code.reset.ResetPasswordRepository
 import krystian.kryszczak.recruitment.model.security.code.reset.ResetPassword
 import krystian.kryszczak.recruitment.repository.security.code.CodeRepositoryTest
 

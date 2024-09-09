@@ -1,6 +1,5 @@
 package krystian.kryszczak.recruitment.model.being.candidate
 
-import io.micronaut.core.annotation.Introspected
 import io.micronaut.data.annotation.GeneratedValue
 import io.micronaut.data.annotation.Id
 import io.micronaut.data.annotation.MappedEntity
@@ -12,7 +11,6 @@ import krystian.kryszczak.recruitment.model.constant.Sex
 
 @Serdeable
 @MappedEntity
-@Introspected
 data class Candidate(
     @field:Id @field:GeneratedValue override val id: String? = null,
     val email: String,

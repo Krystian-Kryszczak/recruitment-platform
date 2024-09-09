@@ -1,12 +1,10 @@
 package krystian.kryszczak.recruitment.model.being.employer
 
-import io.micronaut.core.annotation.Introspected
 import io.micronaut.serde.annotation.Serdeable
 import jakarta.validation.constraints.Max
 import krystian.kryszczak.recruitment.model.being.BeingCreationForm
 
 @Serdeable
-@Introspected
 data class EmployerCreationForm(
     override val email: String,
     val name: String,
@@ -24,23 +22,6 @@ data class EmployerCreationForm(
     override val password: String,
     override val acceptRules: Boolean
 ) : BeingCreationForm<Employer, EmployerCreationForm>(email, password, acceptRules) {
-    override fun transform(metadata: Map<String, Any>): Employer = Employer(
-        null,
-        name,
-        description,
-        companyType,
-        category,
-        companySize,
-        website,
-        facebook,
-        instagram,
-        linkedIn,
-        email,
-        offices,
-        techStack,
-        agreeToEmailMarketing
-    )
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

@@ -16,7 +16,7 @@ import io.micronaut.security.endpoints.TokenRefreshRequest
 import io.micronaut.security.token.generator.RefreshTokenGenerator
 import io.micronaut.security.token.render.BearerAccessRefreshToken
 import krystian.kryszczak.recruitment.model.security.refresh.RefreshToken
-import krystian.kryszczak.recruitment.repository.security.refresh.RefreshTokenRepository
+import krystian.kryszczak.recruitment.database.mongodb.repository.security.refresh.RefreshTokenRepository
 
 class RefreshTokenRevokedTest : FreeSpec({
     val embeddedServer = ApplicationContext.run(EmbeddedServer::class.java, emptyMap())

@@ -1,11 +1,9 @@
 package krystian.kryszczak.recruitment.model.being.employer
 
-import io.micronaut.core.annotation.Introspected
 import io.micronaut.serde.annotation.Serdeable
 import krystian.kryszczak.recruitment.model.being.BeingDto
 
 @Serdeable
-@Introspected
 data class EmployerDto(
     val id: String? = null,
     val name: String,
@@ -65,23 +63,5 @@ data class EmployerDto(
         result = 31 * result + (offices?.contentHashCode() ?: 0)
         result = 31 * result + (techStack?.contentHashCode() ?: 0)
         return result
-    }
-
-    companion object : BeingDto.Mapper<Employer, EmployerDto> {
-        override fun from(item: Employer) = EmployerDto(
-            item.id,
-            item.name,
-            item.description,
-            item.companyType,
-            item.category,
-            item.companySize,
-            item.website,
-            item.facebook,
-            item.instagram,
-            item.linkedIn,
-            item.email,
-            item.offices,
-            item.techStack
-        )
     }
 }

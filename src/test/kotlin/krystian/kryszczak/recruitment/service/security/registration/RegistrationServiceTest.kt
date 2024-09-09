@@ -6,7 +6,9 @@ import krystian.kryszczak.recruitment.model.Item
 
 abstract class RegistrationServiceTest<T : Item, S : CreationForm<T, S>>(registrationService: RegistrationService<T, S>, body: FreeSpec.() -> Unit = {}) : FreeSpec({
     "register service test" - {
-        // TODO
+        "test" {
+            // TODO
+        }
     }
 
     body(this)

@@ -1,3 +1,6 @@
 package krystian.kryszczak.recruitment.model.price
 
-class Price()
+import io.micronaut.serde.annotation.Serdeable
+
+@Serdeable
+data class Price(val amount: Double, val currency: String)

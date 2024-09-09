@@ -4,6 +4,7 @@ import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.mpp.uniqueId
 import io.micronaut.test.extensions.kotest5.annotation.MicronautTest
+import krystian.kryszczak.recruitment.database.mongodb.repository.security.refresh.RefreshTokenRepository
 import krystian.kryszczak.recruitment.model.security.refresh.RefreshToken
 import krystian.kryszczak.recruitment.repository.CrudRepositoryBaseTest
 import java.time.Duration.ofHours

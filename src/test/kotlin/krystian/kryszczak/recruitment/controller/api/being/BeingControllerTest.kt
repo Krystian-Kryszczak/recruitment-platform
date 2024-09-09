@@ -108,7 +108,7 @@ abstract class BeingControllerTest<T : Being, S : BeingCreationForm<T, S>, U : B
 
     body()
 }) {
-    protected inline fun <reified R : BeingService<T, S>, reified V : T, reified W : S, reified F : U> createServiceMock(result: V): R {
+    protected inline fun <reified R : BeingService<T, S, U>, reified V : T, reified W : S, reified F : U> createServiceMock(result: V): R {
         val service = mockk<R>()
 
         every { service.save(any<V>()) } returns Mono.just(result)
@@ -117,7 +117,7 @@ abstract class BeingControllerTest<T : Being, S : BeingCreationForm<T, S>, U : B
         every { service.deleteById(any()) } returns Mono.just(Long.MAX_VALUE)
         every { service.autoDeleteByUser("sherlock", any()) } returns Mono.just(true)
 
-        every { service.update(any(), any<F>(), any()) } returns Mono.just(result)
+        every { service.update(any(), any<F>()) } returns Mono.just(result)
 
         every { service.register(any<W>(), any()) } returns Mono.just(true)
         every { service.completeActivation(any(), any()) } returns Mono.just(true)

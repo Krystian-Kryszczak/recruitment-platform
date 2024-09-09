@@ -56,6 +56,7 @@ dependencies {
     testImplementation("org.awaitility:awaitility-kotlin:4.2.0")
     testImplementation("org.testcontainers:mongodb")
     testImplementation("org.testcontainers:testcontainers")
+    testImplementation("org.wiremock.integrations.testcontainers:wiremock-testcontainers-module:1.0-alpha-13")
     aotPlugins platform("io.micronaut.platform:micronaut-platform:4.3.7")
     aotPlugins("io.micronaut.security:micronaut-security-aot")
 }

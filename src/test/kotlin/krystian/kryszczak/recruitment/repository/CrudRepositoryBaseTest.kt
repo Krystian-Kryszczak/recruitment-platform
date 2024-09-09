@@ -4,14 +4,15 @@ import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
+import krystian.kryszczak.recruitment.database.mongodb.repository.CrudRepositoryBase
 import krystian.kryszczak.recruitment.model.Item
 
 abstract class CrudRepositoryBaseTest<E : Item>(
-    repository: CrudRepositoryBase<E>,
+    repository: CrudRepositoryBase<E, String>,
     givenItems: Array<E>,
     updateMapper: (E) -> E,
     copyWithId: (item: E, id: String) -> E,
-    body: FreeSpec.() -> Unit = {}
+    body: FreeSpec.(Array<E>) -> Unit = {}
 ) : FreeSpec({
     // clean up
     afterAny {
@@ -175,5 +176,5 @@ abstract class CrudRepositoryBaseTest<E : Item>(
         }
     }
 
-    body(this)
+    body(this, givenItems)
 })

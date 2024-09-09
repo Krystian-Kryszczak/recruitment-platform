@@ -1,6 +1,5 @@
 package krystian.kryszczak.recruitment.model.being.candidate
 
-import io.micronaut.core.annotation.Introspected
 import io.micronaut.serde.annotation.Serdeable
 import jakarta.validation.constraints.Max
 import jakarta.validation.constraints.PositiveOrZero
@@ -8,7 +7,6 @@ import krystian.kryszczak.recruitment.model.being.BeingCreationForm
 import krystian.kryszczak.recruitment.model.constant.Sex
 
 @Serdeable
-@Introspected
 data class CandidateCreationForm(
     override val email: String,
     val firstName: String,
@@ -29,26 +27,6 @@ data class CandidateCreationForm(
     override val password: String,
     override val acceptRules: Boolean
 ) : BeingCreationForm<Candidate, CandidateCreationForm>(email, password, acceptRules) {
-    override fun transform(metadata: Map<String, Any>): Candidate = Candidate(
-        null,
-        email,
-        firstName,
-        lastName,
-        messageToTheEmployer,
-        linkedInProfile,
-        gitHubProfile,
-        workHistory,
-        position,
-        yearsOfExperience,
-        categories,
-        skills,
-        employmentTypeAndSalary,
-        locations,
-        englishLevel,
-        sex,
-        agreeToEmailMarketing
-    )
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

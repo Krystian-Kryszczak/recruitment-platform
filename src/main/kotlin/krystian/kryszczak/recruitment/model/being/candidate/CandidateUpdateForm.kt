@@ -1,6 +1,5 @@
 package krystian.kryszczak.recruitment.model.being.candidate
 
-import io.micronaut.core.annotation.Introspected
 import io.micronaut.serde.annotation.Serdeable
 import jakarta.validation.constraints.Max
 import jakarta.validation.constraints.PositiveOrZero
@@ -11,7 +10,6 @@ import krystian.kryszczak.recruitment.model.constant.Sex
  * If any variable has a null value, it should not be changed.
  */
 @Serdeable
-@Introspected
 data class CandidateUpdateForm(
     val email: String? = null,
     val firstName: String? = null,
@@ -30,27 +28,6 @@ data class CandidateUpdateForm(
     val sex: Sex? = null,
     val agreeToEmailMarketing: Boolean? = null
 ) : BeingUpdateForm<Candidate, CandidateUpdateForm> {
-    override fun transform(actual: Candidate, metadata: Map<String, Any>): Candidate = Candidate(
-        actual.id,
-        email ?: actual.email,
-        firstName ?: actual.firstName,
-        lastName ?: actual.lastName,
-        messageToTheEmployer ?: actual.messageToTheEmployer,
-        linkedInProfile ?: actual.linkedInProfile,
-        gitHubProfile ?: actual.gitHubProfile,
-        workHistory ?: actual.workHistory,
-        position ?: actual.position,
-        yearsOfExperience ?: actual.yearsOfExperience,
-        categories ?: actual.categories,
-        skills ?: actual.skills,
-        employmentTypeAndSalary ?: actual.employmentTypeAndSalary,
-        locations ?: actual.locations,
-        englishLevel ?: actual.englishLevel,
-        sex ?: actual.sex,
-        actual.banned,
-        agreeToEmailMarketing ?: actual.agreeToEmailMarketing
-    )
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -107,26 +84,5 @@ data class CandidateUpdateForm(
         result = 31 * result + (sex?.hashCode() ?: 0)
         result = 31 * result + (agreeToEmailMarketing?.hashCode() ?: 0)
         return result
-    }
-
-    companion object : BeingUpdateForm.Mapper<Candidate, CandidateUpdateForm> {
-        override fun from(item: Candidate) = CandidateUpdateForm(
-            item.email,
-            item.firstName,
-            item.lastName,
-            item.messageToTheEmployer,
-            item.linkedInProfile,
-            item.gitHubProfile,
-            item.workHistory,
-            item.position,
-            item.yearsOfExperience,
-            item.categories,
-            item.skills,
-            item.employmentTypeAndSalary,
-            item.locations,
-            item.englishLevel,
-            item.sex,
-            item.agreeToEmailMarketing
-        )
     }
 }

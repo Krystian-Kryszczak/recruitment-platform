@@ -3,11 +3,12 @@ package krystian.kryszczak.recruitment.service.being.candidate
 import io.micronaut.test.extensions.kotest5.annotation.MicronautTest
 import krystian.kryszczak.recruitment.model.being.candidate.Candidate
 import krystian.kryszczak.recruitment.model.being.candidate.CandidateCreationForm
+import krystian.kryszczak.recruitment.model.being.candidate.CandidateUpdateForm
 import krystian.kryszczak.recruitment.model.constant.Sex
 import krystian.kryszczak.recruitment.service.being.BeingServiceTest
 
 @MicronautTest(transactional = false)
-class CandidateServiceTest(accountService: CandidateService) : BeingServiceTest<Candidate, CandidateCreationForm>(
+class CandidateServiceTest(accountService: CandidateService) : BeingServiceTest<Candidate, CandidateCreationForm, CandidateUpdateForm>(
 accountService,
 arrayOf(
     Candidate(

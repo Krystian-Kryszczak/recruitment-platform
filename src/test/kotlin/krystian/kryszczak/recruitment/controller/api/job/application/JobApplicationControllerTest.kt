@@ -17,7 +17,7 @@ import io.micronaut.test.annotation.MockBean
 import io.micronaut.test.extensions.kotest5.annotation.MicronautTest
 import io.mockk.every
 import io.mockk.mockk
-import krystian.kryszczak.recruitment.model.job.application.JobApplication
+import krystian.kryszczak.recruitment.model.exhibit.job.application.JobApplication
 import krystian.kryszczak.recruitment.service.job.application.JobApplicationService
 import krystian.kryszczak.test.mock.jobApplicationMock
 import krystian.kryszczak.test.util.generateToken

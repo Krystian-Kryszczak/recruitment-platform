@@ -18,7 +18,7 @@ import io.micronaut.test.annotation.MockBean
 import io.micronaut.test.extensions.kotest5.annotation.MicronautTest
 import io.mockk.every
 import io.mockk.mockk
-import krystian.kryszczak.recruitment.repository.security.refresh.RefreshTokenRepository
+import krystian.kryszczak.recruitment.database.mongodb.repository.security.refresh.RefreshTokenRepository
 import krystian.kryszczak.recruitment.service.security.authentication.AuthenticationService
 import reactor.core.publisher.Mono
 

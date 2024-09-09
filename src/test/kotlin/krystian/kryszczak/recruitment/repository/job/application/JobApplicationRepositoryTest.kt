@@ -2,7 +2,8 @@ package krystian.kryszczak.recruitment.repository.job.application
 
 import io.kotest.mpp.uniqueId
 import io.micronaut.test.extensions.kotest5.annotation.MicronautTest
-import krystian.kryszczak.recruitment.model.job.application.JobApplication
+import krystian.kryszczak.recruitment.database.mongodb.repository.exhibit.job.application.JobApplicationRepository
+import krystian.kryszczak.recruitment.model.exhibit.job.application.JobApplication
 import krystian.kryszczak.recruitment.repository.CrudRepositoryBaseTest
 
 @MicronautTest(transactional = false)

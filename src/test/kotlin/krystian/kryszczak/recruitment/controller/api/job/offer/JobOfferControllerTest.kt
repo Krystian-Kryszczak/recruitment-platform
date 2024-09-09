@@ -18,16 +18,15 @@ import io.micronaut.test.extensions.kotest5.annotation.MicronautTest
 import io.mockk.every
 import io.mockk.mockk
 import krystian.kryszczak.recruitment.model.constant.*
-import krystian.kryszczak.recruitment.model.job.offer.JobOffer
-import krystian.kryszczak.recruitment.model.job.offer.JobOfferCreationForm
-import krystian.kryszczak.recruitment.model.job.offer.JobOfferUpdateForm
+import krystian.kryszczak.recruitment.model.exhibit.job.offer.JobOffer
+import krystian.kryszczak.recruitment.model.exhibit.job.offer.JobOfferCreationForm
+import krystian.kryszczak.recruitment.model.exhibit.job.offer.JobOfferUpdateForm
 import krystian.kryszczak.recruitment.service.job.offer.JobOfferService
 import krystian.kryszczak.test.mock.jobOfferMock
+import krystian.kryszczak.test.mock.tierMock
 import krystian.kryszczak.test.util.generateToken
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
-import java.time.Instant
-import java.time.temporal.ChronoUnit
 
 @MicronautTest(transactional = false)
 class JobOfferControllerTest(@Client("/api/v1/job/offers/") client: HttpClient, generator: TokenGenerator) : FreeSpec({
@@ -97,7 +96,7 @@ class JobOfferControllerTest(@Client("/api/v1/job/offers/") client: HttpClient, 
                     HttpRequest.POST(
                         "/",
                          JobOfferCreationForm(
-                            Tier.Basic,
+                            tierMock.id!!,
                             "Junior Java Developer",
                             mapOf(),
                             "Java",
@@ -110,8 +109,7 @@ class JobOfferControllerTest(@Client("/api/v1/job/offers/") client: HttpClient, 
                             mapOf("Java" to 5, "Micronaut" to 4, "Apache Cassandra" to 3),
                             arrayOf("Warsaw", "Poznań", "Gdańsk", "Toruń"),
                             RecruitmentType.ONLINE_INTERVIEW,
-                            false,
-                            Instant.now().plus(30, ChronoUnit.DAYS)
+                            OperatingMode.ON_SITE
                         )
                     ).bearerAuth(generateToken(listOf("EMPLOYER"), generator)),
                     JobOffer::class.java
@@ -127,7 +125,7 @@ class JobOfferControllerTest(@Client("/api/v1/job/offers/") client: HttpClient, 
                         HttpRequest.POST(
                             "/",
                             JobOfferCreationForm(
-                                Tier.Basic,
+                                tierMock.id!!,
                                 "Junior Java Developer",
                                 mapOf(),
                                 "Java",
@@ -140,8 +138,7 @@ class JobOfferControllerTest(@Client("/api/v1/job/offers/") client: HttpClient, 
                                 mapOf("Java" to 5, "Micronaut" to 4, "Apache Cassandra" to 3),
                                 arrayOf("Warsaw", "Poznań", "Gdańsk", "Toruń"),
                                 RecruitmentType.ONLINE_INTERVIEW,
-                                false,
-                                Instant.now().plus(30, ChronoUnit.DAYS)
+                                OperatingMode.ON_SITE
                             )
                         ),
                         JobOffer::class.java
@@ -168,7 +165,7 @@ class JobOfferControllerTest(@Client("/api/v1/job/offers/") client: HttpClient, 
                             mapOf("Java" to 5, "Micronaut" to 4, "Apache Cassandra" to 3),
                             arrayOf("Warsaw", "Poznań", "Gdańsk", "Toruń"),
                             RecruitmentType.ONLINE_INTERVIEW,
-                            false
+                            OperatingMode.REMOTE
                         )
                     ).bearerAuth(generateToken(listOf("EMPLOYER"), generator)),
                     String::class.java

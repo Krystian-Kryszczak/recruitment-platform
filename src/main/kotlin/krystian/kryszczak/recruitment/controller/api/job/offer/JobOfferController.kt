@@ -9,9 +9,9 @@ import jakarta.annotation.security.PermitAll
 import jakarta.annotation.security.RolesAllowed
 import jakarta.validation.Valid
 import krystian.kryszczak.recruitment.controller.api.ID_PATTERN
-import krystian.kryszczak.recruitment.model.job.offer.JobOfferCreationForm
-import krystian.kryszczak.recruitment.model.job.offer.JobOfferQuery
-import krystian.kryszczak.recruitment.model.job.offer.JobOfferUpdateForm
+import krystian.kryszczak.recruitment.model.exhibit.job.offer.JobOfferCreationForm
+import krystian.kryszczak.recruitment.model.exhibit.job.offer.JobOfferQuery
+import krystian.kryszczak.recruitment.model.exhibit.job.offer.JobOfferUpdateForm
 import krystian.kryszczak.recruitment.service.job.offer.JobOfferService
 
 @PermitAll

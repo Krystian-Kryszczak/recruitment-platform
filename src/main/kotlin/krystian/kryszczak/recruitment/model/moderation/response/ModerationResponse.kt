@@ -5,4 +5,4 @@ import io.micronaut.serde.annotation.Serdeable
 
 @Serdeable
 @Introspected
-class ModerationResponse(val id: String, val model: String, val result: ModerationResults)
+class ModerationResponse(val id: String, val model: String, val results: List<ModerationResults>)

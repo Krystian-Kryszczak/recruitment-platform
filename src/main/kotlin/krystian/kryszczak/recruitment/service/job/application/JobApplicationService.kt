@@ -1,7 +1,7 @@
 package krystian.kryszczak.recruitment.service.job.application
 
 import io.micronaut.security.authentication.Authentication
-import krystian.kryszczak.recruitment.model.job.application.JobApplication
+import krystian.kryszczak.recruitment.model.exhibit.job.application.JobApplication
 import krystian.kryszczak.recruitment.service.DataAccessService
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono

@@ -2,6 +2,7 @@ package krystian.kryszczak.recruitment.repository.security.code.activation.being
 
 import io.kotest.mpp.uniqueId
 import io.micronaut.test.extensions.kotest5.annotation.MicronautTest
+import krystian.kryszczak.recruitment.database.mongodb.repository.security.code.activation.being.candidate.CandidateActivationRepository
 import krystian.kryszczak.recruitment.model.being.candidate.CandidateCreationForm
 import krystian.kryszczak.recruitment.model.security.code.activation.being.candidate.CandidateActivation
 import krystian.kryszczak.recruitment.repository.security.code.activation.being.BeingActivationRepositoryTest

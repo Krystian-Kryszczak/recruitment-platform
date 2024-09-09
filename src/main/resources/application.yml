@@ -1,6 +1,11 @@
 micronaut:
   application:
     name: recruitment-platform
+  http:
+    services:
+      open-ai:
+        url: https://api.openai.com
+        read-timeout: 60s
   router:
     static-resources:
       default:

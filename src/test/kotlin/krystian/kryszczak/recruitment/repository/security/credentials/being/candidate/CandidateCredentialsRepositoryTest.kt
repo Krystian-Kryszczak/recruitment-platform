@@ -1,6 +1,7 @@
 package krystian.kryszczak.recruitment.repository.security.credentials.being.candidate
 
 import io.micronaut.test.extensions.kotest5.annotation.MicronautTest
+import krystian.kryszczak.recruitment.database.mongodb.repository.security.credentials.being.candidate.CandidateCredentialsRepository
 import krystian.kryszczak.recruitment.model.security.credentials.being.candidate.CandidateCredentials
 import krystian.kryszczak.recruitment.repository.security.credentials.being.BeingCredentialsRepositoryTest
 

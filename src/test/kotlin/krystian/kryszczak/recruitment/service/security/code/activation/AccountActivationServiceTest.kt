@@ -5,7 +5,9 @@ import krystian.kryszczak.recruitment.service.security.code.activation.account.A
 
 abstract class AccountActivationServiceTest(accountActivationService: AccountActivationService, body: FreeSpec.() -> Unit = {}) : FreeSpec({
     "account activation service test" - {
-        // TODO
+        "test" {
+            // TODO
+        }
     }
 
     body(this)

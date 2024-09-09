@@ -9,31 +9,34 @@ import jakarta.annotation.security.PermitAll
 import jakarta.validation.Valid
 import krystian.kryszczak.recruitment.controller.api.ID_PATTERN
 import krystian.kryszczak.recruitment.extension.authentication.getClientId
+import krystian.kryszczak.recruitment.mapper.being.BeingMapper
 import krystian.kryszczak.recruitment.model.being.Being
 import krystian.kryszczak.recruitment.model.being.BeingCreationForm
 import krystian.kryszczak.recruitment.model.being.BeingDto
 import krystian.kryszczak.recruitment.model.being.BeingUpdateForm
+import krystian.kryszczak.recruitment.model.security.code.activation.being.BeingActivation
+import krystian.kryszczak.recruitment.model.security.credentials.being.BeingCredentials
 import krystian.kryszczak.recruitment.service.being.BeingService
 import reactor.core.publisher.Mono
 
-abstract class BeingController<T : Being, S : BeingCreationForm<T, S>, U : BeingUpdateForm<T, U>, V : BeingDto<T, V>>(
-    private val service: BeingService<T, S>,
-    private val dtoMapper: BeingDto.Mapper<T, V>
+abstract class BeingController<T : Being, S : BeingCreationForm<T, S>, U : BeingUpdateForm<T, U>, V : BeingDto<T, V>, C : BeingCredentials, A : BeingActivation<T, S, C>>(
+    private val service: BeingService<T, S, U>,
+    private val dtoMapper: BeingMapper<T, V, S, U, C, A>
 ) {
     @PermitAll
     @Get("{/id:$ID_PATTERN}")
     fun findById(id: String?, authentication: Authentication?) = handleWithIdPermitAll(authentication) { clientId ->
         (id ?: clientId)?.let { id ->
             service.findById(id)
-                .map { HttpResponse.ok(dtoMapper.from(it)) }
+                .map { HttpResponse.ok(dtoMapper.mapToDto(it)) }
                 .defaultIfEmpty(HttpResponse.notFound())
         } ?: Mono.just(HttpResponse.status(HttpStatus.NO_CONTENT))
     }
 
     @Put(consumes = [MediaType.APPLICATION_FORM_URLENCODED])
     open fun update(@Valid @RequestBean bean: U, authentication: Authentication) = handleWithId(authentication) { id ->
-        service.update(id, bean, authentication.attributes ?: mapOf())
-            .map { HttpResponse.ok(dtoMapper.from(it)) }
+        service.update(id, bean)
+            .map { HttpResponse.ok(dtoMapper.mapToDto(it)) }
             .defaultIfEmpty(HttpResponse.serverError())
     }
 

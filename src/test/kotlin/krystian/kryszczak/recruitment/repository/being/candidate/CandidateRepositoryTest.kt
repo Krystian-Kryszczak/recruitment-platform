@@ -1,6 +1,7 @@
 package krystian.kryszczak.recruitment.repository.being.candidate
 
 import io.micronaut.test.extensions.kotest5.annotation.MicronautTest
+import krystian.kryszczak.recruitment.database.mongodb.repository.being.candidate.CandidateRepository
 import krystian.kryszczak.recruitment.model.being.candidate.Candidate
 import krystian.kryszczak.recruitment.model.constant.Sex
 import krystian.kryszczak.recruitment.repository.being.BeingRepositoryTest
