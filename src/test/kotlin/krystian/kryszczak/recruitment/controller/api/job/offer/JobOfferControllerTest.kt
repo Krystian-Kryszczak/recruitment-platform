@@ -30,7 +30,7 @@ import reactor.core.publisher.Mono
 
 @MicronautTest(transactional = false)
 class JobOfferControllerTest(@Client("/api/v1/job/offers/") client: HttpClient, generator: TokenGenerator) : FreeSpec({
-    "job offer controller" - {
+    "job offer controller test" - {
         "search" - {
             "should return job offer list" {
                 val result = client.toBlocking().exchange(

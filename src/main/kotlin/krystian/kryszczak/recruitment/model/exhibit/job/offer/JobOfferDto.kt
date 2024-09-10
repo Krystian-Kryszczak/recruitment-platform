@@ -50,9 +50,7 @@ data class JobOfferDto(
         } else if (other.places != null) return false
         if (recruitmentType != other.recruitmentType) return false
         if (operatingMode != other.operatingMode) return false
-        if (expires != other.expires) return false
         if (path != other.path) return false
-        if (dateCreated != other.dateCreated) return false
 
         return true
     }
@@ -73,9 +71,7 @@ data class JobOfferDto(
         result = 31 * result + (places?.contentHashCode() ?: 0)
         result = 31 * result + recruitmentType.hashCode()
         result = 31 * result + operatingMode.hashCode()
-        result = 31 * result + expires.hashCode()
         result = 31 * result + path.hashCode()
-        result = 31 * result + (dateCreated?.hashCode() ?: 0)
         return result
     }
 }

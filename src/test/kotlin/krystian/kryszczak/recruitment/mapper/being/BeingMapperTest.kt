@@ -1,6 +1,8 @@
 package krystian.kryszczak.recruitment.mapper.being
 
 import io.kotest.core.spec.style.FreeSpec
+import io.kotest.matchers.nulls.shouldNotBeNull
+import io.kotest.matchers.shouldBe
 import krystian.kryszczak.recruitment.mapper.ItemMapperTest
 import krystian.kryszczak.recruitment.model.being.Being
 import krystian.kryszczak.recruitment.model.being.BeingCreationForm
@@ -15,6 +17,9 @@ abstract class BeingMapperTest<T : Being, S : BeingDto<T, S>, V : BeingCreationF
     actualAndUpdateFormAndExcepted: Triple<T, U, T>,
     itemAndExceptedDto: Pair<T, S>,
     itemAndExceptedUpdateForm: Pair<T, U>,
+    activationAndExceptedBeing: Pair<A, T>,
+    activationAndExceptedCredentials: Pair<A, C>,
+    copyId: (item: T, id: String) -> T,
     body: FreeSpec.() -> Unit = {}
 ) : ItemMapperTest<T, S, V, U, String>(
     itemMapper,
@@ -22,10 +27,32 @@ abstract class BeingMapperTest<T : Being, S : BeingDto<T, S>, V : BeingCreationF
     actualAndUpdateFormAndExcepted,
     itemAndExceptedDto,
     itemAndExceptedUpdateForm,
+    copyId,
 {
     "being mapper test" - {
+        "map to origin item" {
+            // given
+            val (activation, excepted) = activationAndExceptedBeing
+
+            // when
+            val result = itemMapper.mapToOriginItem(activation)
+                .block()
+
+            // then
+            result.shouldNotBeNull()
+                .shouldBe(excepted)
+        }
+
         "map to credentials" {
-            // TODO
+            // given
+            val (activation, excepted) = activationAndExceptedCredentials
+
+            // when
+            val result = itemMapper.mapToCredentials(activation)
+
+            // then
+            result.shouldNotBeNull()
+                .shouldBe(excepted)
         }
     }
 

@@ -1,11 +1,9 @@
 package krystian.kryszczak.recruitment.service.blob
 
-import io.micronaut.http.HttpResponse
 import io.micronaut.http.multipart.StreamingFileUpload
 import jakarta.inject.Singleton
 import org.reactivestreams.Publisher
 import reactor.core.publisher.Mono
-import java.util.*
 
 @Singleton
 class DefaultBlobStorageService : BlobStorageService {
@@ -14,7 +12,7 @@ class DefaultBlobStorageService : BlobStorageService {
         id: String,
         files: Publisher<StreamingFileUpload>,
         clientId: String
-    ): Mono<out HttpResponse<UUID>> {
+    ): Mono<String> {
         TODO("Not yet implemented")
     }
 }

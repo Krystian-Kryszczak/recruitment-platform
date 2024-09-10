@@ -84,7 +84,7 @@ val jobApplicationMock = JobApplication(
 )
 
 val tierMock = Tier(
-    null,
+    "<tier-mock-id>",
     "Standard",
     Price(599.0, "PLN"),
     false,

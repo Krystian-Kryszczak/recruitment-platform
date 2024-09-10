@@ -32,7 +32,7 @@ class DefaultJobApplicationMapper(
                 id,
                 offerId,
                 doerId,
-                id,
+                it,
                 messageToRecruiter,
                 banned,
                 null

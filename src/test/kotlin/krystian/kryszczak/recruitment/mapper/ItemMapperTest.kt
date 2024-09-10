@@ -14,6 +14,7 @@ abstract class ItemMapperTest<T : Item, S : Dto<T, S>, V : CreationForm<T, V>, U
     actualAndUpdateFormAndExcepted: Triple<T, U, T>,
     itemAndExceptedDto: Pair<T, S>,
     itemAndExceptedUpdateForm: Pair<T, U>,
+    copyId: (item: T, id: ID) -> T,
     body: FreeSpec.() -> Unit = {}
 ) : FreeSpec({
     "item mapper test" - {
@@ -27,7 +28,7 @@ abstract class ItemMapperTest<T : Item, S : Dto<T, S>, V : CreationForm<T, V>, U
 
             // then
             result.shouldNotBeNull()
-                .shouldBe(excepted)
+                .shouldBe(copyId(excepted, result.id as ID))
         }
 
         "map to origin item (actual, updateForm)" {

@@ -13,6 +13,7 @@ abstract class ExhibitMapperTest<T : Exhibit, S : ExhibitDto<T, S>, V : ExhibitC
     actualAndUpdateFormAndExcepted: Triple<T, U, T>,
     itemAndExceptedDto: Pair<T, S>,
     itemAndExceptedUpdateForm: Pair<T, U>,
+    copyId: (item: T, id: String) -> T,
     body: FreeSpec.() -> Unit = {}
 ) : ItemMapperTest<T, S, V, U, String>(
     itemMapper,
@@ -20,5 +21,6 @@ abstract class ExhibitMapperTest<T : Exhibit, S : ExhibitDto<T, S>, V : ExhibitC
     actualAndUpdateFormAndExcepted,
     itemAndExceptedDto,
     itemAndExceptedUpdateForm,
+    copyId,
     body
 )

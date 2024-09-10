@@ -196,7 +196,8 @@ ExhibitMapperTest<JobOffer, JobOfferDto, JobOfferCreationForm, JobOfferUpdateFor
             RecruitmentType.ONLINE_INTERVIEW,
             OperatingMode.REMOTE
         )
-    )
+    ),
+    { item, id -> item.copy(id = id) }
 ) {
     @MockBean(JobOfferPathService::class)
     fun jobOfferPathService(): JobOfferPathService {
