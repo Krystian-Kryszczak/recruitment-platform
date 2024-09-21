@@ -1,16 +1,20 @@
 package krystian.kryszczak.recruitment.model.being.candidate
 
 import io.micronaut.serde.annotation.Serdeable
+import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.Max
+import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.PositiveOrZero
+import krystian.kryszczak.recruitment.controller.api.PHONE_NUMBER_REGEX
 import krystian.kryszczak.recruitment.model.being.BeingCreationForm
 import krystian.kryszczak.recruitment.model.constant.Sex
 
 @Serdeable
 data class CandidateCreationForm(
-    override val email: String,
+    @param:Email override val email: String,
     val firstName: String,
     val lastName: String,
+    @param:Pattern(regexp = PHONE_NUMBER_REGEX) val phoneNumber: String? = null,
     @param:Max(1000) val messageToTheEmployer: String? = null,
     val linkedInProfile: String? = null,
     val gitHubProfile: String? = null,
@@ -27,6 +31,23 @@ data class CandidateCreationForm(
     override val password: String,
     override val acceptRules: Boolean
 ) : BeingCreationForm<Candidate, CandidateCreationForm>(email, password, acceptRules) {
+    override fun extractPureTextContent(): StringBuilder = with(StringBuilder()) {
+        append(email).append(" ")
+        append(firstName).append(" ")
+        append(lastName)
+        phoneNumber?.let { append(" ").append(it) }
+        messageToTheEmployer?.let { append(" ").append(it) }
+        linkedInProfile?.let { append(" ").append(it) }
+        gitHubProfile?.let { append(" ").append(it) }
+        workHistory?.forEach { append(" ").append(it) }
+        position?.let { append(" ").append(it) }
+        categories?.forEach { append(" ").append(it) }
+        skills?.forEach { append(" ").append(it) }
+        employmentTypeAndSalary?.forEach { (k, v) -> append(" ").append("$k : $v") }
+        locations?.forEach { append(" ").append(it) }
+        this
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

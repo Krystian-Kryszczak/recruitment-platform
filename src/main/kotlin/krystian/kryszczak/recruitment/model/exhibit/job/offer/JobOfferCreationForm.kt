@@ -17,10 +17,20 @@ data class JobOfferCreationForm(
     val maxEarningsPerMonth: Int,
     val currency: String,
     val techStack: Map<String, Byte>?,
-    val places: Array<String>?,
+    val locations: Array<String>?,
     val recruitmentType: RecruitmentType,
     val operatingMode: OperatingMode
 ) : ExhibitCreationForm<JobOffer, JobOfferCreationForm> {
+    override fun extractPureTextContent(): StringBuilder = with(StringBuilder()) {
+        append(title)
+        description.forEach { (k, v) -> append(" ").append("$k : $v") }
+        append(" ").append(mainTechnology)
+        append(" ").append(currency)
+        techStack?.keys?.forEach { append(" ").append(it) }
+        locations?.forEach { append(" ").append(it) }
+        this
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -36,10 +46,10 @@ data class JobOfferCreationForm(
         if (minEarningsPerMonth != other.minEarningsPerMonth) return false
         if (maxEarningsPerMonth != other.maxEarningsPerMonth) return false
         if (techStack != other.techStack) return false
-        if (places != null) {
-            if (other.places == null) return false
-            if (!places.contentEquals(other.places)) return false
-        } else if (other.places != null) return false
+        if (locations != null) {
+            if (other.locations == null) return false
+            if (!locations.contentEquals(other.locations)) return false
+        } else if (other.locations != null) return false
         if (recruitmentType != other.recruitmentType) return false
         if (operatingMode != other.operatingMode) return false
 
@@ -56,7 +66,7 @@ data class JobOfferCreationForm(
         result = 31 * result + minEarningsPerMonth
         result = 31 * result + maxEarningsPerMonth
         result = 31 * result + (techStack?.hashCode() ?: 0)
-        result = 31 * result + (places?.contentHashCode() ?: 0)
+        result = 31 * result + (locations?.contentHashCode() ?: 0)
         result = 31 * result + recruitmentType.hashCode()
         result = 31 * result + operatingMode.hashCode()
         return result

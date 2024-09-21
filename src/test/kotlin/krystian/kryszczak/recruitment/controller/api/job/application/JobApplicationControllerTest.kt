@@ -18,7 +18,7 @@ import io.micronaut.test.extensions.kotest5.annotation.MicronautTest
 import io.mockk.every
 import io.mockk.mockk
 import krystian.kryszczak.recruitment.model.exhibit.job.application.JobApplication
-import krystian.kryszczak.recruitment.service.job.application.JobApplicationService
+import krystian.kryszczak.recruitment.service.exhibit.job.application.JobApplicationService
 import krystian.kryszczak.test.mock.jobApplicationMock
 import krystian.kryszczak.test.util.generateToken
 import reactor.core.publisher.Flux
@@ -143,8 +143,8 @@ class JobApplicationControllerTest(@Client("/api/v1/job/applications/") client: 
         val service = mockk<JobApplicationService>()
 
         every { service.findByIdForEmployerClient(any(), any()) } returns Mono.just(jobApplicationMock)
-        every { service.findByOfferIdForEmployerClient(any(), any()) } returns Flux.just(jobApplicationMock)
-        every { service.findPublishedByCandidateClient(any()) } returns Flux.just(jobApplicationMock)
+        every { service.findByOfferIdForEmployerClient(any(), any(), any()) } returns Flux.just(jobApplicationMock)
+        every { service.findPublishedByCandidateClient(any(), any()) } returns Flux.just(jobApplicationMock)
         every { service.deleteOwnByIdForCandidateClient(any(), any()) } returns Mono.just(true)
 
         return service

@@ -10,10 +10,10 @@ import krystian.kryszczak.recruitment.repository.CrudRepositoryBaseTest
 class JobApplicationRepositoryTest(repository: JobApplicationRepository) : CrudRepositoryBaseTest<JobApplication>(
 repository,
 arrayOf(
-    JobApplication(null, uniqueId(), uniqueId(), uniqueId(), "Hello world!"),
-    JobApplication(null, uniqueId(), uniqueId(), uniqueId(), "Hello there!"),
-    JobApplication(null, uniqueId(), uniqueId(), uniqueId()),
-    JobApplication(null, uniqueId(), uniqueId(), uniqueId())
+    JobApplication(null, uniqueId(), uniqueId(), "John", "Smith", "john.smith@gmail.com"),
+    JobApplication(null, uniqueId(), uniqueId(), "Jack", "Smith", "jack.smith@gmail.com"),
+    JobApplication(null, uniqueId(), uniqueId(), "Jerry", "Smith", "jerry.smith@gmail.com"),
+    JobApplication(null, uniqueId(), uniqueId(), "Ariana", "Watson", "ariana.watson@gmail.com")
 ),
 { it.copy(offerId = "${it.offerId} - ${it.offerId}") },
 { item, id -> item.copy(id = id) })

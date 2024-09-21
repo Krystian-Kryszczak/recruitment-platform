@@ -5,7 +5,7 @@ import krystian.kryszczak.recruitment.database.mongodb.repository.being.BeingRep
 import krystian.kryszczak.recruitment.model.being.Being
 import krystian.kryszczak.recruitment.repository.CrudRepositoryBaseTest
 
-abstract class BeingRepositoryTest<E : Being>(
+abstract class BeingRepositoryTest<E : Being<E>>(
     repository: BeingRepository<E>,
     givenItems: Array<E>,
     updateMapper: (E) -> E,

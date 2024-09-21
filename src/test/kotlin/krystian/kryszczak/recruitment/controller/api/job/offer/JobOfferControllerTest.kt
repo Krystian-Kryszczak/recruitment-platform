@@ -21,7 +21,7 @@ import krystian.kryszczak.recruitment.model.constant.*
 import krystian.kryszczak.recruitment.model.exhibit.job.offer.JobOffer
 import krystian.kryszczak.recruitment.model.exhibit.job.offer.JobOfferCreationForm
 import krystian.kryszczak.recruitment.model.exhibit.job.offer.JobOfferUpdateForm
-import krystian.kryszczak.recruitment.service.job.offer.JobOfferService
+import krystian.kryszczak.recruitment.service.exhibit.job.offer.JobOfferService
 import krystian.kryszczak.test.mock.jobOfferMock
 import krystian.kryszczak.test.mock.tierMock
 import krystian.kryszczak.test.util.generateToken

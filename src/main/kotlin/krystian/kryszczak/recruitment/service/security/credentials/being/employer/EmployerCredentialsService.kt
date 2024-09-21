@@ -1,6 +1,6 @@
 package krystian.kryszczak.recruitment.service.security.credentials.being.employer
 
 import krystian.kryszczak.recruitment.model.security.credentials.being.employer.EmployerCredentials
-import krystian.kryszczak.recruitment.service.security.credentials.CredentialsService
+import krystian.kryszczak.recruitment.service.security.credentials.being.BeingCredentialsService
 
-interface EmployerCredentialsService : CredentialsService<EmployerCredentials>
+interface EmployerCredentialsService : BeingCredentialsService<EmployerCredentials>

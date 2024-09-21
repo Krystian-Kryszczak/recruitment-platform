@@ -1,12 +1,10 @@
 package krystian.kryszczak.recruitment.model.security.credentials.being
 
-import io.micronaut.core.annotation.Introspected
 import io.micronaut.serde.annotation.Serdeable
 import krystian.kryszczak.recruitment.model.security.credentials.Credentials
 import java.beans.Transient
 
 @Serdeable
-@Introspected
 abstract class BeingCredentials(
     override val id: String? = null,
     open val username: String? = null,

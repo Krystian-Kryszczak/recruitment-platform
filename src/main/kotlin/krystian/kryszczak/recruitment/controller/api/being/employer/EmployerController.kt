@@ -13,9 +13,10 @@ import krystian.kryszczak.recruitment.model.being.employer.EmployerUpdateForm
 import krystian.kryszczak.recruitment.model.security.code.activation.being.employer.EmployerActivation
 import krystian.kryszczak.recruitment.model.security.credentials.being.employer.EmployerCredentials
 import krystian.kryszczak.recruitment.service.being.employer.EmployerService
+import krystian.kryszczak.recruitment.service.security.registration.being.employer.EmployerRegistrationService
 
 @RolesAllowed("EMPLOYER")
 @Controller("api/v1/employer/")
 @ExecuteOn(TaskExecutors.IO)
-open class EmployerController(service: EmployerService, mapper: EmployerMapper) :
-    BeingController<Employer, EmployerCreationForm, EmployerUpdateForm, EmployerDto, EmployerCredentials, EmployerActivation>(service, mapper)
+open class EmployerController(service: EmployerService, registrationService: EmployerRegistrationService, mapper: EmployerMapper) :
+    BeingController<Employer, EmployerCreationForm, EmployerUpdateForm, EmployerDto, EmployerCredentials, EmployerActivation>(service, registrationService, mapper)

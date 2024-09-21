@@ -19,10 +19,20 @@ data class JobOfferUpdateForm(
     val maxEarningsPerMonth: Int? = null,
     val currency: String? = null,
     val techStack: Map<String, Byte>? = null,
-    val places: Array<String>? = null,
+    val locations: Array<String>? = null,
     val recruitmentType: RecruitmentType? = null,
     val operatingMode: OperatingMode? = null
 ) : ExhibitUpdateForm<JobOffer, JobOfferUpdateForm> {
+    override fun extractPureTextContent(actual: JobOffer): StringBuilder = with(StringBuilder()) {
+        (title ?: actual.title).let(::append)
+        (description ?: actual.description).forEach { (k, v) -> append(" ").append("$k : $v") }
+        (mainTechnology ?: actual.mainTechnology).let { append(" ").append(it) }
+        (currency ?: actual.currency).let { append(" ").append(it) }
+        (techStack ?: actual.techStack)?.keys?.forEach { append(" ").append(it) }
+        (locations ?: actual.locations)?.forEach { append(" ").append(it) }
+        this
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -39,10 +49,10 @@ data class JobOfferUpdateForm(
         if (maxEarningsPerMonth != other.maxEarningsPerMonth) return false
         if (currency != other.currency) return false
         if (techStack != other.techStack) return false
-        if (places != null) {
-            if (other.places == null) return false
-            if (!places.contentEquals(other.places)) return false
-        } else if (other.places != null) return false
+        if (locations != null) {
+            if (other.locations == null) return false
+            if (!locations.contentEquals(other.locations)) return false
+        } else if (other.locations != null) return false
         if (recruitmentType != other.recruitmentType) return false
         if (operatingMode != other.operatingMode) return false
 
@@ -60,7 +70,7 @@ data class JobOfferUpdateForm(
         result = 31 * result + (maxEarningsPerMonth ?: 0)
         result = 31 * result + (currency?.hashCode() ?: 0)
         result = 31 * result + (techStack?.hashCode() ?: 0)
-        result = 31 * result + (places?.contentHashCode() ?: 0)
+        result = 31 * result + (locations?.contentHashCode() ?: 0)
         result = 31 * result + (recruitmentType?.hashCode() ?: 0)
         result = 31 * result + (operatingMode?.hashCode() ?: 0)
         return result

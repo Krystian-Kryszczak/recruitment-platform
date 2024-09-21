@@ -13,12 +13,16 @@ import io.mockk.every
 import io.mockk.mockk
 import krystian.kryszczak.recruitment.model.being.Being
 import krystian.kryszczak.recruitment.model.being.BeingCreationForm
+import krystian.kryszczak.recruitment.model.being.BeingDto
 import krystian.kryszczak.recruitment.model.being.BeingUpdateForm
+import krystian.kryszczak.recruitment.model.security.code.activation.being.BeingActivation
+import krystian.kryszczak.recruitment.model.security.credentials.being.BeingCredentials
 import krystian.kryszczak.recruitment.service.being.BeingService
+import krystian.kryszczak.recruitment.service.security.registration.being.BeingRegistrationService
 import krystian.kryszczak.test.util.generateToken
 import reactor.core.publisher.Mono
 
-abstract class BeingControllerTest<T : Being, S : BeingCreationForm<T, S>, U : BeingUpdateForm<T, U>>(
+abstract class BeingControllerTest<T : Being<T>, S : BeingCreationForm<T, S>, U : BeingUpdateForm<T, U>, D : BeingDto<T, D>, C : BeingCredentials, A : BeingActivation<T, S, C>>(
     client: HttpClient,
     tokenGenerator: JwtTokenGenerator,
     updateForm: () -> U,
@@ -108,20 +112,22 @@ abstract class BeingControllerTest<T : Being, S : BeingCreationForm<T, S>, U : B
 
     body()
 }) {
-    protected inline fun <reified R : BeingService<T, S, U>, reified V : T, reified W : S, reified F : U> createServiceMock(result: V): R {
-        val service = mockk<R>()
+    protected inline fun <reified R : BeingService<T, S, U>, reified V : T, reified F : U> createBeingServiceMock(result: V): R {
+        return mockk<R> {
+            every { save(any<V>()) } returns Mono.just(result)
 
-        every { service.save(any<V>()) } returns Mono.just(result)
+            every { findById(any()) } returns Mono.just(result)
+            every { deleteById(any()) } returns Mono.just(Long.MAX_VALUE)
+            every { autoDeleteByUser("sherlock", any()) } returns Mono.just(true)
 
-        every { service.findById(any()) } returns Mono.just(result)
-        every { service.deleteById(any()) } returns Mono.just(Long.MAX_VALUE)
-        every { service.autoDeleteByUser("sherlock", any()) } returns Mono.just(true)
+            every { update(any(), any<F>()) } returns Mono.just(result)
+        }
+    }
 
-        every { service.update(any(), any<F>()) } returns Mono.just(result)
-
-        every { service.register(any<W>(), any()) } returns Mono.just(true)
-        every { service.completeActivation(any(), any()) } returns Mono.just(true)
-
-        return service
+    protected inline fun <reified R : BeingRegistrationService<T, S, U, D, C, A>, reified W : S> createBeingRegistrationServiceMock(): R {
+        return mockk<R> {
+            every { register(any<W>()) } returns Mono.just(true)
+            every { completeAccountActivation(any(), any()) } returns Mono.just(true)
+        }
     }
 }

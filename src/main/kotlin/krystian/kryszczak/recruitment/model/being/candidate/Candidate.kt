@@ -4,6 +4,7 @@ import io.micronaut.data.annotation.GeneratedValue
 import io.micronaut.data.annotation.Id
 import io.micronaut.data.annotation.MappedEntity
 import io.micronaut.serde.annotation.Serdeable
+import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.Max
 import jakarta.validation.constraints.PositiveOrZero
 import krystian.kryszczak.recruitment.model.being.Being
@@ -13,9 +14,10 @@ import krystian.kryszczak.recruitment.model.constant.Sex
 @MappedEntity
 data class Candidate(
     @field:Id @field:GeneratedValue override val id: String? = null,
-    val email: String,
+    @param:Email override val email: String,
     val firstName: String,
     val lastName: String,
+    val phoneNumber: String? = null,
     @param:Max(1000) val messageToTheEmployer: String? = null,
     val linkedInProfile: String? = null,
     val gitHubProfile: String? = null,
@@ -30,7 +32,12 @@ data class Candidate(
     val sex: Sex? = null,
     val banned: Boolean = false,
     val agreeToEmailMarketing: Boolean = false
-) : Being(id) {
+) : Being<Candidate>(id) {
+    override fun isBanned(): Boolean = banned
+    override fun isNotBanned(): Boolean = !isBanned()
+    override fun copyBanned(): Candidate = copy(banned = true)
+    override fun copyUnbanned(): Candidate = copy(banned = false)
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -49,6 +56,7 @@ data class Candidate(
             if (!workHistory.contentEquals(other.workHistory)) return false
         } else if (other.workHistory != null) return false
         if (position != other.position) return false
+        if (phoneNumber != other.phoneNumber) return false
         if (yearsOfExperience != other.yearsOfExperience) return false
         if (categories != null) {
             if (other.categories == null) return false
@@ -81,6 +89,7 @@ data class Candidate(
         result = 31 * result + (gitHubProfile?.hashCode() ?: 0)
         result = 31 * result + (workHistory?.contentHashCode() ?: 0)
         result = 31 * result + (position?.hashCode() ?: 0)
+        result = 31 * result + phoneNumber.hashCode()
         result = 31 * result + yearsOfExperience
         result = 31 * result + (categories?.contentHashCode() ?: 0)
         result = 31 * result + (skills?.contentHashCode() ?: 0)

@@ -6,4 +6,30 @@ import krystian.kryszczak.recruitment.service.security.credentials.CredentialsSe
 
 @MicronautTest(transactional = false)
 class EmployerCredentialsServiceTest(credentialsService: EmployerCredentialsService) :
-    CredentialsServiceTest<EmployerCredentials>(credentialsService)
+CredentialsServiceTest<EmployerCredentials>(
+    credentialsService,
+    arrayOf(
+        EmployerCredentials(
+            null,
+            "Elliot Alderson",
+            "8iZC79S4oq"
+        ),
+        EmployerCredentials(
+            null,
+            "Darlene Alderson",
+            "A28oRrPqOu"
+        ),
+        EmployerCredentials(
+            null,
+            "Tyrell Wellick",
+            "cn1O46wKZV"
+        ),
+        EmployerCredentials(
+            null,
+            "Phillip Price",
+            "Be6ak1wBfM"
+        )
+    ),
+    { it.copy(username = "${it.username}-(updated)") },
+    { item, id -> item.copy(id = id) }
+)

@@ -50,7 +50,6 @@ abstract class ItemMapperTest<T : Item, S : Dto<T, S>, V : CreationForm<T, V>, U
 
             // when
             val result = itemMapper.mapToDto(item)
-                .block()
 
             // then
             result.shouldNotBeNull()
@@ -63,7 +62,6 @@ abstract class ItemMapperTest<T : Item, S : Dto<T, S>, V : CreationForm<T, V>, U
 
             // when
             val result = itemMapper.mapToUpdateForm(item)
-                .block()
 
             // then
             result.shouldNotBeNull()

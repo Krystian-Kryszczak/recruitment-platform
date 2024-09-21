@@ -7,9 +7,13 @@ import krystian.kryszczak.recruitment.model.pricing.tier.Tier
 import krystian.kryszczak.recruitment.service.AbstractDataAccessService
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import java.time.Instant
 
 @Singleton
 class MongoPricingService(private val tierRepository: TierRepository) : PricingService, AbstractDataAccessService<Tier, String>(tierRepository) {
+    private var cache: Array<Tier> = arrayOf()
+    private var nextCacheUpdate: Instant = Instant.MIN
+
     override fun saveDefaultTiersIfNoneExists(): Mono<Boolean> {
         return tierRepository.count()
             .filter { it < 1 }
@@ -17,7 +21,16 @@ class MongoPricingService(private val tierRepository: TierRepository) : PricingS
             .hasElements()
     }
 
-    override fun findAll(): Flux<Tier> = tierRepository.findAll() // TODO caching
+    override fun findAll(): Flux<Tier> {
+        if (Instant.now().isAfter(nextCacheUpdate)) {
+            nextCacheUpdate = Instant.now().plusSeconds(60)
+            return tierRepository.findAll()
+                .collectList()
+                .doOnNext { cache = Array(it.size, it::get) }
+                .flatMapIterable { it }
+        }
+        return Flux.fromArray(cache)
+    }
 
     private fun defaultTiers() = listOf(
         Tier(

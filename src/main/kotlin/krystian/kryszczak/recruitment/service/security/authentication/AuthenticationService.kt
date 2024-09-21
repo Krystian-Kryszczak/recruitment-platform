@@ -6,5 +6,5 @@ import io.micronaut.security.authentication.AuthenticationResponse
 import org.reactivestreams.Publisher
 
 interface AuthenticationService {
-    fun authenticate(context: HttpRequest<*>, authenticationRequest: AuthenticationRequest<*, *>): Publisher<AuthenticationResponse>
+    fun authenticate(context: HttpRequest<*>?, request: AuthenticationRequest<*, *>): Publisher<AuthenticationResponse>
 }

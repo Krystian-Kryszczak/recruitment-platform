@@ -17,32 +17,34 @@ import krystian.kryszczak.recruitment.model.being.BeingUpdateForm
 import krystian.kryszczak.recruitment.model.security.code.activation.being.BeingActivation
 import krystian.kryszczak.recruitment.model.security.credentials.being.BeingCredentials
 import krystian.kryszczak.recruitment.service.being.BeingService
+import krystian.kryszczak.recruitment.service.security.registration.being.BeingRegistrationService
 import reactor.core.publisher.Mono
 
-abstract class BeingController<T : Being, S : BeingCreationForm<T, S>, U : BeingUpdateForm<T, U>, V : BeingDto<T, V>, C : BeingCredentials, A : BeingActivation<T, S, C>>(
-    private val service: BeingService<T, S, U>,
-    private val dtoMapper: BeingMapper<T, V, S, U, C, A>
+abstract class BeingController<T : Being<T>, S : BeingCreationForm<T, S>, U : BeingUpdateForm<T, U>, V : BeingDto<T, V>, C : BeingCredentials, A : BeingActivation<T, S, C>>(
+    private val beingService: BeingService<T, S, U>,
+    private val registrationService: BeingRegistrationService<T, S, U, V, C, A>,
+    private val beingMapper: BeingMapper<T, V, S, U, C, A>
 ) {
     @PermitAll
     @Get("{/id:$ID_PATTERN}")
     fun findById(id: String?, authentication: Authentication?) = handleWithIdPermitAll(authentication) { clientId ->
         (id ?: clientId)?.let { id ->
-            service.findById(id)
-                .map { HttpResponse.ok(dtoMapper.mapToDto(it)) }
+            beingService.findById(id)
+                .map { HttpResponse.ok(beingMapper.mapToDto(it)) }
                 .defaultIfEmpty(HttpResponse.notFound())
         } ?: Mono.just(HttpResponse.status(HttpStatus.NO_CONTENT))
     }
 
     @Put(consumes = [MediaType.APPLICATION_FORM_URLENCODED])
     open fun update(@Valid @RequestBean bean: U, authentication: Authentication) = handleWithId(authentication) { id ->
-        service.update(id, bean)
-            .map { HttpResponse.ok(dtoMapper.mapToDto(it)) }
+        beingService.update(id, bean)
+            .map { HttpResponse.ok(beingMapper.mapToDto(it)) }
             .defaultIfEmpty(HttpResponse.serverError())
     }
 
     @Delete(consumes = [MediaType.APPLICATION_FORM_URLENCODED])
     fun remove(password: String, authentication: Authentication) = handleWithId(authentication) { id ->
-        service.autoDeleteByUser(password, id)
+        beingService.autoDeleteByUser(password, id)
             .map { if (it) HttpResponse.ok<Any>() else HttpResponse.unauthorized() }
             .defaultIfEmpty(HttpResponse.serverError())
     }
@@ -51,7 +53,7 @@ abstract class BeingController<T : Being, S : BeingCreationForm<T, S>, U : Being
     @Post("/register", consumes = [MediaType.APPLICATION_FORM_URLENCODED])
     open fun register(@Valid @RequestBean bean: S): Mono<out HttpResponse<String>> {
         if (!bean.acceptRules) return Mono.just(HttpResponse.status(HttpStatus.NOT_ACCEPTABLE))
-        return service.register(bean, bean.password)
+        return registrationService.register(bean)
             .map { if (it) HttpResponse.ok<String>() else HttpResponse.status(HttpStatus.CONFLICT) }
         .defaultIfEmpty(HttpResponse.serverError())
     }
@@ -59,7 +61,7 @@ abstract class BeingController<T : Being, S : BeingCreationForm<T, S>, U : Being
     @PermitAll
     @Post("/activate", consumes = [MediaType.APPLICATION_FORM_URLENCODED])
     fun activate(email: String, code: String): Mono<out HttpResponse<String>> =
-        service.completeActivation(email, code)
+        registrationService.completeAccountActivation(email, code)
             .map { if (it) HttpResponse.ok<String>() else HttpResponse.unauthorized() }
             .defaultIfEmpty(HttpResponse.serverError())
 

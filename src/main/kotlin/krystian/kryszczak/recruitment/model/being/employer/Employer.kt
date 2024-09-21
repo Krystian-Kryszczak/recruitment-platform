@@ -5,8 +5,10 @@ import io.micronaut.data.annotation.GeneratedValue
 import io.micronaut.data.annotation.Id
 import io.micronaut.data.annotation.MappedEntity
 import io.micronaut.serde.annotation.Serdeable
+import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.Max
 import krystian.kryszczak.recruitment.model.being.Being
+import krystian.kryszczak.recruitment.model.identifier.business.BusinessIdentifiers
 
 @Serdeable
 @MappedEntity
@@ -22,12 +24,21 @@ data class Employer(
     val facebook: String? = null,
     val instagram: String? = null,
     val linkedIn: String? = null,
-    val email: String? = null,
+    @param:Email override val email: String? = null,
+    val phoneNumber: String? = null,
     @param:Max(100) val offices: Array<String>? = null,
     @param:Max(20) val techStack: Array<String>? = null,
+    val country: String,
+    val businessIdentifiers: Set<BusinessIdentifiers>? = null,
+    val verified: Boolean = false,
     val banned: Boolean = false,
     val agreeToEmailMarketing: Boolean = false
-) : Being(id) {
+) : Being<Employer>(id) {
+    override fun isBanned(): Boolean = banned
+    override fun isNotBanned(): Boolean = !isBanned()
+    override fun copyBanned(): Employer = copy(banned = true)
+    override fun copyUnbanned(): Employer = copy(banned = false)
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -45,6 +56,7 @@ data class Employer(
         if (instagram != other.instagram) return false
         if (linkedIn != other.linkedIn) return false
         if (email != other.email) return false
+        if (phoneNumber != other.phoneNumber) return false
         if (offices != null) {
             if (other.offices == null) return false
             if (!offices.contentEquals(other.offices)) return false
@@ -53,6 +65,9 @@ data class Employer(
             if (other.techStack == null) return false
             if (!techStack.contentEquals(other.techStack)) return false
         } else if (other.techStack != null) return false
+        if (country != other.country) return false
+        if (businessIdentifiers != other.businessIdentifiers) return false
+        if (verified != other.verified) return false
         if (banned != other.banned) return false
         if (agreeToEmailMarketing != other.agreeToEmailMarketing) return false
 
@@ -71,8 +86,12 @@ data class Employer(
         result = 31 * result + (instagram?.hashCode() ?: 0)
         result = 31 * result + (linkedIn?.hashCode() ?: 0)
         result = 31 * result + (email?.hashCode() ?: 0)
+        result = 31 * result + phoneNumber.hashCode()
         result = 31 * result + (offices?.contentHashCode() ?: 0)
         result = 31 * result + (techStack?.contentHashCode() ?: 0)
+        result = 31 * result + country.hashCode()
+        result = 31 * result + (businessIdentifiers?.hashCode() ?: 0)
+        result = 31 * result + verified.hashCode()
         result = 31 * result + banned.hashCode()
         result = 31 * result + agreeToEmailMarketing.hashCode()
         return result

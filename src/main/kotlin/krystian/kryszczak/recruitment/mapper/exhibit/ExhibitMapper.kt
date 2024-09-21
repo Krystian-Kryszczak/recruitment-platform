@@ -6,5 +6,5 @@ import krystian.kryszczak.recruitment.model.exhibit.ExhibitCreationForm
 import krystian.kryszczak.recruitment.model.exhibit.ExhibitDto
 import krystian.kryszczak.recruitment.model.exhibit.ExhibitUpdateForm
 
-interface ExhibitMapper<T : Exhibit, S : ExhibitDto<T, S>, V : ExhibitCreationForm<T, V>, U : ExhibitUpdateForm<T, U>> :
+interface ExhibitMapper<T : Exhibit<T>, S : ExhibitDto<T, S>, V : ExhibitCreationForm<T, V>, U : ExhibitUpdateForm<T, U>> :
     ItemMapper<T, S, V, U, String>

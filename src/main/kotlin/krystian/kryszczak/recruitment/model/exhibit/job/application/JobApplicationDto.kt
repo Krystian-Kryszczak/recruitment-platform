@@ -8,8 +8,10 @@ import java.time.Instant
 data class JobApplicationDto(
     val id: String? = null,
     val offerId: String,
-    val candidateId: String,
-    val cvFileId: String,
+    val candidateId: String?,
+    val firstName: String,
+    val lastName: String,
+    val email: String,
     val messageToRecruiter: String? = null,
     val dateCreated: Instant? = null
 ) : ExhibitDto<JobApplication, JobApplicationDto>

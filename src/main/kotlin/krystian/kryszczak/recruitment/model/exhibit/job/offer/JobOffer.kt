@@ -1,6 +1,5 @@
 package krystian.kryszczak.recruitment.model.exhibit.job.offer
 
-import io.micronaut.core.annotation.Introspected
 import io.micronaut.data.annotation.DateCreated
 import io.micronaut.data.annotation.GeneratedValue
 import io.micronaut.data.annotation.Id
@@ -12,7 +11,6 @@ import java.time.Instant
 
 @Serdeable
 @MappedEntity
-@Introspected
 data class JobOffer(
     @field:Id @GeneratedValue override val id: String? = null,
     val tierId: String,
@@ -27,14 +25,19 @@ data class JobOffer(
     val maxEarningsPerMonth: Int,
     val currency: String,
     val techStack: Map<String, Byte>?,
-    val places: Array<String>?,
+    val locations: Array<String>?,
     val recruitmentType: RecruitmentType,
     val operatingMode: OperatingMode,
     val expires: Instant,
     val path: Set<String>,
     val banned: Boolean = false,
     @DateCreated val dateCreated: Instant? = null
-) : Exhibit(id) {
+) : Exhibit<JobOffer>(id) {
+    override fun isBanned(): Boolean = banned
+    override fun isNotBanned() = !isBanned()
+    override fun copyBanned(): JobOffer = copy(banned = true)
+    override fun copyUnbanned(): JobOffer = copy(banned = false)
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -54,10 +57,10 @@ data class JobOffer(
         if (maxEarningsPerMonth != other.maxEarningsPerMonth) return false
         if (currency != other.currency) return false
         if (techStack != other.techStack) return false
-        if (places != null) {
-            if (other.places == null) return false
-            if (!places.contentEquals(other.places)) return false
-        } else if (other.places != null) return false
+        if (locations != null) {
+            if (other.locations == null) return false
+            if (!locations.contentEquals(other.locations)) return false
+        } else if (other.locations != null) return false
         if (recruitmentType != other.recruitmentType) return false
         if (operatingMode != other.operatingMode) return false
         if (path != other.path) return false
@@ -80,7 +83,7 @@ data class JobOffer(
         result = 31 * result + maxEarningsPerMonth
         result = 31 * result + currency.hashCode()
         result = 31 * result + (techStack?.hashCode() ?: 0)
-        result = 31 * result + (places?.contentHashCode() ?: 0)
+        result = 31 * result + (locations?.contentHashCode() ?: 0)
         result = 31 * result + recruitmentType.hashCode()
         result = 31 * result + operatingMode.hashCode()
         result = 31 * result + path.hashCode()

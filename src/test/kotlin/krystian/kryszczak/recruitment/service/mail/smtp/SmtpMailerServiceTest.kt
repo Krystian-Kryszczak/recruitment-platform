@@ -47,7 +47,7 @@ class SmtpMailerServiceTest(smtpMailerService: SmtpMailerService, mailAuthConfig
 
     "sendUserActivationCode should not throw any exception" {
         shouldNotThrowAny {
-            smtpMailerService.sendUserActivationCode(receiver, "`test activation code`")
+            smtpMailerService.sendActivationCode(receiver, "`test activation code`")
         }
     }
 

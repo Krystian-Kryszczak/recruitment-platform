@@ -14,7 +14,7 @@ interface JobOfferRepository : ExhibitRepository<JobOffer> {
 
     fun existsByPath(path: String): Mono<Boolean>
 
-    fun findByEmployerId(employerId: String): Flux<JobOffer>
+    fun findByEmployerId(employerId: String, pageable: Pageable): Flux<JobOffer>
 
     fun findByTitleLike(
         title: String?,

@@ -6,6 +6,7 @@ import krystian.kryszczak.recruitment.model.being.employer.Employer
 import krystian.kryszczak.recruitment.model.constant.*
 import krystian.kryszczak.recruitment.model.exhibit.job.application.JobApplication
 import krystian.kryszczak.recruitment.model.exhibit.job.offer.JobOffer
+import krystian.kryszczak.recruitment.model.identifier.business.BusinessIdentifiers
 import krystian.kryszczak.recruitment.model.price.Price
 import krystian.kryszczak.recruitment.model.pricing.tier.Tier
 import java.time.Duration
@@ -16,6 +17,7 @@ val candidateMock = Candidate(
     "john@smith.eu",
     "John",
     "Smith",
+    "123 456 789",
     "Hello there!",
     "linkedin.com",
     "github.com",
@@ -44,8 +46,11 @@ val employerMock = Employer(
     "instagram.com",
     "linkedin.com",
     "contact@e-corp.com",
+    "123 456 789",
     arrayOf(),
     arrayOf(),
+    "USA",
+    setOf(BusinessIdentifiers("USA", "45678")),
     banned = false,
     agreeToEmailMarketing = true
 )
@@ -77,8 +82,11 @@ val jobApplicationMock = JobApplication(
     uniqueId(),
     jobOfferMock.id!!,
     candidateMock.id!!,
-    uniqueId(),
+    "John",
+    "Smith",
+    "john.smith@gmail.com",
     "Hello there!",
+    null,
     false,
     Instant.now()
 )

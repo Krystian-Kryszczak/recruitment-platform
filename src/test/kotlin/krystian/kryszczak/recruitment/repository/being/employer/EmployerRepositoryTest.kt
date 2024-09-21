@@ -22,7 +22,9 @@ arrayOf(
         "https://linkedin.com/company/fs0ciety",
         "support@fsociety.com",
         null,
-        null
+        null,
+        null,
+        "USA"
     ), Employer(
         null,
         "Evil Corp LLC",
@@ -36,7 +38,9 @@ arrayOf(
         "https://www.linkedin.com/company/evil-corp-llc/",
         "support@evil-corp.com",
         null,
-        null
+        null,
+        null,
+        "USA"
     ),
 ), { it.copy(name = "${it.name} - ${it.name}") },
 { item, id -> item.copy(id = id) })

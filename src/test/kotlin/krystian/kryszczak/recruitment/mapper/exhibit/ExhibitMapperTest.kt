@@ -7,7 +7,7 @@ import krystian.kryszczak.recruitment.model.exhibit.ExhibitCreationForm
 import krystian.kryszczak.recruitment.model.exhibit.ExhibitDto
 import krystian.kryszczak.recruitment.model.exhibit.ExhibitUpdateForm
 
-abstract class ExhibitMapperTest<T : Exhibit, S : ExhibitDto<T, S>, V : ExhibitCreationForm<T, V>, U : ExhibitUpdateForm<T, U>>(
+abstract class ExhibitMapperTest<T : Exhibit<T>, S : ExhibitDto<T, S>, V : ExhibitCreationForm<T, V>, U : ExhibitUpdateForm<T, U>>(
     itemMapper: ExhibitMapper<T, S, V, U>,
     creationFormAndIdAndExcepted: Triple<V, String, T>,
     actualAndUpdateFormAndExcepted: Triple<T, U, T>,

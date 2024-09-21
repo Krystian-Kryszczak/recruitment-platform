@@ -12,6 +12,7 @@ import krystian.kryszczak.recruitment.client.openai.OpenAIHttpClient
 import krystian.kryszczak.recruitment.model.moderation.request.ModerationRequest
 import krystian.kryszczak.recruitment.model.moderation.response.ModerationResponse
 import krystian.kryszczak.recruitment.model.moderation.response.ModerationResults
+import krystian.kryszczak.recruitment.service.management.moderation.ModerationService
 import reactor.core.publisher.Mono
 
 @MicronautTest(transactional = false)

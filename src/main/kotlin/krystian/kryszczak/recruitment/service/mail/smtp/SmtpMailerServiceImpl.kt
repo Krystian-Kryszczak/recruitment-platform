@@ -40,7 +40,7 @@ class SmtpMailerServiceImpl(private val emailSender: EmailSender<Any, Any>, @Pro
         )
     }
 
-    override fun sendUserActivationCode(to: String, activateCode: String) = sendUsingTemplate(
+    override fun sendActivationCode(to: String, activateCode: String) = sendUsingTemplate(
         to, "Account activation code", "activate-account",
         mapOf("code" to activateCode)
     )

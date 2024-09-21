@@ -8,6 +8,6 @@ import reactor.core.publisher.Mono
 class DefaultJobOfferPathService(private val employerService: EmployerService) : JobOfferPathService {
     override fun generatePath(jobOfferId: String, jobOfferTitle: String, employerId: String): Mono<String> =
         employerService.getEmployerName(employerId).map {
-            ("${jobOfferTitle.trim()}-${it.trim()}-${jobOfferId.trim()}").trim().replace(" ", "-")
+            ("${jobOfferTitle.trim()}-${it.trim()}-${jobOfferId.trim()}").trim().replace(" ", "-").lowercase()
         }
 }

@@ -1,8 +1,11 @@
 package krystian.kryszczak.recruitment.model.being.candidate
 
 import io.micronaut.serde.annotation.Serdeable
+import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.Max
+import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.PositiveOrZero
+import krystian.kryszczak.recruitment.controller.api.PHONE_NUMBER_REGEX
 import krystian.kryszczak.recruitment.model.being.BeingUpdateForm
 import krystian.kryszczak.recruitment.model.constant.Sex
 
@@ -11,9 +14,10 @@ import krystian.kryszczak.recruitment.model.constant.Sex
  */
 @Serdeable
 data class CandidateUpdateForm(
-    val email: String? = null,
+    @param:Email val email: String? = null,
     val firstName: String? = null,
     val lastName: String? = null,
+    @param:Pattern(regexp = PHONE_NUMBER_REGEX) val phoneNumber: String? = null,
     @param:Max(1000) val messageToTheEmployer: String? = null,
     val linkedInProfile: String? = null,
     val gitHubProfile: String? = null,
@@ -28,6 +32,23 @@ data class CandidateUpdateForm(
     val sex: Sex? = null,
     val agreeToEmailMarketing: Boolean? = null
 ) : BeingUpdateForm<Candidate, CandidateUpdateForm> {
+    override fun extractPureTextContent(actual: Candidate): StringBuilder = with(StringBuilder()) {
+        (email ?: actual.email).let(::append)
+        (firstName ?: actual.firstName).let { append(" ").append(it) }
+        (lastName ?: actual.lastName).let { append(" ").append(it) }
+        (phoneNumber ?: actual.phoneNumber)?.let { append(" ").append(it) }
+        (messageToTheEmployer ?: actual.messageToTheEmployer)?.let { append(" ").append(it) }
+        (linkedInProfile ?: actual.linkedInProfile)?.let { append(" ").append(it) }
+        (gitHubProfile ?: actual.gitHubProfile)?.let { append(" ").append(it) }
+        (workHistory ?: actual.workHistory)?.forEach { append(" ").append(it) }
+        (position ?: actual.position)?.let { append(" ").append(it) }
+        (categories ?: actual.categories)?.forEach { append(" ").append(it) }
+        (skills ?: actual.skills)?.forEach { append(" ").append(it) }
+        (employmentTypeAndSalary ?: actual.employmentTypeAndSalary)?.forEach { (k, v) -> append(" ").append("$k : $v") }
+        (locations ?: actual.locations)?.forEach { append(" ").append(it) }
+        this
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

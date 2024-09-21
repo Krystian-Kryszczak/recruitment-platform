@@ -8,7 +8,6 @@ import krystian.kryszczak.recruitment.model.being.employer.Employer
 import krystian.kryszczak.recruitment.model.being.employer.EmployerCreationForm
 import krystian.kryszczak.recruitment.model.security.code.activation.being.BeingActivation
 import krystian.kryszczak.recruitment.model.security.credentials.being.employer.EmployerCredentials
-import krystian.kryszczak.recruitment.security.generator.activation.ActivationCodeGenerator
 
 @Serdeable
 @MappedEntity
@@ -18,9 +17,4 @@ data class EmployerActivation(
     override val identity: String,
     override val creationForm: EmployerCreationForm,
     override val encodedPassword: String
-) : BeingActivation<Employer, EmployerCreationForm, EmployerCredentials>(id, code, identity, creationForm, encodedPassword) {
-    companion object {
-        fun createWithGeneratedCode(identity: String, formation: EmployerCreationForm, encodedPassword: String, generator: ActivationCodeGenerator) =
-            EmployerActivation(null, generator.generateCode(), identity, formation, encodedPassword)
-    }
-}
+) : BeingActivation<Employer, EmployerCreationForm, EmployerCredentials>(id, code, identity, creationForm, encodedPassword)

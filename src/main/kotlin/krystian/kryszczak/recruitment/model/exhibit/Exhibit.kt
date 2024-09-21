@@ -1,7 +1,5 @@
 package krystian.kryszczak.recruitment.model.exhibit
 
-import io.micronaut.serde.annotation.Serdeable
-import krystian.kryszczak.recruitment.model.Item
+import krystian.kryszczak.recruitment.model.RestrictableItem
 
-@Serdeable
-abstract class Exhibit(id: String?) : Item(id)
+abstract class Exhibit<T : Exhibit<T>>(id: String?) : RestrictableItem<T>(id)

@@ -13,12 +13,20 @@ import java.time.Instant
 data class JobApplication(
     @field:Id @GeneratedValue override val id: String? = null,
     val offerId: String,
-    val candidateId: String,
-    val cvFileId: String,
+    val candidateId: String?,
+    val firstName: String,
+    val lastName: String,
+    val email: String,
     val messageToRecruiter: String? = null,
+    val cvFileReferenceId: String? = null,
     val banned: Boolean = false,
     @DateCreated val dateCreated: Instant? = null
-) : Exhibit(id) {
+) : Exhibit<JobApplication>(id) {
+    override fun isBanned(): Boolean = banned
+    override fun isNotBanned(): Boolean = !isBanned()
+    override fun copyBanned(): JobApplication = copy(banned = true)
+    override fun copyUnbanned(): JobApplication = copy(banned = false)
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -28,7 +36,9 @@ data class JobApplication(
         if (id != other.id) return false
         if (offerId != other.offerId) return false
         if (candidateId != other.candidateId) return false
-        if (cvFileId != other.cvFileId) return false
+        if (firstName != other.firstName) return false
+        if (lastName != other.lastName) return false
+        if (email != other.email) return false
         if (messageToRecruiter != other.messageToRecruiter) return false
 
         return true
@@ -37,9 +47,11 @@ data class JobApplication(
     override fun hashCode(): Int {
         var result = id?.hashCode() ?: 0
         result = 31 * result + offerId.hashCode()
-        result = 31 * result + candidateId.hashCode()
-        result = 31 * result + cvFileId.hashCode()
-        result = 31 * result + messageToRecruiter.hashCode()
+        result = 31 * result + (candidateId?.hashCode() ?: 0)
+        result = 31 * result + firstName.hashCode()
+        result = 31 * result + lastName.hashCode()
+        result = 31 * result + email.hashCode()
+        result = 31 * result + (messageToRecruiter?.hashCode() ?: 0)
         return result
     }
 }

@@ -13,9 +13,10 @@ import krystian.kryszczak.recruitment.model.being.candidate.CandidateUpdateForm
 import krystian.kryszczak.recruitment.model.security.code.activation.being.candidate.CandidateActivation
 import krystian.kryszczak.recruitment.model.security.credentials.being.candidate.CandidateCredentials
 import krystian.kryszczak.recruitment.service.being.candidate.CandidateService
+import krystian.kryszczak.recruitment.service.security.registration.being.candidate.CandidateRegistrationService
 
 @RolesAllowed("CANDIDATE")
 @Controller("api/v1/candidate/")
 @ExecuteOn(TaskExecutors.IO)
-open class CandidateController(service: CandidateService, mapper: CandidateMapper) :
-    BeingController<Candidate, CandidateCreationForm, CandidateUpdateForm, CandidateDto, CandidateCredentials, CandidateActivation>(service, mapper)
+open class CandidateController(service: CandidateService, registrationService: CandidateRegistrationService, mapper: CandidateMapper) :
+    BeingController<Candidate, CandidateCreationForm, CandidateUpdateForm, CandidateDto, CandidateCredentials, CandidateActivation>(service, registrationService, mapper)

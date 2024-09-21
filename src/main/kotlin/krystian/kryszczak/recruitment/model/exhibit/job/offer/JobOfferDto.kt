@@ -19,7 +19,7 @@ data class JobOfferDto(
     val maxEarningsPerMonth: Int,
     val currency: String,
     val techStack: Map<String, Byte>?,
-    val places: Array<String>?,
+    val locations: Array<String>?,
     val recruitmentType: RecruitmentType,
     val operatingMode: OperatingMode,
     val expires: Instant,
@@ -44,10 +44,10 @@ data class JobOfferDto(
         if (maxEarningsPerMonth != other.maxEarningsPerMonth) return false
         if (currency != other.currency) return false
         if (techStack != other.techStack) return false
-        if (places != null) {
-            if (other.places == null) return false
-            if (!places.contentEquals(other.places)) return false
-        } else if (other.places != null) return false
+        if (locations != null) {
+            if (other.locations == null) return false
+            if (!locations.contentEquals(other.locations)) return false
+        } else if (other.locations != null) return false
         if (recruitmentType != other.recruitmentType) return false
         if (operatingMode != other.operatingMode) return false
         if (path != other.path) return false
@@ -68,7 +68,7 @@ data class JobOfferDto(
         result = 31 * result + maxEarningsPerMonth
         result = 31 * result + currency.hashCode()
         result = 31 * result + (techStack?.hashCode() ?: 0)
-        result = 31 * result + (places?.contentHashCode() ?: 0)
+        result = 31 * result + (locations?.contentHashCode() ?: 0)
         result = 31 * result + recruitmentType.hashCode()
         result = 31 * result + operatingMode.hashCode()
         result = 31 * result + path.hashCode()

@@ -11,6 +11,7 @@ import krystian.kryszczak.recruitment.model.exhibit.job.offer.JobOffer
 import krystian.kryszczak.recruitment.model.exhibit.job.offer.JobOfferCreationForm
 import krystian.kryszczak.recruitment.model.exhibit.job.offer.JobOfferDto
 import krystian.kryszczak.recruitment.model.exhibit.job.offer.JobOfferUpdateForm
+import krystian.kryszczak.recruitment.service.management.moderation.ModerationService
 import krystian.kryszczak.recruitment.service.path.job.offer.JobOfferPathService
 import krystian.kryszczak.recruitment.service.pricing.PricingService
 import krystian.kryszczak.test.mock.tierMock
@@ -201,20 +202,23 @@ ExhibitMapperTest<JobOffer, JobOfferDto, JobOfferCreationForm, JobOfferUpdateFor
 ) {
     @MockBean(JobOfferPathService::class)
     fun jobOfferPathService(): JobOfferPathService {
-        val service = mockk<JobOfferPathService>()
-
-        every { service.generatePath(any(), any(), any()) } returns Mono.just("e-corp-java-senior-developer")
-
-        return service
+        return mockk<JobOfferPathService> {
+            every { generatePath(any(), any(), any()) } returns Mono.just("e-corp-java-senior-developer")
+        }
     }
 
     @MockBean(PricingService::class)
     fun pricingService(): PricingService {
-        val service = mockk<PricingService>()
+        return mockk<PricingService> {
+            every { saveDefaultTiersIfNoneExists() } returns Mono.just(true)
+            every { findById(any()) } returns Mono.just(tierMock)
+        }
+    }
 
-        every { service.saveDefaultTiersIfNoneExists() } returns Mono.just(true)
-        every { service.findById(any()) } returns Mono.just(tierMock)
-
-        return service
+    @MockBean(ModerationService::class)
+    fun moderationService(): ModerationService {
+        return mockk<ModerationService> {
+            every { checkIfInputIsHarmful(any(), any()) } returns Mono.just(false)
+        }
     }
 }

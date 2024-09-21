@@ -9,8 +9,9 @@ import krystian.kryszczak.recruitment.model.security.code.activation.being.Being
 import krystian.kryszczak.recruitment.model.security.credentials.being.BeingCredentials
 import reactor.core.publisher.Mono
 
-interface BeingMapper<T : Being, S : BeingDto<T, S>, V : BeingCreationForm<T, V>, U : BeingUpdateForm<T, U>,
+interface BeingMapper<T : Being<T>, S : BeingDto<T, S>, V : BeingCreationForm<T, V>, U : BeingUpdateForm<T, U>,
         C : BeingCredentials, A : BeingActivation<T, V, C>> : ItemMapper<T, S, V, U, String> {
+    fun mapToRegisterActivation(form: V): Mono<A>
     fun mapToOriginItem(activation: A): Mono<T>
     fun mapToCredentials(activation: A): C
 }

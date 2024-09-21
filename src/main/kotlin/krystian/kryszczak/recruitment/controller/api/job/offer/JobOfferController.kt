@@ -12,7 +12,7 @@ import krystian.kryszczak.recruitment.controller.api.ID_PATTERN
 import krystian.kryszczak.recruitment.model.exhibit.job.offer.JobOfferCreationForm
 import krystian.kryszczak.recruitment.model.exhibit.job.offer.JobOfferQuery
 import krystian.kryszczak.recruitment.model.exhibit.job.offer.JobOfferUpdateForm
-import krystian.kryszczak.recruitment.service.job.offer.JobOfferService
+import krystian.kryszczak.recruitment.service.exhibit.job.offer.JobOfferService
 
 @PermitAll
 @Controller("api/v1/job/offers/")
@@ -25,11 +25,11 @@ open class JobOfferController(private val service: JobOfferService) {
     fun findByPathOrId(data: String) = service.findByPathOrId(data)
 
     @Get("/employer/{id}{/page}")
-    fun getByEmployerId(id: String, page: Int?, authentication: Authentication?) = service.findByEmployerId(id, page, authentication)
+    fun getByEmployerId(id: String, page: Int?, authentication: Authentication?) = service.findByEmployerId(id, page ?: 0, authentication)
 
     @RolesAllowed("EMPLOYER")
     @Get("/own{/page}")
-    fun getOwn(page: Int?, authentication: Authentication) = service.findByEmployerAuth(page, authentication)
+    fun getOwn(page: Int?, authentication: Authentication) = service.findByEmployerAuth(page ?: 0, authentication)
 
     @Status(HttpStatus.CREATED)
     @RolesAllowed("EMPLOYER")
