@@ -60,7 +60,7 @@ javamail:
         ssl:
           enable: true
 open-ai:
-  token: ${OPEN_AI_TOKEN}
+  token: ${OPEN_AI_TOKEN:none}
   gpt-model: ${$OPEN_AI_GPT_MODEL:gpt-3.5-turbo}
   text-moderation-model: ${$OPEN_AI_TEXT_MODERATION_MODEL:text-moderation-stable}
   transcription-model: ${$OPEN_AI_TRANSCRIPTION_MODEL:whisper-1}
