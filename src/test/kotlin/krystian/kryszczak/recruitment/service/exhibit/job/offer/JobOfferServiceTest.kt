@@ -4,7 +4,6 @@ import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.collections.shouldNotBeEmpty
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
-import io.kotest.mpp.uniqueId
 import io.micronaut.test.extensions.kotest5.annotation.MicronautTest
 import krystian.kryszczak.recruitment.model.constant.*
 import krystian.kryszczak.recruitment.model.exhibit.job.offer.JobOffer
@@ -12,6 +11,7 @@ import krystian.kryszczak.recruitment.model.exhibit.job.offer.JobOfferQuery
 import krystian.kryszczak.recruitment.model.exhibit.job.offer.JobOfferUpdateForm
 import krystian.kryszczak.recruitment.service.exhibit.ExhibitServiceTest
 import krystian.kryszczak.test.mock.employerMock
+import org.bson.types.ObjectId
 import java.time.Duration
 import java.time.Instant
 
@@ -22,7 +22,7 @@ jobOfferService,
 arrayOf(
     JobOffer(
         null,
-        uniqueId(),
+        ObjectId.get().toHexString(),
         "Kotlin Senior Developer",
         employerMock.id!!,
         mapOf(),
@@ -43,7 +43,7 @@ arrayOf(
         Instant.now()
     ), JobOffer(
         null,
-        uniqueId(),
+        ObjectId.get().toHexString(),
         "Java Senior Developer",
         employerMock.id!!,
         mapOf(),
@@ -67,6 +67,13 @@ arrayOf(
 { it.copy(title = "${it.title} - Updated") },
 { item, id -> item.copy(id = id) }, { givenItems ->
     "job offer service test" - {
+        beforeAny {
+            var index = 0
+            jobOfferService.saveAll(givenItems.toList())
+                .doOnNext { givenItems[index++] = it }
+                .blockLast()
+        }
+
         "find by path or id" {
             // given
             val given = mapOf(
@@ -84,8 +91,7 @@ arrayOf(
                     .block()
 
                 // then
-                result.shouldNotBeNull()
-                    .shouldBe(excepted)
+                result.shouldBe(excepted)
             }
         }
 
@@ -104,8 +110,7 @@ arrayOf(
                     .block()
 
                 // then
-                result.shouldNotBeNull()
-                    .shouldBe(excepted)
+                result.shouldBe(excepted)
             }
         }
 
@@ -143,42 +148,6 @@ arrayOf(
             result.shouldNotBeNull()
                 .shouldNotBeEmpty()
                 .shouldContain(givenItems.first())
-        }
-// TODO
-        "find by employer id" {
-//            // given
-//            val given = mapOf(
-//                givenItems[0].path.first() to true,
-//                givenItems[1].path.first() to true,
-//                "none" to false,
-//                "nothing" to false
-//            )
-//
-//            for ((data, excepted) in given) {
-//                // when
-//                val result = jobOfferService.findByEmployerId(data)
-//                    .block()
-//
-//                // then
-//                result.shouldNotBeNull()
-//                    .shouldBe(excepted)
-//            }
-        }
-
-        "find by employer auth" {
-            //
-        }
-
-        "employer add" {
-            //
-        }
-
-        "employer update" {
-            //
-        }
-
-        "employer remove" {
-            //
         }
     }
 })

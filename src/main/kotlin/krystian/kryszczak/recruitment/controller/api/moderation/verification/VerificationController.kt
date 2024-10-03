@@ -8,17 +8,17 @@ import krystian.kryszczak.recruitment.service.management.verification.Verificati
 import reactor.core.publisher.Mono
 
 @RolesAllowed("ADMIN")
-abstract class VerificationController<T, ID>(protected val verificationService: VerificationService<T, ID>) {
+abstract class VerificationController<T, ID>(private val verificationService: VerificationService<T, ID>) {
     @Post("/verify/employer/{id}")
-    fun verify(id: ID) = verificationService.verifyById(id).hasElement().map()
+    fun verify(id: ID) = verificationService.verifyById(id).doOnNext(::println).hasElement().map()
 
     @Post("/unverify/employer/{id}")
-    fun unverify(id: ID) = verificationService.unverifyById(id).hasElement().map()
+    fun unverify(id: ID) = verificationService.unverifyById(id).doOnNext(::println).hasElement().map()
 
     @Get("/is-verified/employer/{id}")
     fun isVerified(id: ID) = verificationService.isVerifiedById(id)
 
-    private fun Mono<Boolean>.map() = filter { it }
-        .thenReturn(HttpResponse.accepted<String>())
-        .defaultIfEmpty(HttpResponse.notModified())
+    private fun Mono<Boolean>.map() = map {
+        if (it) HttpResponse.accepted<String>() else HttpResponse.notModified()
+    }
 }

@@ -11,7 +11,7 @@ data class JobOfferQuery(
     @field:QueryValue val keyword: String? = null,
     @field:QueryValue("main-technology") val mainTechnology: String? = null,
     @field:QueryValue val location: String? = null,
-    @field:QueryValue val remote: Boolean? = null,
+    @field:QueryValue val operatingMode: OperatingMode? = null,
     @field:QueryValue("only-with-salary") val onlyWithSalary: Boolean? = null,
     @field:QueryValue("salary-min") @field:PositiveOrZero val salaryMin: Int? = null,
     @field:QueryValue("salary-max") @field:PositiveOrZero val salaryMax: Int? = null,

@@ -58,10 +58,8 @@ class OauthAccessTokenTest(@Client("/") client: HttpClient, refreshTokenReposito
 }) {
     @MockBean(AuthenticationService::class)
     fun authenticationService(): AuthenticationService {
-        val service = mockk<AuthenticationService>()
-
-        every { service.authenticate(any(), any()) } returns Mono.just(AuthenticationResponse.success("john"))
-
-        return service
+        return mockk {
+            every { authenticate(any(), any()) } returns Mono.just(AuthenticationResponse.success("sherlock"))
+        }
     }
 }

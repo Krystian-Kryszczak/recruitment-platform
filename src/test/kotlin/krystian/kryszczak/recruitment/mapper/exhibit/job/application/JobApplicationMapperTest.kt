@@ -1,5 +1,6 @@
 package krystian.kryszczak.recruitment.mapper.exhibit.job.application
 
+import io.micronaut.http.MediaType
 import io.micronaut.http.multipart.StreamingFileUpload
 import io.micronaut.test.annotation.MockBean
 import io.micronaut.test.extensions.kotest5.annotation.MicronautTest
@@ -19,6 +20,7 @@ import krystian.kryszczak.test.mock.jobOfferMock
 import reactor.core.publisher.Mono
 import java.io.FileInputStream
 import java.io.InputStream
+import java.util.*
 
 @MicronautTest(transactional = false)
 class JobApplicationMapperTest(jobApplicationMapper: JobApplicationMapper) :
@@ -34,6 +36,7 @@ ExhibitMapperTest<JobApplication, JobApplicationDto, JobApplicationCreationForm,
                 mockk<StreamingFileUpload> {
                     every { asInputStream() } returns FileInputStream("src/test/resources/assets/pdf/Hello_world!.pdf")
                     every { filename } returns "Hello_world!.pdf"
+                    every { contentType } returns Optional.of(MediaType.APPLICATION_PDF_TYPE)
                 }
             ),
             "Hello there!"
@@ -45,7 +48,7 @@ ExhibitMapperTest<JobApplication, JobApplicationDto, JobApplicationCreationForm,
             "<doer-id>",
             "John",
             "Smith",
-            "john.smith@gmai.com",
+            "john.smith@gmail.com",
             "Hello there!",
             null,
             false,
@@ -119,9 +122,10 @@ ExhibitMapperTest<JobApplication, JobApplicationDto, JobApplicationCreationForm,
             null,
         ),
         JobApplicationUpdateForm(
-            jobOfferMock.id!!,
-            "<cv-file-id>",
-            "Hello there!"
+            "John",
+            "Smith",
+            "john.smith@gmail.com",
+            messageToRecruiter = "What's up?"
         )
     ),
     { item, id -> item.copy(id = id) }
@@ -129,7 +133,7 @@ ExhibitMapperTest<JobApplication, JobApplicationDto, JobApplicationCreationForm,
     @MockBean(BlobStorageService::class)
     fun blobStorageService(): BlobStorageService {
         return mockk<BlobStorageService> {
-            every { save(any(), any(), any()) } returns Mono.just("<mockk-cv-file-id>")
+            every { save(any(), any()) } returns Mono.just("<mockk-cv-file-id>")
         }
     }
 

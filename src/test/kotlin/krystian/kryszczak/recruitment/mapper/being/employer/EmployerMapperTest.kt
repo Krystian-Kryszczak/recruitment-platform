@@ -1,5 +1,6 @@
 package krystian.kryszczak.recruitment.mapper.being.employer
 
+import io.micronaut.test.annotation.MockBean
 import io.micronaut.test.extensions.kotest5.annotation.MicronautTest
 import krystian.kryszczak.recruitment.mapper.being.BeingMapperTest
 import krystian.kryszczak.recruitment.model.being.employer.Employer
@@ -8,6 +9,7 @@ import krystian.kryszczak.recruitment.model.being.employer.EmployerDto
 import krystian.kryszczak.recruitment.model.being.employer.EmployerUpdateForm
 import krystian.kryszczak.recruitment.model.security.code.activation.being.employer.EmployerActivation
 import krystian.kryszczak.recruitment.model.security.credentials.being.employer.EmployerCredentials
+import krystian.kryszczak.recruitment.service.management.moderation.ModerationService
 
 @MicronautTest(transactional = false)
 class EmployerMapperTest(employerMapper: EmployerMapper) :
@@ -51,6 +53,7 @@ BeingMapperTest<Employer, EmployerDto, EmployerCreationForm, EmployerUpdateForm,
             arrayOf(),
             arrayOf(),
             "USA",
+            setOf(),
             banned = false,
             agreeToEmailMarketing = true
         )
@@ -154,6 +157,7 @@ BeingMapperTest<Employer, EmployerDto, EmployerCreationForm, EmployerUpdateForm,
             arrayOf(),
             arrayOf(),
             "USA",
+            setOf(),
             banned = false,
             agreeToEmailMarketing = true
         ),
@@ -219,6 +223,7 @@ BeingMapperTest<Employer, EmployerDto, EmployerCreationForm, EmployerUpdateForm,
             arrayOf(),
             arrayOf(),
             "USA",
+            setOf(),
             banned = false,
             agreeToEmailMarketing = true
         )
@@ -257,4 +262,7 @@ BeingMapperTest<Employer, EmployerDto, EmployerCreationForm, EmployerUpdateForm,
         )
     ),
     { item, id -> item.copy(id = id) }
-)
+) {
+    @MockBean(ModerationService::class)
+    override fun moderationService(): ModerationService = super.moderationService()
+}

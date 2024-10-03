@@ -15,7 +15,7 @@ import reactor.core.publisher.Mono
 import java.util.*
 
 abstract class VerificationControllerTest(
-    protected val httpClient: HttpClient,
+    private val httpClient: HttpClient,
     protected val generator: TokenGenerator,
     body: FreeSpec.() -> Unit = {}
 ) : FreeSpec({

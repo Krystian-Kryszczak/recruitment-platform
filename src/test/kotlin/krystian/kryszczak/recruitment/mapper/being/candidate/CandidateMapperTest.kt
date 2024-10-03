@@ -1,5 +1,6 @@
 package krystian.kryszczak.recruitment.mapper.being.candidate
 
+import io.micronaut.test.annotation.MockBean
 import io.micronaut.test.extensions.kotest5.annotation.MicronautTest
 import krystian.kryszczak.recruitment.mapper.being.BeingMapperTest
 import krystian.kryszczak.recruitment.model.being.candidate.Candidate
@@ -9,6 +10,7 @@ import krystian.kryszczak.recruitment.model.being.candidate.CandidateUpdateForm
 import krystian.kryszczak.recruitment.model.constant.Sex
 import krystian.kryszczak.recruitment.model.security.code.activation.being.candidate.CandidateActivation
 import krystian.kryszczak.recruitment.model.security.credentials.being.candidate.CandidateCredentials
+import krystian.kryszczak.recruitment.service.management.moderation.ModerationService
 
 @MicronautTest(transactional = false)
 class CandidateMapperTest(candidateMapper: CandidateMapper) :
@@ -275,4 +277,7 @@ BeingMapperTest<Candidate, CandidateDto, CandidateCreationForm, CandidateUpdateF
         )
     ),
     { item, id -> item.copy(id = id) }
-)
+) {
+    @MockBean(ModerationService::class)
+    override fun moderationService(): ModerationService = super.moderationService()
+}

@@ -10,13 +10,13 @@ import reactor.core.publisher.Mono
 
 @MongoRepository
 interface JobOfferRepository : ExhibitRepository<JobOffer> {
-    fun findByPath(path: String): Mono<JobOffer>
+    fun findByPathArrayContains(path: String): Mono<JobOffer>
 
-    fun existsByPath(path: String): Mono<Boolean>
+    fun existsByPathArrayContains(path: String): Mono<Boolean>
 
     fun findByEmployerId(employerId: String, pageable: Pageable): Flux<JobOffer>
 
-    fun findByTitleLike(
+    fun searchByTitleOrMainTechnologyOrTypeOfWorkOrExperienceOrEmploymentTypeOrMinEarningsPerMonthOrMaxEarningsPerMonthOrLocationsCollectionContainsOrRecruitmentTypeOrOperatingMode(
         title: String?,
         mainTechnology: String?,
         typeOfWork: TypeOfWork?,
@@ -26,7 +26,7 @@ interface JobOfferRepository : ExhibitRepository<JobOffer> {
         maxEarningsPerMonth: Int?,
         location: String?,
         recruitmentType: RecruitmentType?,
-        remote: Boolean?,
+        operatingMode: OperatingMode?,
         pageable: Pageable
     ): Flux<JobOffer>
 }

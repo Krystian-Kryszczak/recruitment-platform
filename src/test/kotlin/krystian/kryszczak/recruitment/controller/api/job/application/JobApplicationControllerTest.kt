@@ -21,6 +21,7 @@ import krystian.kryszczak.recruitment.model.exhibit.job.application.JobApplicati
 import krystian.kryszczak.recruitment.service.exhibit.job.application.JobApplicationService
 import krystian.kryszczak.test.mock.jobApplicationMock
 import krystian.kryszczak.test.util.generateToken
+import org.bson.types.ObjectId
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
@@ -53,7 +54,7 @@ class JobApplicationControllerTest(@Client("/api/v1/job/applications/") client: 
         "get by offer id" - {
             "should return job applications list" {
                 val result = client.toBlocking().exchange(
-                    HttpRequest.GET<String>("/offer/${uniqueId()}")
+                    HttpRequest.GET<String>("/offer/${ObjectId.get()}")
                         .bearerAuth(generateToken(listOf("EMPLOYER"), generator)),
                     Argument.listOf(JobApplication::class.java)
                 ).shouldNotBeNull()

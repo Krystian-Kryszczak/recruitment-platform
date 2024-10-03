@@ -123,7 +123,7 @@ arrayOf(
 
             for ((path, excepted) in expectations) {
                 // when
-                val result = repository.existsByPath(path)
+                val result = repository.existsByPathArrayContains(path)
                     .block()
 
                 // then

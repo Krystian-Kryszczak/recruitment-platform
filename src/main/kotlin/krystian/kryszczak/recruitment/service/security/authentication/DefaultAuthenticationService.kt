@@ -36,7 +36,7 @@ class DefaultAuthenticationService(
         }
 
     private fun HttpRequest<*>?.accountTypeEquals(accountType: AccountType) =
-        this?.let { path.endsWith(accountType.name, true) } ?: false
+        this?.let { headers.get("Account-Type")?.equals(accountType.name, true) } ?: false
 
     private fun <T : BeingCredentials> authenticate(
         credentialsService: BeingCredentialsService<T>,

@@ -26,6 +26,7 @@ data class JobApplication(
     override fun isNotBanned(): Boolean = !isBanned()
     override fun copyBanned(): JobApplication = copy(banned = true)
     override fun copyUnbanned(): JobApplication = copy(banned = false)
+    override fun filterTest(): Boolean = isNotBanned()
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

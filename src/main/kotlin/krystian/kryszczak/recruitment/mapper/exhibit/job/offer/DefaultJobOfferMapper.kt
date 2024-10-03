@@ -20,7 +20,7 @@ class DefaultJobOfferMapper(
     private val moderationService: ModerationService
 ) : JobOfferMapper {
     override fun mapToOriginItem(form: JobOfferCreationForm, cascadeId: String?): Mono<JobOffer> = with(form) {
-        pricingService.findById(tierId).flatMap { tier ->
+        pricingService.findById(tierId).filter { cascadeId != null }.flatMap { tier ->
             ObjectId.get().toHexString().let { id ->
                 jobOfferPathService.generatePath(id, title, id).flatMap { path ->
                     moderationService.checkIfInputIsHarmful(extractPureTextContent().toString().trim(), id)
@@ -29,7 +29,7 @@ class DefaultJobOfferMapper(
                                 id,
                                 tierId,
                                 title,
-                                cascadeId,
+                                cascadeId!!,
                                 description,
                                 mainTechnology,
                                 typeOfWork,

@@ -26,7 +26,7 @@ class DefaultEmployerMapper(
     override fun mapToCredentials(activation: EmployerActivation): EmployerCredentials = mapToCredentials(activation, ::EmployerCredentials)
 
     override fun mapToOriginItem(form: EmployerCreationForm, cascadeId: String?): Mono<Employer> = with(form) {
-        moderationService.checkIfInputIsHarmful(form.extractPureTextContent().toString().trim(), cascadeId)
+        moderationService.checkIfInputIsHarmful(form.extractPureTextContent().toString().trim(), cascadeId ?: "unknown")
             .map {
                 Employer(
                     cascadeId,
@@ -45,6 +45,7 @@ class DefaultEmployerMapper(
                     techStack,
                     country,
                     businessIdentifiers,
+                    false,
                     it,
                     agreeToEmailMarketing
                 )

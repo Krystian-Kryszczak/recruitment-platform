@@ -21,19 +21,18 @@ micronaut:
   security:
     authentication: bearer
     token:
-      generator:
-#        access-token:
-#          expiration: 3600
-        refresh-token:
-          secret: ${JWT_GENERATOR_SIGNATURE_SECRET}
       jwt:
         signatures:
           secret:
             generator:
               secret: ${JWT_GENERATOR_SIGNATURE_SECRET}
-    endpoints:
-      login:
-        path: /login/{employer,candidate}
+              base64: true
+              jws-algorithm: HS256
+        generator:
+          access-token:
+            expiration: 72000
+          refresh-token:
+            secret: ${JWT_GENERATOR_SIGNATURE_SECRET}
     intercept-url-map:
     - pattern: /swagger/**
       access: isAnonymous()

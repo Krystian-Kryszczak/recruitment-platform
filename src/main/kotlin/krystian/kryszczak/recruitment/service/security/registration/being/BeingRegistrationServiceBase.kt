@@ -12,7 +12,6 @@ import krystian.kryszczak.recruitment.model.security.credentials.being.BeingCred
 import krystian.kryszczak.recruitment.security.validation.PasswordValidator
 import krystian.kryszczak.recruitment.service.being.BeingService
 import krystian.kryszczak.recruitment.service.mail.smtp.SmtpMailerService
-import krystian.kryszczak.recruitment.service.security.registration.RegistrationService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import reactor.core.publisher.Mono
@@ -29,7 +28,7 @@ abstract class BeingRegistrationServiceBase<T : Being<T>, S : BeingCreationForm<
             beingMapper.mapToRegisterActivation(form)
                 .flatMap(activationRepository::save)
                 .doOnSuccess { smtpMailerService.sendActivationCode(it.identity, it.code) }
-                .thenReturn(true)
+                .hasElement()
                 .onErrorReturn(false)
         } else {
             Mono.just(false)
@@ -45,10 +44,9 @@ abstract class BeingRegistrationServiceBase<T : Being<T>, S : BeingCreationForm<
                     activationRepository.delete(it)
                 )
             }.doOnSuccess { logger.info("Successful activated account with email $email") }
-            .thenReturn(true)
+            .hasElement()
             .doOnError { logger.error(it.message, it) }
             .onErrorReturn(false)
-            .defaultIfEmpty(false)
     }
 
     private fun activationCodeMatches(userEmail: String, code: String): Mono<A> =

@@ -3,6 +3,8 @@ package krystian.kryszczak.recruitment.mapper.being
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
+import io.mockk.every
+import io.mockk.mockk
 import krystian.kryszczak.recruitment.mapper.ItemMapperTest
 import krystian.kryszczak.recruitment.model.being.Being
 import krystian.kryszczak.recruitment.model.being.BeingCreationForm
@@ -10,6 +12,8 @@ import krystian.kryszczak.recruitment.model.being.BeingDto
 import krystian.kryszczak.recruitment.model.being.BeingUpdateForm
 import krystian.kryszczak.recruitment.model.security.code.activation.being.BeingActivation
 import krystian.kryszczak.recruitment.model.security.credentials.being.BeingCredentials
+import krystian.kryszczak.recruitment.service.management.moderation.ModerationService
+import reactor.core.publisher.Mono
 
 abstract class BeingMapperTest<T : Being<T>, S : BeingDto<T, S>, V : BeingCreationForm<T, V>, U : BeingUpdateForm<T, U>, C : BeingCredentials, A : BeingActivation<T, V, C>>(
     itemMapper: BeingMapper<T, S, V, U, C, A>,
@@ -57,4 +61,10 @@ abstract class BeingMapperTest<T : Being<T>, S : BeingDto<T, S>, V : BeingCreati
     }
 
     body(this)
-})
+}) {
+    protected open fun moderationService(): ModerationService {
+        return mockk {
+            every { checkIfInputIsHarmful(any(), any()) } returns Mono.just(false)
+        }
+    }
+}

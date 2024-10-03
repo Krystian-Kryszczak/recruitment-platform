@@ -1,12 +1,7 @@
 package krystian.kryszczak.recruitment.controller.api.job.application
 
 import io.micronaut.http.HttpStatus
-import io.micronaut.http.annotation.Controller
-import io.micronaut.http.annotation.Delete
-import io.micronaut.http.annotation.Get
-import io.micronaut.http.annotation.PathVariable
-import io.micronaut.http.annotation.Post
-import io.micronaut.http.annotation.Status
+import io.micronaut.http.annotation.*
 import io.micronaut.scheduling.TaskExecutors
 import io.micronaut.scheduling.annotation.ExecuteOn
 import io.micronaut.security.annotation.Secured
@@ -21,8 +16,8 @@ import krystian.kryszczak.recruitment.service.exhibit.job.application.JobApplica
 @ExecuteOn(TaskExecutors.IO)
 class JobApplicationController(private val service: JobApplicationService) {
     @Secured(SecurityRule.IS_ANONYMOUS)
-    @Post("/own{/page}")
-    fun add(form: JobApplicationCreationForm, authentication: Authentication?) =
+    @Post
+    fun add(@Body form: JobApplicationCreationForm, authentication: Authentication?) =
         service.addByCandidate(form, authentication)
 
     @RolesAllowed("EMPLOYER")

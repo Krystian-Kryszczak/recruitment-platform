@@ -2,6 +2,7 @@ package krystian.kryszczak.recruitment.service.security.authentication
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.nulls.shouldNotBeNull
+import io.kotest.matchers.optional.shouldBePresent
 import io.kotest.matchers.shouldBe
 import io.micronaut.http.HttpRequest
 import io.micronaut.security.authentication.AuthenticationResponse
@@ -25,30 +26,30 @@ import reactor.core.publisher.Mono
 @MicronautTest(transactional = false)
 class AuthenticationServiceTest(authenticationService: AuthenticationService) : FreeSpec({
     "authentication service test" - {
-        "authenticate" { // TODO
+        "authenticate" {
             val given = listOf(
                 Triple(
-                    HttpRequest.POST("/login/employer", ""),
-                    UsernamePasswordCredentials("john.smith", "raw-password"),
-                    AuthenticationResponse.success("john.smith@gmail.com", listOf(EMPLOYER.name))
+                    HttpRequest.POST("/login", "").header("Account-Type", "employer"),
+                    UsernamePasswordCredentials("john.smith@gmail.com", "raw-password"),
+                    AuthenticationResponse.success("john.smith@gmail.com", listOf(EMPLOYER.name), mapOf("ID" to "<employer-id>"))
                 ), Triple(
-                    HttpRequest.POST("/login/employer", ""),
-                    UsernamePasswordCredentials("john.smith", "raw-password"),
-                    AuthenticationResponse.success("john.smith@gmail.com", listOf(EMPLOYER.name))
+                    HttpRequest.POST("/login", "").header("Account-Type", "employer"),
+                    UsernamePasswordCredentials("john.smith@gmail.com", "raw-password"),
+                    AuthenticationResponse.success("john.smith@gmail.com", listOf(EMPLOYER.name), mapOf("ID" to "<employer-id>"))
                 ),
 
                 Triple(
-                    HttpRequest.POST("/login/candidate", ""),
-                    UsernamePasswordCredentials("john.smith", "raw-password"),
-                    AuthenticationResponse.success("john.smith@gmail.com", listOf(CANDIDATE.name))
+                    HttpRequest.POST("/login", "").header("Account-Type", "candidate"),
+                    UsernamePasswordCredentials("john.smith@gmail.com", "raw-password"),
+                    AuthenticationResponse.success("john.smith@gmail.com", listOf(CANDIDATE.name), mapOf("ID" to "<candidate-id>"))
                 ), Triple(
-                    HttpRequest.POST("/login/candidate", ""),
-                    UsernamePasswordCredentials("john.smith", "raw-password"),
-                    AuthenticationResponse.success("john.smith@gmail.com", listOf(CANDIDATE.name))
+                    HttpRequest.POST("/login", "").header("Account-Type", "candidate"),
+                    UsernamePasswordCredentials("john.smith@gmail.com", "raw-password"),
+                    AuthenticationResponse.success("john.smith@gmail.com", listOf(CANDIDATE.name), mapOf("ID" to "<candidate-id>"))
                 ), Triple(
-                    HttpRequest.POST("/login/candidate", ""),
-                    UsernamePasswordCredentials("john.smith", "raw-password"),
-                    AuthenticationResponse.success("john.smith@gmail.com", listOf(CANDIDATE.name))
+                    HttpRequest.POST("/login", "").header("Account-Type", "candidate"),
+                    UsernamePasswordCredentials("john.smith@gmail.com", "raw-password"),
+                    AuthenticationResponse.success("john.smith@gmail.com", listOf(CANDIDATE.name), mapOf("ID" to "<candidate-id>"))
                 ),
 
                 Triple(
@@ -69,8 +70,17 @@ class AuthenticationServiceTest(authenticationService: AuthenticationService) : 
                     .block()
 
                 // then
-                result.shouldNotBeNull()
-                    .shouldBe(excepted)
+                result.shouldNotBeNull().run {
+                    isAuthenticated shouldBe excepted.isAuthenticated
+                    excepted.authentication.ifPresent { excepted ->
+                        authentication.shouldBePresent {
+                            name shouldBe excepted.name
+                            roles shouldBe excepted.roles
+                            attributes shouldBe excepted.attributes
+                        }
+                    }
+                    message shouldBe excepted.message
+                }
             }
         }
     }

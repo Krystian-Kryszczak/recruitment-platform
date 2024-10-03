@@ -37,6 +37,7 @@ data class Candidate(
     override fun isNotBanned(): Boolean = !isBanned()
     override fun copyBanned(): Candidate = copy(banned = true)
     override fun copyUnbanned(): Candidate = copy(banned = false)
+    override fun filterTest(): Boolean = isNotBanned()
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

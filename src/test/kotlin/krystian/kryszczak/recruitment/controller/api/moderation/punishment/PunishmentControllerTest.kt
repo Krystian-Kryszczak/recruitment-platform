@@ -25,7 +25,7 @@ class PunishmentControllerTest(@Client("/api/v1/moderation/punishment/") client:
         "ban employer" - {
             "should return OK status" {
                 val result = client.toBlocking().exchange(
-                    HttpRequest.POST("/employer/ban/${uniqueId()}", "")
+                    HttpRequest.POST("/ban/employer/${uniqueId()}", "")
                         .bearerAuth(generateToken(listOf("ADMIN"), generator)),
                     String::class.java
                 ).shouldNotBeNull()
@@ -38,7 +38,7 @@ class PunishmentControllerTest(@Client("/api/v1/moderation/punishment/") client:
                 arrayOf("EMPLOYER", "CANDIDATE", null).forEach {
                     shouldThrowWithMessage<HttpClientException>("Forbidden") {
                         client.toBlocking().exchange(
-                            HttpRequest.POST("/employer/ban/${uniqueId()}", "")
+                            HttpRequest.POST("/ban/employer/${uniqueId()}", "")
                                 .bearerAuth(generateToken(listOfNotNull(it), generator)),
                             String::class.java
                         )
@@ -49,17 +49,17 @@ class PunishmentControllerTest(@Client("/api/v1/moderation/punishment/") client:
             "should throw HTTP client exception with `Unauthorized` message" {
                 shouldThrowWithMessage<HttpClientException>("Unauthorized") {
                     client.toBlocking().exchange(
-                        HttpRequest.POST("/employer/ban/${uniqueId()}", ""),
+                        HttpRequest.POST("/ban/employer/${uniqueId()}", ""),
                         String::class.java
                     )
                 }
             }
         }
 
-        "pardon employer" - {
+        "unban employer" - {
             "should return OK status" {
                 val result = client.toBlocking().exchange(
-                    HttpRequest.POST("/employer/pardon/${uniqueId()}", "")
+                    HttpRequest.POST("/unban/employer/${uniqueId()}", "")
                         .bearerAuth(generateToken(listOf("ADMIN"), generator)),
                     String::class.java
                 ).shouldNotBeNull()
@@ -72,7 +72,7 @@ class PunishmentControllerTest(@Client("/api/v1/moderation/punishment/") client:
                 arrayOf("EMPLOYER", "CANDIDATE", null).forEach {
                     shouldThrowWithMessage<HttpClientException>("Forbidden") {
                         client.toBlocking().exchange(
-                            HttpRequest.POST("/employer/pardon/${uniqueId()}", "")
+                            HttpRequest.POST("/unban/employer/${uniqueId()}", "")
                                 .bearerAuth(generateToken(listOfNotNull(it), generator)),
                             String::class.java
                         )
@@ -83,7 +83,7 @@ class PunishmentControllerTest(@Client("/api/v1/moderation/punishment/") client:
             "should throw HTTP client exception with `Unauthorized` message" {
                 shouldThrowWithMessage<HttpClientException>("Unauthorized") {
                     client.toBlocking().exchange(
-                        HttpRequest.POST("/employer/pardon/${uniqueId()}", ""),
+                        HttpRequest.POST("/unban/employer/${uniqueId()}", ""),
                         String::class.java
                     )
                 }
@@ -93,7 +93,7 @@ class PunishmentControllerTest(@Client("/api/v1/moderation/punishment/") client:
         "ban candidate" - {
             "should return OK status" {
                 val result = client.toBlocking().exchange(
-                    HttpRequest.POST("/candidate/ban/${uniqueId()}", "")
+                    HttpRequest.POST("/ban/candidate/${uniqueId()}", "")
                         .bearerAuth(generateToken(listOf("ADMIN"), generator)),
                     String::class.java
                 ).shouldNotBeNull()
@@ -106,7 +106,7 @@ class PunishmentControllerTest(@Client("/api/v1/moderation/punishment/") client:
                 arrayOf("EMPLOYER", "CANDIDATE", null).forEach {
                     shouldThrowWithMessage<HttpClientException>("Forbidden") {
                         client.toBlocking().exchange(
-                            HttpRequest.POST("/candidate/ban/${uniqueId()}", "")
+                            HttpRequest.POST("/ban/candidate/${uniqueId()}", "")
                                 .bearerAuth(generateToken(listOfNotNull(it), generator)),
                             String::class.java
                         )
@@ -117,17 +117,17 @@ class PunishmentControllerTest(@Client("/api/v1/moderation/punishment/") client:
             "should throw HTTP client exception with `Unauthorized` message" {
                 shouldThrowWithMessage<HttpClientException>("Unauthorized") {
                     client.toBlocking().exchange(
-                        HttpRequest.POST("/candidate/ban/${uniqueId()}", ""),
+                        HttpRequest.POST("/ban/candidate/${uniqueId()}", ""),
                         String::class.java
                     )
                 }
             }
         }
 
-        "pardon candidate" - {
+        "unban candidate" - {
             "should return OK status" {
                 val result = client.toBlocking().exchange(
-                    HttpRequest.POST("/candidate/pardon/${uniqueId()}", "")
+                    HttpRequest.POST("/unban/candidate/${uniqueId()}", "")
                         .bearerAuth(generateToken(listOf("ADMIN"), generator)),
                     String::class.java
                 ).shouldNotBeNull()
@@ -140,7 +140,7 @@ class PunishmentControllerTest(@Client("/api/v1/moderation/punishment/") client:
                 arrayOf("EMPLOYER", "CANDIDATE", null).forEach {
                     shouldThrowWithMessage<HttpClientException>("Forbidden") {
                         client.toBlocking().exchange(
-                            HttpRequest.POST("/candidate/pardon/${uniqueId()}", "")
+                            HttpRequest.POST("/unban/candidate/${uniqueId()}", "")
                                 .bearerAuth(generateToken(listOfNotNull(it), generator)),
                             String::class.java
                         )
@@ -151,7 +151,7 @@ class PunishmentControllerTest(@Client("/api/v1/moderation/punishment/") client:
             "should throw HTTP client exception with `Unauthorized` message" {
                 shouldThrowWithMessage<HttpClientException>("Unauthorized") {
                     client.toBlocking().exchange(
-                        HttpRequest.POST("/candidate/pardon/${uniqueId()}", ""),
+                        HttpRequest.POST("/unban/candidate/${uniqueId()}", ""),
                         String::class.java
                     )
                 }

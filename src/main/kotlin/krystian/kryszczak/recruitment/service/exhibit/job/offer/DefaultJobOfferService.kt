@@ -10,6 +10,7 @@ import krystian.kryszczak.recruitment.database.mongodb.repository.exhibit.job.of
 import krystian.kryszczak.recruitment.mapper.exhibit.job.offer.JobOfferMapper
 import krystian.kryszczak.recruitment.model.exhibit.job.offer.*
 import krystian.kryszczak.recruitment.service.exhibit.job.ExhibitServiceBase
+import org.bson.types.ObjectId
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
@@ -20,15 +21,15 @@ class DefaultJobOfferService(
 ) : ExhibitServiceBase<JobOffer, JobOfferDto, JobOfferCreationForm, JobOfferUpdateForm, String>(
     repository, mapper
 ), JobOfferService {
-    override fun findByPathOrId(data: String): Mono<JobOffer> = findByPath(data)
-        .switchIfEmpty(Mono.defer { findById(data) })
+    override fun findByPathOrId(data: String): Mono<JobOffer> =
+        if (ObjectId.isValid(data)) findById(data) else findByPath(data)
 
-    override fun findByPath(path: String) = repository.findByPath(path)
+    override fun findByPath(path: String) = repository.findByPathArrayContains(path)
 
-    override fun existsByPath(path: String): Mono<Boolean> = repository.existsByPath(path)
+    override fun existsByPath(path: String): Mono<Boolean> = repository.existsByPathArrayContains(path)
 
     override fun search(bean: JobOfferQuery): Flux<JobOffer> = with(bean) {
-        repository.findByTitleLike(
+        repository.searchByTitleOrMainTechnologyOrTypeOfWorkOrExperienceOrEmploymentTypeOrMinEarningsPerMonthOrMaxEarningsPerMonthOrLocationsCollectionContainsOrRecruitmentTypeOrOperatingMode(
             keyword,
             mainTechnology,
             typeOfWork,
@@ -38,7 +39,7 @@ class DefaultJobOfferService(
             salaryMax,
             location,
             recruitmentType,
-            remote,
+            operatingMode,
             Pageable.from(page ?: 0, 12, extractSort(bean)),
         ).filter()
     }
